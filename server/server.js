@@ -1,11 +1,12 @@
 const express = require('express')
 const app = express()
 
-const port = process.env.PORT || 3000;
+const fileServerMiddleware = express.static('public');
 
-app.get('/',(req,res)=>{
-    res.send('Hello World');
-});
+app.use('/', fileServerMiddleware);
+
+const port = process.env.PORT || 3001;
+
 
 app.listen(port,()=>{
     console.log(`express web available at localhost:${port}`);
