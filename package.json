@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Alopias-Vulpinus/FreelancePlatform/issues"
   },
-  "homepage": "https://github.com/Alopias-Vulpinus/FreelancePlatform#readme"
+  "homepage": "https://github.com/Alopias-Vulpinus/FreelancePlatform#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
