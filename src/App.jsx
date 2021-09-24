@@ -40,6 +40,10 @@ class IssueTable extends React.Component {
             issue_title="Missing bottom border on panel" />
         </tbody>
       </table>
+
+
+
+
     );
   }
 }
