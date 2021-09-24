@@ -15,6 +15,10 @@ class IssueRow extends React.Component {
         <td style={style}>{this.props.issue_title}</td>
       </tr>
     );
+
+
+
+    
   }
 }
 
@@ -36,6 +40,10 @@ class IssueTable extends React.Component {
             issue_title="Missing bottom border on panel" />
         </tbody>
       </table>
+
+
+
+
     );
   }
 }
