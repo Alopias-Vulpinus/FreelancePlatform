@@ -34,6 +34,10 @@ class IssueRow extends React.Component {
         <td>{issue.title}</td>
       </tr>
     );
+
+
+
+    
   }
 }
 
@@ -59,6 +63,10 @@ class IssueTable extends React.Component {
           {issueRows}
         </tbody>
       </table>
+
+
+
+
     );
   }
 }
