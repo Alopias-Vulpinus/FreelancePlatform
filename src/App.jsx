@@ -5,7 +5,7 @@ class IssueFilter extends React.Component {
     );
   }
 }
-
+ 
 const issues = [
   {
     id: 1, status: 'New', owner: 'Ravan', effort: 5,
