@@ -27,14 +27,15 @@
   "homepage": "https://github.com/Alopias-Vulpinus/FreelancePlatform#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "config": "^3.3.6",
+    "config": "^3.2.4",
     "express": "^4.17.1",
-    "express-validator": "^6.12.2",
+    "express-validator": "^6.3.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.9"
+    "mongoose": "^5.8.1"
   },
   "devDependencies": {
-    "concurrently": "^6.3.0",
-    "nodemon": "^2.0.13"
+    "concurrently": "^5.0.2",
+    "cross-env": "^6.0.3",
+    "nodemon": "^2.0.2"
   }
 }
