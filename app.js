@@ -5,9 +5,11 @@ const mongoose = require('mongoose')
 
 const app = express()
 
-app.use(express.json())
+app.use(express.json({ extended: true }))
 
 app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/api/link', require('./routes/link.routes'))
+app.use('/t', require('./routes/redirect.routes'))
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'build')))
@@ -20,23 +22,13 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = config.get('port') || 5000
 
 async function start() {
-  function logDbErrors(){
-    const db = mongoose.connection;
-    db.on("error", console.error.bind(console, "connection error: "));
-    db.once("open", function () {
-      console.log("Connected successfully");
-    });
-  }
   try {
-    logDbErrors()
     await mongoose.connect(config.get('mongoUri'), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true
     })
     app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`))
-
-
   } catch (e) {
     console.log('Server Error', e.message)
     process.exit(1)
@@ -44,3 +36,4 @@ async function start() {
 }
 
 start()
+
