@@ -28,7 +28,10 @@ export const AuthPage = () => {
     try {
       const data = await request('/api/auth/register', 'POST', {...form})
       message(data.message)
-    } catch (e) {}
+      console.log('data: ', data)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const loginHandler = async () => {
@@ -41,10 +44,10 @@ export const AuthPage = () => {
   return (
     <div className="row">
       <div className="col s6 offset-s3">
-        <h1>Сократи Ссылку</h1>
+        <h1>Freelance Platform</h1>
         <div className="card blue darken-1">
           <div className="card-content white-text">
-            <span className="card-title">Авторизация</span>
+            <span className="card-title">Authorization</span>
             <div>
 
               <div className="input-field">
@@ -70,7 +73,7 @@ export const AuthPage = () => {
                   value={form.password}
                   onChange={changeHandler}
                 />
-                <label htmlFor="email">Пароль</label>
+                <label htmlFor="email">Password</label>
               </div>
 
             </div>
@@ -82,14 +85,14 @@ export const AuthPage = () => {
               disabled={loading}
               onClick={loginHandler}
             >
-              Войти
+              Login
             </button>
             <button
               className="btn grey lighten-1 black-text"
               onClick={registerHandler}
               disabled={loading}
             >
-              Регистрация
+              Register
             </button>
           </div>
         </div>
