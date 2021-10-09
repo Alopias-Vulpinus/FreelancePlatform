@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon -w server server/server.js",
+    "start": "nodemon -w server -e js,graphql server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel src --out-dir public",
     "watch": "babel src --out-dir public --watch --verbose"
@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/Alopias-Vulpinus/FreelancePlatform#readme",
   "dependencies": {
+    "apollo-server-express": "^2.25.2",
     "express": "^4.17.1",
+    "graphql": "^0.13.2",
     "mongoose": "^6.0.7",
     "nodemon": "^1.19.4"
   },
