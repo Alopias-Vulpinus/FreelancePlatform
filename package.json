@@ -4,7 +4,7 @@
   "description": "Freelance platform web application",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app.js",
+    "start": "cross-env NODE_ENV=production concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon app.js",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",
