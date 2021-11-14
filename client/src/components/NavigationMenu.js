@@ -20,8 +20,8 @@ export const NavigationMenu = () => {
             <Nav className="me-auto">
                 <Nav.Link href="#open-tasks">Open Tasks</Nav.Link>
                 <Nav.Link href="#performers">Performers</Nav.Link>
-                <Nav.Link href="#performers">Customers</Nav.Link>
-                <Nav.Link href="#performers">Chats</Nav.Link>
+                <Nav.Link href="#customers">Customers</Nav.Link>
+                <Nav.Link href="#chats">Chats</Nav.Link>
             </Nav>
             <Nav>
                 <Nav.Link href="#about-us"> About Developers </Nav.Link>
