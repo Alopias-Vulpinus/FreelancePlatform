@@ -1,10 +1,10 @@
 import React from 'react'
 
 
-export const CustomersPage = () => {
+export const TaskDashboardPage = () => {
     return (
         <>
-        Customers
+        Task Dashboard
         </>
     )
 }

@@ -8,3 +8,7 @@
     background-blend-mode: darken;
     z-index: -100;
 }
+
+.app {
+    padding-bottom: 1em;
+}

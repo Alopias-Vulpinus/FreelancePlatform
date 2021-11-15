@@ -1,10 +1,10 @@
 import React from 'react'
 
 
-export const CustomersPage = () => {
+export const ChatListPage = () => {
     return (
         <>
-        Customers
+        Chat list
         </>
     )
 }

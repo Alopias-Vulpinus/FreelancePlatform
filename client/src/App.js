@@ -16,7 +16,7 @@ function App() {
   return (
     <>
     <div className='overlay'/>
-    <div >
+    <div className='app'>
       <Router>
         {/* !isAuthenticated && <Navbar />*/}
         <NavigationMenu />
