@@ -2,13 +2,14 @@ const express = require('express')
 const config = require('config')
 const path = require('path')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser');
+const auth = require('./routes/auth.routes')
 
 const app = express()
 
-app.use(express.json({ extended: true }))
+app.use(bodyParser.json());
 
-app.use('/api/auth' , require('./routes/auth.routes'))
-app.use('/t', require('./routes/redirect.routes'))
+app.use('/auth',auth)
 app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
 app.get('*', (req, res) => {

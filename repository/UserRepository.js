@@ -3,26 +3,27 @@ const Customer = require('../models/Customer');
 const Freelancer = require('../models/Freelancer');
 
 class UserRepository{
-    CreateUserAsync(social_id,name,family_name,image_url){
-        const userToCreate = new User({social_id = social_id,family_name = family_name, name = name,image_url = image_url});
-        var createdUser = await userToCreate.save(this.HandleResponce)
-        var freelancerToCreate = new Freelancer({user_data_id : createdUser._id});
+    async CreateUserAsync(user_id,user_name,snd_name,image_url){
+        const userToCreate = new User({social_id: user_id,
+            family_name: snd_name, 
+            name: user_name,avatar_url: image_url});
+        var createdUser = await userToCreate.save();
+        var freelancerToCreate = new Freelancer({user_data_id: createdUser._id});
         var customerToCreate = new Customer({user_data_id: createdUser._id});
-        var createdCustomer = await freelancerToCreate.save(this.HandleResponce);
-        var createdFreelancer  = await customerToCreate.save(this.HandleResponce);
+        await freelancerToCreate.save(this.HandleResponce);
+        await customerToCreate.save(this.HandleResponce);
 
-        return {user: createdUser, freelancer: createdFreelancer, customer: createdCustomer};
+        return createdUser;
     }
 
     CheckIfExists(social_id){
         
     }
 
-    HandleResponce(err,result){
-        if(err){
-            console.log(`Error accured for user creation:${err}`);
-            throw err;
-        }
-    }
-
 }
+
+const repository = new UserRepository();
+
+Object.freeze(repository);
+
+module.exports = repository;
