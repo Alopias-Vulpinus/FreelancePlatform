@@ -1,12 +1,8 @@
-import React from 'react'
-import { ProfileSearch } from '../components/ProfileSearch'
+import React from "react"
+import { Profile } from "./Profile"
 
-import { Container } from 'react-bootstrap'
-import { ProfileListWithPagination } from '../components/ProfileListWithPagination'
-
-
-export const CustomersPage = (props) => {
-    const profiles = [{
+export const ProfileList = (props) => {
+    const profiles = props.profiles || [{
         firstName: 'Дмитрий',
         lastName: 'Белоцкий'
     }, {
@@ -36,11 +32,11 @@ export const CustomersPage = (props) => {
     }]
 
     return (
-        <>
-            <Container className='text-light'>
-                <ProfileSearch/>
-                <ProfileListWithPagination profiles={profiles}/>
-            </Container>
-        </>
-    )
+    <>
+        <div className='profile-list_container'>
+            {
+                profiles.map((profile, i) => <Profile profile={profile} key={i} />)
+            }
+        </div>
+    </>)
 }

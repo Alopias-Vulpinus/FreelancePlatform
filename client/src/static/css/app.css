@@ -12,3 +12,17 @@
 .app {
     padding-bottom: 1em;
 }
+
+.black-bg {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 2em;
+}
+
+.text-light {
+    color: white;
+}
+
+.block-center {
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -88,7 +88,7 @@ export const ProfilePage = () => {
                     <SelectRole role={profile.role}/>
                     </Row>
                     <Row className='mb-3'>
-                    <SelectSkill skills={profile.skills}/>
+                        <SelectSkill skills={profile.skills}/>
                     </Row>
                     <Row className='mb-3'>
                         <Col xs={12} md={8}>
