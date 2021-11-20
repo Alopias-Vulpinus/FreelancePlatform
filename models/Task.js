@@ -5,8 +5,8 @@ const schema = new Schema({
     freelancer_id:{type:String},
     customer_id:{type:String,required:true},
     payment:{type:Number,required:true},
-    due_data:{type:Date},
-    accetance_criteria:{type:String},
+    due_date:{type:Date},
+    acceptance_criteria:{type:String},
     process:{type:Number}
   })
   
