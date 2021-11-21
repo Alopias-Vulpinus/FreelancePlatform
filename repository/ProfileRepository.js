@@ -5,7 +5,7 @@ class ProfileRepository extends Repository{
     async ChangeProfileAsync(profileDto){
         const query = {id:profileDto.social_id};
         const updateQuery={ $set:{name: profileDto.name, surname: profileDto.surname, 
-            email: profileDto.email, role: profileDto.role, skills: profileDto.skills}};
+            email: profileDto.email}};
         try{
             await User.updateOne(query,updateQuery,this.HandleDatabaseQuery);
         }

@@ -1,6 +1,7 @@
 const ProfileRepository = require('../repository/ProfileRepository')
 const DtoMapper = require('../mappers/DtoMapper')
-const {Router} = require('express')
+const {Router} = require('express');
+const { route } = require('./auth.routes');
 const router = Router()
 
 router.post('/',(req,res)=>{
@@ -13,5 +14,22 @@ router.post('/',(req,res)=>{
         res.send(500);
     }
 });
+
+router.get('/customers', async (req,res)=>{
+
+});
+
+router.get('/freelancers', async (req,res)=>{
+
+});
+
+router.get('/customer/:id', async (req,res)=>{
+
+});
+
+router.get('/freelancer/:id', async (req,res)=>{
+
+});
+
 
 module.exports = router

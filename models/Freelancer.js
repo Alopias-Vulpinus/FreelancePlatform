@@ -7,4 +7,4 @@ const schema = new Schema({
     skills:{type:[String]}
   })
   
-  module.exports = model('User', schema)
+  module.exports = model('Freelancer', schema)
