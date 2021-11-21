@@ -11,7 +11,7 @@ router.post('/create/customer/google',async (req,res)=>{
     try{
         console.log('Method Revieved');
         const userProfile = req.body.profileObj;
-        const roleName = req.body.role;
+        console.log('Creating customer method called');
         console.log(req.body);
         res.setHeader('Access-Control-Allow-Origin','*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');

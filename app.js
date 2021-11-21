@@ -25,7 +25,7 @@ async function start() {
       useUnifiedTopology: true,
       useCreateIndex: true
     })
-    app.listen(process.env.PORT || 5050, () => console.log(`App has been started on port ${PORT}...`))
+    app.listen(process.env.PORT || 5000, () => console.log(`App has been started on port ${PORT}...`))
   } catch (e) {
     console.log('Server Error', e.message)
     process.exit(1)

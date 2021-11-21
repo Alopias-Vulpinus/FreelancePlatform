@@ -7,7 +7,7 @@ export const useSocials = () => {
         const method = 'POST'
         headers['Content-Type'] = 'application/json'
         console.log(`sendingBody ${body}`)
-        await fetch('/auth/create/google', {
+        await fetch('/auth/create/customer/google', {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
