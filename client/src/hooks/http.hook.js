@@ -9,6 +9,8 @@ export const useHttp = () => {
         body = JSON.stringify(body)
         headers['Content-Type'] = 'application/json'
       }
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
       const response = await fetch(url, {method, body, headers})
       const data = await response.json()
 
