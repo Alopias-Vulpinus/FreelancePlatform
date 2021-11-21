@@ -5,6 +5,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import VkLogin from 'react-vkontakte-login'
 import { GoogleLoginButton, FacebookLoginButton, createButton} from "react-social-login-buttons"
 import { useSocials } from '../hooks/social.hook'
+import { SelectRole } from './SelectRole'
 
 export const SocialSignIn = () => {
     const {responseGoogle, responseFacebook, responseVkontakte } = useSocials()
@@ -17,6 +18,10 @@ export const SocialSignIn = () => {
     })
     return (
         <>
+            <div>
+                <span> Choose role: </span>
+                <SelectRole role={'Customer'}/>
+            </div>
             <GoogleLogin
                 clientId='104530488969-4nd2u0g1msl9ise30qms1ie2i559a2kj.apps.googleusercontent.com'
                 render={(renderProps)=><GoogleLoginButton onClick={renderProps.onClick}/>}

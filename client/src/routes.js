@@ -3,6 +3,7 @@ import {Switch, Route, Redirect} from 'react-router-dom'
 import { AboutUsPage } from './pages/AboutUsPage'
 import { ChatListPage } from './pages/ChatListPage'
 import { ChatPage } from './pages/ChatPage'
+import { CreateTaskPage } from './pages/CreateTaskPage'
 import { CustomersPage } from './pages/CustomersPage'
 import { HomePage } from './pages/HomePage'
 import { OpenTasksPage } from './pages/OpenTasksPage'
@@ -48,6 +49,9 @@ export const useRoutes = isAuthenticated => {
 
       <Route path="/chatqwe" >
         <ChatPage />
+      </Route>
+      <Route path="/create-task" >
+        <CreateTaskPage />
       </Route>
 
       <Redirect to="/" />

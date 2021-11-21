@@ -21,13 +21,14 @@ export const NavigationMenu = () => {
                 <Nav.Link href="/open-tasks">Open Tasks</Nav.Link>
                 <Nav.Link href="/performers">Performers</Nav.Link>
                 <Nav.Link href="/customers">Customers</Nav.Link>
-                <Nav.Link href="/chats">Chats</Nav.Link>
+                {/*<Nav.Link href="/chats">Chats</Nav.Link> */}
             </Nav>
             <Nav>
                 <Nav.Link href="/about-us"> About Developers </Nav.Link>
                 <NavDropdown title="Дмитрий Белоцкий" id="basic-nav-dropdown">
                     <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                     <NavDropdown.Item href="/working-tasks">Working Tasks</NavDropdown.Item>
+                    <NavDropdown.Item href="/create-task">Create Task</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#logout-action">Logout</NavDropdown.Item>
                 </NavDropdown>
