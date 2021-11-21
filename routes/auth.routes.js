@@ -13,6 +13,8 @@ router.post('/create/customer/google',async (req,res)=>{
         const userProfile = req.body.profileObj;
         const roleName = req.body.role;
         console.log(req.body);
+        res.setHeader('Access-Control-Allow-Origin','*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         const userData = await UserRepository.GetByIdAsync(userProfile.googleId);
         if(userData){
           console.log(`User with id ${userProfile.googleId} have been created yet`);
@@ -37,7 +39,8 @@ router.post('/create/freelancer/google', async (req,res)=>{
   try{
     console.log('Method Revieved');
     const userProfile = req.body.profileObj;
-    const roleName = req.body.role;
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     var result =  await UserRepository.CreateFreelancerAsync(userProfile.googleId,
         userProfile.givenName,
         userProfile.givenName,
