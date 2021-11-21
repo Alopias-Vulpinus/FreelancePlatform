@@ -2,10 +2,12 @@ const express = require('express')
 const config = require('config')
 const path = require('path')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser');
+const auth = require('./routes/auth.routes')
 
 const app = express()
 
-app.use(express.json({ extended: true }))
+app.use(bodyParser.json());
 
 app.use('api/task',require('./routes/task.routes'));
 app.use('/api/auth' , require('./routes/auth.routes'));
@@ -24,7 +26,7 @@ async function start() {
       useUnifiedTopology: true,
       useCreateIndex: true
     })
-    app.listen(process.env.PORT || 5000, () => console.log(`App has been started on port ${PORT}...`))
+    app.listen(process.env.PORT || 5050, () => console.log(`App has been started on port ${PORT}...`))
   } catch (e) {
     console.log('Server Error', e.message)
     process.exit(1)
