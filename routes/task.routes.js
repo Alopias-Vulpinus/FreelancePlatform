@@ -5,8 +5,6 @@ const TaskRepository = require('../repository/TaskRepository')
 
 router.get('/',async (req,res)=>{
     try{
-        const body = req.body;
-        const task = DtoMapper.MapTask(body);
         const tasks =  await TaskRepository.GetTasksAsync();
         res.send(200, JSON.stringify(tasks));
     }
@@ -20,7 +18,13 @@ router.get('/:taskId',async (req,res)=>{
 });
 
 router.post('/', async (req,res)=>{
-
+    try{
+        const task = DtoMapper.MapTask(req.body);
+        const createdTask = TaskRepository.CreateTaskAsync(task);
+        res.send(200, JSON.stringify(createdTask));
+    }catch(e){
+        res.send(400, JSON.stringify(e));
+    }
 });
 
 router.delete('/:taskId', async (req,res)=>{

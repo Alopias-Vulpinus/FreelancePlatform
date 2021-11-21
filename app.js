@@ -9,8 +9,8 @@ const app = express()
 
 app.use(bodyParser.json());
 
-app.use('api/task',require('./routes/task.routes'));
-app.use('/api/auth' , require('./routes/auth.routes'));
+app.use('/task',require('./routes/task.routes'));
+app.use('/auth' , require('./routes/auth.routes'));
 app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
 app.get('*', (req, res) => {
