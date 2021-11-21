@@ -3,7 +3,7 @@ const router = Router()
 
 
 router.get('/:code', async (req, res) => {
-
+    res.send(200)
 })
 
 
