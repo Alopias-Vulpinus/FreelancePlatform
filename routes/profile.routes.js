@@ -7,9 +7,10 @@ router.post('/',(req,res)=>{
     try{
     const profileDto = DtoMapper.MapProfile(req.body);
     ProfileRepository.ChangeProfileAsync(profileDto);
+    res.send(200);
     }
     catch(e){
-        
+        res.send(500);
     }
 });
 
