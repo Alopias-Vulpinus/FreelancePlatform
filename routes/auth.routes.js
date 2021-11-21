@@ -7,20 +7,48 @@ const router = Router()
 const UserRepository = require('../repository/UserRepository')
 
 
-router.post('/create/google',async (req,res)=>{
+router.post('/create/customer/google',async (req,res)=>{
     try{
         console.log('Method Revieved');
         const userProfile = req.body.profileObj;
-        var result =  await UserRepository.CreateUserAsync(userProfile.googleId,
+        const roleName = req.body.role;
+        console.log(req.body);
+        const userData = await UserRepository.GetByIdAsync(userProfile.googleId);
+        if(userData){
+          console.log(`User with id ${userProfile.googleId} have been created yet`);
+          res.send(200,JSON.stringify(userData));
+          return;
+        }
+
+        var result =  await UserRepository.CreateCustomerAsync(userProfile.googleId,
             userProfile.givenName,
             userProfile.givenName,
-            userProfile.imageUrl);  
+            userProfile.imageUrl,
+            'Customer');  
         res.send(200,JSON.stringify(result));
     }
     catch(e){
         console.log(`Error accured while creating user:${e}`);
         res.send(400, JSON.stringify(e));
     }
+});
+
+router.post('/create/freelancer/google', async (req,res)=>{
+  try{
+    console.log('Method Revieved');
+    const userProfile = req.body.profileObj;
+    const roleName = req.body.role;
+    var result =  await UserRepository.CreateFreelancerAsync(userProfile.googleId,
+        userProfile.givenName,
+        userProfile.givenName,
+        userProfile.imageUrl,
+        "Freelancer");  
+    res.send(200,JSON.stringify(result));
+  }
+  catch(e){
+    console.log(`Error accured while creating user:${e}`);
+    res.send(500, JSON.stringify(e));
+  }
 });
 
 router.post('/create/facebook',async (req,res)=>{
@@ -39,7 +67,6 @@ router.post('/create/vk', async (req,res)=>{
         console.log(`Error accured while creating user:${e}`);
         res.send(400, JSON.stringify(e));
     }
-    
 });
 
 module.exports = router
