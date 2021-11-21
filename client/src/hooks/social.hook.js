@@ -4,15 +4,15 @@ import { updateUser } from "../redux/actions/UserAction"
 
 
 export const useSocials = () => {
-    const request = useHttp()
+    const {request} = useHttp()
     const signInRole = useSelector(state => state.user.signInRole)
     const dispatch = useDispatch()
 
     const responseGoogle = async (response) => {
-        console.log('Google creds: ' + response)
-        
+        console.log('Google creds: ')
+        console.log(response)
         response.role = signInRole
-        const user = await request(`auth/create/${signInRole}/google`, 'POST', JSON.stringify(response))
+        const user = await request(`auth/create/${signInRole}/google`, 'POST', response)
         console.log('user: ' + user)
         dispatch(updateUser(user))
       }
