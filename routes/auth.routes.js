@@ -2,94 +2,71 @@ const {Router} = require('express')
 const bcrypt = require('bcryptjs')
 const config = require('config')
 const jwt = require('jsonwebtoken')
-const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
 const router = Router()
+const UserRepository = require('../repository/UserRepository')
 
 
-// /api/auth/register
-router.post(
-  '/register',
-  [
-    check('email', 'Некорректный email').isEmail(),
-    check('password', 'Минимальная длина пароля 6 символов')
-      .isLength({ min: 6 })
-  ],
-  async (req, res) => {
-  try {
-    const errors = validationResult(req)
+router.post('/create/customer/google',async (req,res)=>{
+    try{
+        console.log('Method Revieved');
+        const userProfile = req.body.profileObj;
+        const roleName = req.body.role;
+        console.log(req.body);
+        const userData = await UserRepository.GetByIdAsync(userProfile.googleId);
+        if(userData){
+          console.log(`User with id ${userProfile.googleId} have been created yet`);
+          res.send(200,JSON.stringify(userData));
+          return;
+        }
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-        message: 'Некорректный данные при регистрации'
-      })
+        var result =  await UserRepository.CreateCustomerAsync(userProfile.googleId,
+            userProfile.givenName,
+            userProfile.givenName,
+            userProfile.imageUrl,
+            'Customer');  
+        res.send(200,JSON.stringify(result));
     }
-
-    const {email, password} = req.body
-
-    const candidate = await User.findOne({ email })
-
-    if (candidate) {
-      return res.status(400).json({ message: 'Такой пользователь уже существует' })
+    catch(e){
+        console.log(`Error accured while creating user:${e}`);
+        res.send(400, JSON.stringify(e));
     }
+});
 
-    const hashedPassword = await bcrypt.hash(password, 12)
-    const user = new User({ email, password: hashedPassword })
-
-    await user.save()
-
-    res.status(201).json({ message: 'Пользователь создан' })
-
-  } catch (e) {
-    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+router.post('/create/freelancer/google', async (req,res)=>{
+  try{
+    console.log('Method Revieved');
+    const userProfile = req.body.profileObj;
+    const roleName = req.body.role;
+    var result =  await UserRepository.CreateFreelancerAsync(userProfile.googleId,
+        userProfile.givenName,
+        userProfile.givenName,
+        userProfile.imageUrl,
+        "Freelancer");  
+    res.send(200,JSON.stringify(result));
   }
-})
-
-// /api/auth/login
-router.post(
-  '/login',
-  [
-    check('email', 'Введите корректный email').normalizeEmail().isEmail(),
-    check('password', 'Введите пароль').exists()
-  ],
-  async (req, res) => {
-  try {
-    const errors = validationResult(req)
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-        message: 'Некорректный данные при входе в систему'
-      })
-    }
-
-    const {email, password} = req.body
-
-    const user = await User.findOne({ email })
-
-    if (!user) {
-      return res.status(400).json({ message: 'Пользователь не найден' })
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password)
-
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Неверный пароль, попробуйте снова' })
-    }
-
-    const token = jwt.sign(
-      { userId: user.id },
-      config.get('jwtSecret'),
-      { expiresIn: '1h' }
-    )
-
-    res.json({ token, userId: user.id })
-
-  } catch (e) {
-    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+  catch(e){
+    console.log(`Error accured while creating user:${e}`);
+    res.send(500, JSON.stringify(e));
   }
-})
+});
 
+router.post('/create/facebook',async (req,res)=>{
+
+});
+
+router.post('/create/vk', async (req,res)=>{
+    const userData = req.body.session.user;
+    try{
+    var result = await UserRepository.CreateUserAsync(userData.id,
+        userData.first_name,
+        userData.last_name);
+    res.send(200,JSON.stringify(result));
+    }
+    catch(e){
+        console.log(`Error accured while creating user:${e}`);
+        res.send(400, JSON.stringify(e));
+    }
+});
 
 module.exports = router

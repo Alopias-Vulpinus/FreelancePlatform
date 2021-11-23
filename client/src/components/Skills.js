@@ -1,6 +1,7 @@
 import React from "react"
+import chroma from "chroma-js";
 import Select from "react-select"
-import chroma from 'chroma-js'
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -11,7 +12,6 @@ function getRandomColor() {
     return color;
 }
 
-  
 const colorStyles = {
     control: (styles) => ({ ...styles, backgroundColor: 'rgba(0, 0, 0, 0.4)'}),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -64,10 +64,10 @@ const colorStyles = {
       },
     }),
   };
-  
 
-export const SelectSkill = (props) => {
-    const options = [
+export const Skills = (props) => {
+
+    const skills = props.skills || [
         { value: 'Python', label: 'Python', color: getRandomColor() },
         { value: 'SQL', label: 'SQL', color: getRandomColor() },
         { value: 'Javascript', label: 'Javascript', color: getRandomColor() },
@@ -75,14 +75,17 @@ export const SelectSkill = (props) => {
         { value: 'Mobile', label: 'Mobile', color: getRandomColor() },
         { value: 'Android', label: 'Android', color: getRandomColor() },
         { value: 'Java', label: 'Java', color: getRandomColor() }];
-    const choosenOptions = options.filter(opt => props.skills.indexOf(opt.value) > -1);
-    return <Select 
+
+    return (
+            <Select 
                 closeMenuOnSelect={false}
                 isMulti
                 styles={colorStyles}
-                options={options} 
-                defaultValue={choosenOptions}
+                options={skills} 
+                defaultValue={skills}
                 placeholder='Select Your Skills'
                 isSearchable={true}
+                isDisabled
             />
+    )
 }

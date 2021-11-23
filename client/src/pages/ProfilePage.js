@@ -11,19 +11,15 @@ const profile = {
     lastName: 'Белоцкий',
     status : 'I <3 code',
     skills : ['Python', 'Java', 'SQL'],
-    role : 'Performer'
+    role : 'Performer',
+    contactMe : 'https://vk.com/dimasiandro'
 }
 export const ProfilePage = () => {
     const [firstName, setFirstName] = useState(profile.firstName)
     const [lastName, setLastName] = useState(profile.lastName)
     const [status, setStatus] = useState(profile.status)
-
-    const handleLastNameChange = (event) =>{
-        setLastName(event.target.value);
-    } 
-    const handlestatusChange = (event) =>{
-        setFirstName(event.target.value);
-    } 
+    const [contactMe, setContactMe] = useState(profile.contactMe)
+    
     return (
         <>
             <div className='profile_block'>
@@ -84,11 +80,24 @@ export const ProfilePage = () => {
                                 }}/>
                         </InputGroup>
                     </Row>
-                    <Row className='mb-3'>
-                    <SelectRole role={profile.role}/>
+                    <Row>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="ContactMe"> Contact me</InputGroup.Text>
+                            <FormControl
+                                placeholder="ContactMe"
+                                aria-label="ContactMe"
+                                aria-describedby="ContactMe"
+                                value={contactMe}
+                                onChange={(event) => {
+                                    setContactMe(event.target.value);
+                                }}/>
+                        </InputGroup>
                     </Row>
                     <Row className='mb-3'>
-                    <SelectSkill skills={profile.skills}/>
+                        <SelectRole role={profile.role}/>
+                    </Row>
+                    <Row className='mb-3'>
+                        <SelectSkill skills={profile.skills}/>
                     </Row>
                     <Row className='mb-3'>
                         <Col xs={12} md={8}>
