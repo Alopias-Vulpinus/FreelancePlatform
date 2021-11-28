@@ -8,7 +8,7 @@ const UserRepository = require('../repository/UserRepository')
 const DtoMapper = require('../mappers/DtoMapper')
 
 const CUSTOMER_ROLE = 'Customer';
-const Freelancer_ROLE = 'Freelancer';
+const FREELANCER_ROLE = 'Freelancer';
 
 router.post('/create/customer/google',async (req,res)=>{
         const userDto = DtoMapper.MapGoogleUser(req.body);
@@ -27,14 +27,13 @@ router.post('/create/customer/google',async (req,res)=>{
 router.post('/create/freelancer/google', async (req,res)=>{
   try{
     const userDto = DtoMapper.MapGoogleUser(req.body);
-    const userData = await UserRepository.GetFreelancerByIdAsync(userDto.socialId, Freelancer_ROLE);
+    const userData = await UserRepository.GetFreelancerByIdAsync(userDto.socialId, FREELANCER_ROLE);
     if(userData){
       console.log(`User with id ${userProfile.googleId} have been created yet`);
       res.send(200,JSON.stringify(userData));
       return;
     }
-
-    var result =  await UserRepository.CreateFreelancerAsync(userDto,Freelancer_ROLE);  
+    var result =  await UserRepository.CreateFreelancerAsync(userDto,FREELANCER_ROLE);  
     res.send(200,JSON.stringify(result));
   }
   catch(e){

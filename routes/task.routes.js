@@ -31,6 +31,10 @@ router.delete('/:taskId', async (req,res)=>{
 
 });
 
+router.post('/status', async (req,res)=>{
+
+});
+
 module.exports = router
 
 
