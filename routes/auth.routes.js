@@ -29,7 +29,6 @@ router.post('/create/freelancer/google', async (req,res)=>{
     const userDto = DtoMapper.MapGoogleUser(req.body);
     const userData = await UserRepository.GetFreelancerByIdAsync(userDto.socialId, FREELANCER_ROLE);
     if(userData){
-      console.log(`User with id ${userProfile.googleId} have been created yet`);
       res.send(200,JSON.stringify(userData));
       return;
     }

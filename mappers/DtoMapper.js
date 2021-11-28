@@ -27,6 +27,7 @@ module.exports = class DtoMapper{
 
     static MapGoogleUser(body){
         const userProfile = body.profileObj;
+        console.log(`User profile ${JSON.stringify(userProfile)}`);
         const userDto = new UserDto();
         userDto.socialId = userProfile['googleId'];
         userDto.firstName = userProfile['givenName'];
@@ -55,6 +56,24 @@ module.exports = class DtoMapper{
         rate['customer_id'] = body['customer_id'];
         rate['rate'] = body['rate'];
         return rate;
+    }
+
+    static MapFreelancer(body){
+        const freelancer = {}
+        freelancer['_id'] = body['_id'];
+        freelancer['user_data'] = body['user_data'];
+        freelancer['assigned_tasks'] = body['assigned_tasks'];
+        freelancer['skills'] = body['skills'];
+        freelancer['contacts'] = body['contacts'];
+        freelancer['rates'] = body['rates'];
+        return freelancer;
+    }
+
+    static MapCustomer(body){
+        const customer= {}
+        customer['user_data'] = body['user_data'];
+        customer['tasks'] = body['tasks'];
+        return customer;
     }
 }
 

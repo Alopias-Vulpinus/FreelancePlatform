@@ -3,13 +3,14 @@ const User = require('./User').schema
 const Contact = require('./Contact').schema
 const Rating = require('./Rating').schema
 const Task = require('./Task').schema
+const Skill = require('./Skill').schema
 
 
 const schema = new Schema({
     user_data:{type: User,required: true},
     assigned_tasks:{type:[Task]},
-    skills:{type:[String]},
-    constacts: {type: [Contact]},
+    skills:{type:[Skill]},
+    contacts: {type: [Contact]},
     rates:{type:[Rating]}
 })
   
