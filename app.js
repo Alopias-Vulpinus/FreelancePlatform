@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 app.use('/task',require('./routes/task.routes'));
 app.use('/auth' , require('./routes/auth.routes'));
+app.use('/skill', require('./routes/skill.routes'));
 app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
 app.get('*', (req, res) => {

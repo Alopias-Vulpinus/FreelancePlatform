@@ -13,7 +13,8 @@ const schema = new Schema({
     due_date:{type:Date},
     acceptance_criteria:{type:String},
     progess:{type:Number},
-    creation_date:{type:Date, default: Date.now}
+    creation_date:{type:Date, default: Date.now},
+    potential_performers: {type: [Freelancer]}
   });
   
   module.exports = model('Task', schema)

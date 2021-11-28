@@ -1,7 +1,6 @@
 const ProfileRepository = require('../repository/ProfileRepository')
 const DtoMapper = require('../mappers/DtoMapper')
 const {Router} = require('express');
-const { route } = require('./auth.routes');
 const router = Router()
 
 router.post('/',(req,res)=>{
@@ -15,21 +14,14 @@ router.post('/',(req,res)=>{
     }
 });
 
-router.get('/customers', async (req,res)=>{
-
-});
-
-router.get('/freelancers', async (req,res)=>{
-
-});
-
-router.get('/customer/:id', async (req,res)=>{
-
-});
-
-router.get('/freelancer/:id', async (req,res)=>{
-
-});
-
-
+router.get('/exists',async (req,res)=>{
+    try{
+    const checkDto = DtoMapper.MapCheckUser(req.body);
+    const isExists = await  ProfileRepository.CheckIfUserExistsAsync(checkDto);
+    res.send(200, {result: isExists});
+    }
+    catch(e){
+        res.send(500);
+    }
+})
 module.exports = router

@@ -1,6 +1,7 @@
 const ProfileDto = require('../dto/ProfileDto')
 const TaskDto = require('../dto/TaskDto')
 const UserDto = require('../dto/UserDto')
+const CheckDto = require('../dto/CheckUserDto')
 module.exports = class DtoMapper{
     static MapProfile(body){
         const profile = new ProfileDto();
@@ -32,6 +33,28 @@ module.exports = class DtoMapper{
         userDto.sencondName = userProfile['familyName'];
         userDto.imageUrl = userProfile['imageUrl'];
         return userDto;
+    }
+
+    static MapCheckUser(body){
+        const checkUser = new CheckDto();
+        checkUser.social_id = body['social_id'];
+        checkUser.role_name = body['role_name'];
+        return checkUser;
+    }
+
+    static MapTaskStatus(body){
+        const taskStatus = {};
+        taskStatus['freelancer_id'] = body['freelancer_id'];
+        taskStatus['status_name'] = body['status_name'];
+        return taskStatus;
+    }
+
+    static MapRating(body){
+        const rate ={};
+        rate['freelancer_id'] = body['freelancer_id'];
+        rate['customer_id'] = body['customer_id'];
+        rate['rate'] = body['rate'];
+        return rate;
     }
 }
 

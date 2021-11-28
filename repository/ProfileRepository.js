@@ -24,6 +24,12 @@ class ProfileRepository extends Repository{
             throw e;
         }
     }
+
+    async CheckIfUserExistsAsync(checkModel){
+        const query = {'social_id': checkModel.social_id, 'role.name': checkModel.social_id };
+        const user = await User.findOne(query);
+        return user === undefined;
+    }
 }
 
 const repository = new ProfileRepository();

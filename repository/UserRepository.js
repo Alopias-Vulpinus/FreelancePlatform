@@ -23,7 +23,9 @@ class UserRepository{
     }
 
     async CreateFreelancerAsync(user,role){
-        const createdUser = this.CreateUserAsync(user,role);
+        const createdUser = await  this.CreateUserAsync(user,role);
+        console.log("UserCreated");
+        console.log(createdUser);
         const freelancerToCreate = new Freelancer({user_data: createdUser});
         const savedfreelancer = await freelancerToCreate.save(this.HandleResponce);
         return savedfreelancer;
