@@ -17,7 +17,7 @@ router.get('/',async (req,res)=>{
 router.get('/:taskId',async (req,res)=>{
 });
 
-router.post('/', async (req,res)=>{
+router.post('/new', async (req,res)=>{
     try{
         const task = DtoMapper.MapTask(req.body);
         const createdTask = TaskRepository.CreateTaskAsync(task);
@@ -28,7 +28,7 @@ router.post('/', async (req,res)=>{
 });
 
 router.delete('/:taskId', async (req,res)=>{
-
+    
 });
 
 router.post('/status', async (req,res)=>{

@@ -8,7 +8,7 @@ const Skill = require('./Skill').schema
 
 const schema = new Schema({
     user_data:{type: User,required: true},
-    assigned_tasks:{type:[Task]},
+    assigned_tasks_ids:{type:[String]},
     skills:{type:[Skill]},
     contacts: {type: [Contact]},
     rates:{type:[Rating]}

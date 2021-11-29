@@ -23,5 +23,14 @@ router.get('/exists',async (req,res)=>{
     catch(e){
         res.send(500);
     }
+});
+
+router.get('/', async (req,res)=>{
+    try{
+        const users  = await ProfileRepository.GetAllUserProfilesAsync();
+        res.send(200, JSON.stringify(users));
+    }catch(e){
+        res.send(500,e);
+    }
 })
 module.exports = router

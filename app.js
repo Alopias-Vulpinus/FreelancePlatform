@@ -14,6 +14,9 @@ app.use('/skill', require('./routes/skill.routes'));
 app.use('/freelancer', require('./routes/freelancer.routes'));
 app.use('/customer', require('./routes/customer.routes'));
 app.use('/task', require('./routes/task.routes'));
+app.use('/status', require('./routes/status.routes'));
+app.use('/role', require('./routes/role.routes'));
+app.use('/profile', require('./routes/profile.routes'));
 app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
 app.get('*', (req, res) => {

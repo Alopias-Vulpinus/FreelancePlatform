@@ -26,9 +26,16 @@ class ProfileRepository extends Repository{
     }
 
     async CheckIfUserExistsAsync(checkModel){
-        const query = {'social_id': checkModel.social_id, 'role.name': checkModel.social_id };
+        const query = {social_id: checkModel.social_id, "role.name": checkModel.role_name };
+        console.log(`try to find user with query: ${JSON.stringify(query)}`)
         const user = await User.findOne(query);
-        return user === undefined;
+        console.log(`Fount user ${ JSON.stringify(user)}`);
+        return isNaN(user);
+    }
+
+    async GetAllUserProfilesAsync(){
+        const users = await User.find({});
+        return users;
     }
 }
 

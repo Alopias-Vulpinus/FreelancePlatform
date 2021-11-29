@@ -4,7 +4,7 @@ const Task = require('./Task').schema
 
 const schema = new Schema({
     user_data:{type:User, required: true},
-    tasks:{type:[Task]}
+    tasks_ids:{type:[String]}
   });
   
 module.exports = model('Customer', schema)

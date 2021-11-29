@@ -1,4 +1,3 @@
-
 const DtoMapper = require('../mappers/DtoMapper')
 const {Router} = require('express');
 const router = Router()
@@ -15,7 +14,11 @@ router.get('/all', async (req,res)=>{
 });
 
 router.post('/',async (req,res)=>{
-
+    try{
+        DtoMapper.MapCustomer();
+    }catch(e){
+        res.send(500, JSON.stringify(e));
+    }
 });
 
 

@@ -1,4 +1,4 @@
-const Skill = require('../models/Skill');
+const Skill = require('../models/Skill')
 const Repository = require('./Repository')
 class SkillRepository extends Repository{
     async CreateSkillAsync(skillName){

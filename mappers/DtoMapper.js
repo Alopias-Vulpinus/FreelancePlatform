@@ -16,8 +16,9 @@ module.exports = class DtoMapper{
     static MapTask(body){
         const task = new TaskDto();
         task.status = body['status'];
-        task.freelancer = body['freelancer'];
-        task.customer = body['customer'];
+        task.title = body['title'];
+        task.freelancer_id = body['freelancer_id'];
+        task.customer_id = body['customer_id'];
         task.payment = body['payment'];
         task.due_date = body['due_date'];
         task.acceptance_criteria = body['acceptance_criteria'];
