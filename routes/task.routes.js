@@ -35,6 +35,20 @@ router.post('/status', async (req,res)=>{
 
 });
 
+router.post('/add/performer', async(res,req)=>{
+
+});
+
+router.post('/assign', async (req,res)=>{
+    const assignTaskModel = DtoMapper.MapAssignTask(req.body);
+    try{
+        TaskRepository.AssignTaskTo(assignTaskModel);
+        req.send(200, {result: true});
+    }catch(e){
+        req.send(200, {result: false});
+    }
+});
+
 module.exports = router
 
 

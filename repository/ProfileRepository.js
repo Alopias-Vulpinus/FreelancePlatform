@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Repository = require('./Repository');
+const Rating = require('../models/Rating');  
 
 class ProfileRepository extends Repository{
     async ChangeProfileAsync(profileDto){
@@ -36,6 +37,36 @@ class ProfileRepository extends Repository{
     async GetAllUserProfilesAsync(){
         const users = await User.find({});
         return users;
+    }
+
+    async RateUserAsync(ratingModel){
+        const findQuery = {"_id": ratingModel.userTo};
+        console.log(`RatingModel ${JSON.stringify(ratingModel)}`);
+        const ratingToAdd = new Rating({
+            user_from: ratingModel.userFrom,
+            user_to: ratingModel.userTo,
+            rating: ratingModel.rating
+        });
+        const pushQuery = {$push: {rates: ratingToAdd}};
+        console.log(`Pushing rating ${JSON.stringify(pushQuery)}`);
+        const user = User.findOneAndUpdate(findQuery, pushQuery,{ returnNewDocument: true });
+        return user;
+    }
+
+    async CheckIfRatingExists(ratingModel){
+        const findQuery = {_id: ratingModel.userTo, rates:{$elemMatch:{user_from: ratingModel.userFrom}}};
+        console.log(`Find Query: ${ JSON.stringify(findQuery)}`);
+        const rating = await User.findOne(findQuery); 
+        console.log(`Checking if rate exists : ${!(rating == null)}`);
+        return !(rating == null);
+    }
+
+    async UpdateRatingAsync(ratingModel){
+        const findQuery = {_id: ratingModel.userTo, rates: { $elemMatch:{user_from: ratingModel.userFrom}}};
+        console.log(`Find query(Updating) ${ JSON.stringify(findQuery)}`);
+        const updateQuery = {$set: {"rates.$.rating": {rating:ratingModel.rating }}};
+        const user = await  User.findOneAndUpdate(findQuery, updateQuery, { returnNewDocument: true });
+        return user;   
     }
 }
 

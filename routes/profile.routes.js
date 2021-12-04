@@ -1,5 +1,6 @@
 const ProfileRepository = require('../repository/ProfileRepository')
 const DtoMapper = require('../mappers/DtoMapper')
+const DatabaseMapper = require('../mappers/DatabaseMapper')
 const {Router} = require('express');
 const router = Router()
 
@@ -31,6 +32,27 @@ router.get('/', async (req,res)=>{
         res.send(200, JSON.stringify(users));
     }catch(e){
         res.send(500,e);
+    }
+})
+
+router.post('/rate', async (req,res)=>{
+    try{
+        console.log(JSON.stringify(req.body));
+        const ratingModel = DtoMapper.MapRating(req.body);
+        console.log(JSON.stringify(ratingModel));
+        const ratingExists = await ProfileRepository.CheckIfRatingExists(ratingModel);
+        var userModel = undefined;
+        if(ratingExists){
+            userModel =  await ProfileRepository.UpdateRatingAsync(ratingModel);
+        }else{
+            userModel = await ProfileRepository.RateUserAsync(ratingModel);
+        }
+        console.log(JSON.stringify(userModel))
+        const result = DatabaseMapper.MapUserRating(userModel);
+        res.send(200, {result});
+    }catch(e){
+        console.log(e);
+        res.send(500, JSON.stringify(e));
     }
 })
 module.exports = router

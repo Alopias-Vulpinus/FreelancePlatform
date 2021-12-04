@@ -39,10 +39,17 @@ class TaskRepository extends Repository{
 //            const pushQuery = {$push:{potential_performers: }}
         }
     }
+
+    async AssignTaskTo(assignTaskModel){
+        const findTaskQuery = {_id: assignTaskModel.taskId};
+        const updateQuery = {$set: {is_assigned: true, freelancer_id: assignTaskModel.freelancer_id, potential_performers: []}}
+        const updateResult = await Task.updateOne(findTaskQuery, updateQuery);
+        return updateResult;
+    }
 }
 
 const repository = new TaskRepository();
-
+ 
 Object.freeze(repository);
 
 module.exports = repository;

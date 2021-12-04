@@ -10,7 +10,7 @@ const DtoMapper = require('../mappers/DtoMapper')
 const CUSTOMER_ROLE = 'Customer';
 const FREELANCER_ROLE = 'Freelancer';
 
-router.post('/create/customer/google',async (req,res)=>{
+router.post('/login/customer/google',async (req,res)=>{
         const userDto = DtoMapper.MapGoogleUser(req.body);
         const userData = await UserRepository.GetCustomerByIdAsync(userDto.socialId, CUSTOMER_ROLE);
         console.log(`fount user ${userData}`)
@@ -24,7 +24,7 @@ router.post('/create/customer/google',async (req,res)=>{
         res.send(200,JSON.stringify(result));
 });
 
-router.post('/create/freelancer/google', async (req,res)=>{
+router.post('/login/freelancer/google', async (req,res)=>{
   try{
     const userDto = DtoMapper.MapGoogleUser(req.body);
     const userData = await UserRepository.GetFreelancerByIdAsync(userDto.socialId, FREELANCER_ROLE);
@@ -41,11 +41,11 @@ router.post('/create/freelancer/google', async (req,res)=>{
   }
 });
 
-router.post('/create/facebook',async (req,res)=>{
+router.post('/login/facebook',async (req,res)=>{
 
 });
 
-router.post('/create/vk', async (req,res)=>{
+router.post('/login/vk', async (req,res)=>{
     const userData = req.body.session.user;
     try{
     var result = await UserRepository.CreateUserAsync(userData.id,

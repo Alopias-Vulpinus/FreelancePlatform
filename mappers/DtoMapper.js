@@ -2,6 +2,7 @@ const ProfileDto = require('../dto/ProfileDto')
 const TaskDto = require('../dto/TaskDto')
 const UserDto = require('../dto/UserDto')
 const CheckDto = require('../dto/CheckUserDto')
+const ObjectID = require('mongodb').ObjectID;
 module.exports = class DtoMapper{
     static MapProfile(body){
         const profile = new ProfileDto();
@@ -10,6 +11,7 @@ module.exports = class DtoMapper{
         profile.skills = body['skills'];
         profile.role = body['role'];
         profile.status = body['status'];
+        profile.contact_me = body['contact_me']
         return profile;
     }
 
@@ -53,9 +55,9 @@ module.exports = class DtoMapper{
 
     static MapRating(body){
         const rate ={};
-        rate['freelancer_id'] = body['freelancer_id'];
-        rate['customer_id'] = body['customer_id'];
-        rate['rate'] = body['rate'];
+        rate['userFrom'] = body['userFrom'];
+        rate['userTo'] = body['userTo'];
+        rate['rating'] = body['rating'];
         return rate;
     }
 
@@ -65,7 +67,6 @@ module.exports = class DtoMapper{
         freelancer['user_data'] = body['user_data'];
         freelancer['assigned_tasks'] = body['assigned_tasks'];
         freelancer['skills'] = body['skills'];
-        freelancer['contacts'] = body['contacts'];
         freelancer['rates'] = body['rates'];
         return freelancer;
     }
@@ -75,6 +76,33 @@ module.exports = class DtoMapper{
         customer['user_data'] = body['user_data'];
         customer['tasks'] = body['tasks'];
         return customer;
+    }
+
+    static MapAddFreelancer(body){
+        const addFreelancerModel = {};
+        addFreelancerModel['task_id'] = new ObjectID(body['task_id']);
+        addFreelancerModel['freelancer_id'] = new ObjectID(body['freelancer_id']);
+        return addFreelancerModel;
+    }
+
+    static MapNewTask(body){
+        const newTaskModel = {};
+
+    }
+
+    static MapAssignTask(body){
+        const assignTaskModel = {};
+        assignTaskModel['taskId'] = new ObjectID(body['taskId']);
+        assignTaskModel['userId'] = new ObjectID(body['userId']);
+        return assignTaskModel;
+    }
+
+    static MapRatingAsync(body){
+        const ratingModel = {};
+        ratingModel['userFrom'] = new ObjectID(body['userFrom']);
+        ratingModel['userTo'] = new ObjectID(body['userTo']);
+        ratingModel['rating'] = body['rating'];
+        return ratingModel;
     }
 }
 

@@ -14,7 +14,8 @@ const schema = new Schema({
     acceptance_criteria:{type:String},
     progess:{type:Number},
     creation_date:{type:Date, default: Date.now},
-    potential_performers_ids: {type: [String]}
+    potential_performers_ids: {type: [String]},
+    is_assigned: {type: Boolean}
   });
   
   module.exports = model('Task', schema)
