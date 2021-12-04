@@ -3,43 +3,17 @@ import { ProfileSearch } from '../components/ProfileSearch'
 
 import { Container } from 'react-bootstrap'
 import { ProfileListWithPagination } from '../components/ProfileListWithPagination'
+import { useSelector } from 'react-redux'
 
 
 export const CustomersPage = (props) => {
-    const profiles = [{
-        firstName: 'Дмитрий',
-        lastName: 'Белоцкий'
-    }, {
-        firstName: 'Кирилл',
-        lastName: 'Акулич'
-    }, {
-        firstName: 'Юлька',
-        lastName: 'Китикет'
-    },{
-        firstName: 'Дмитрий',
-        lastName: 'Белоцкий'
-    }, {
-        firstName: 'Кирилл',
-        lastName: 'Акулич'
-    }, {
-        firstName: 'Юлька',
-        lastName: 'Китикет'
-    },{
-        firstName: 'Дмитрий',
-        lastName: 'Белоцкий'
-    }, {
-        firstName: 'Кирилл',
-        lastName: 'Акулич'
-    }, {
-        firstName: 'Юлька',
-        lastName: 'Китикет'
-    }]
 
+    const customers = useSelector(state => state.user.customers)
     return (
         <>
             <Container className='text-light'>
                 <ProfileSearch/>
-                <ProfileListWithPagination profiles={profiles}/>
+                <ProfileListWithPagination profiles={customers}/>
             </Container>
         </>
     )

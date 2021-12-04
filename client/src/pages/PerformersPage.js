@@ -1,11 +1,22 @@
 import React from 'react'
-import { CustomersPage } from './CustomersPage'
+import { ProfileSearch } from '../components/ProfileSearch'
+import { Container } from 'react-bootstrap'
+import { ProfileListWithPagination } from '../components/ProfileListWithPagination'
+
+import { useSelector } from 'react-redux'
+
 
 
 export const PerformersPage = () => {
+
+    const performers = useSelector(state => state.user.customers)
+    
     return (
         <>
-            <CustomersPage />
+            <Container className='text-light'>
+                <ProfileSearch/>
+                <ProfileListWithPagination profiles={performers}/>
+            </Container>
         </>
     )
 }

@@ -1,14 +1,15 @@
 import React from 'react'
-import { TaskList } from '../components/TaskList'
+import { useSelector } from 'react-redux'
+import { TaskListWithPagination } from '../components/TaskListWithPagination'
 import { TaskSearch } from '../components/TaskSearch'
-import { Pagination } from '../components/Pagination'
 
 export const OpenTasksPage = () => {
+    const newTasks = useSelector(state => state.task.newTasks)
+
     return (
         <>
             <TaskSearch/>
-            <TaskList/>
-            <Pagination/>
+            <TaskListWithPagination tasks={newTasks}/>
         </>
     )
 }

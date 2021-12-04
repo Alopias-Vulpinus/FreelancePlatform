@@ -1,6 +1,6 @@
 import { useHttp } from "./http.hook"
 import {useSelector, useDispatch} from 'react-redux'
-import { updateUser } from "../redux/actions/UserAction"
+import { updateUser } from "../redux/actions"
 
 
 export const useSocials = () => {

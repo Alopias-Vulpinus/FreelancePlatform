@@ -4,7 +4,7 @@ import {useRoutes} from './routes'
 import { NavigationMenu } from './components/NavigationMenu'
 import 'materialize-css'
 import './static/css/app.css'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import { store } from './redux/store'
 
 function App() {
