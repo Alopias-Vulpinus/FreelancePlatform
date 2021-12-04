@@ -1,5 +1,5 @@
 {
-  "port": 5000,
+  "port": 5050,
   "jwtSecret": "Love will save the world",
   "mongoUri": "mongodb+srv://freelance-platform-user:freelance-platform-password@cluster0.2logu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   "baseUrl": "http://localhost:5000"

@@ -5,7 +5,7 @@ class ProfileRepository extends Repository{
     async ChangeProfileAsync(profileDto){
         const query = {id:profileDto.social_id};
         const updateQuery={ $set:{name: profileDto.name, surname: profileDto.surname, 
-            email: profileDto.email, role: profileDto.role, skills: profileDto.skills}};
+            email: profileDto.email}};
         try{
             await User.updateOne(query,updateQuery,this.HandleDatabaseQuery);
         }
@@ -23,6 +23,19 @@ class ProfileRepository extends Repository{
         catch(e){
             throw e;
         }
+    }
+
+    async CheckIfUserExistsAsync(checkModel){
+        const query = {social_id: checkModel.social_id, "role.name": checkModel.role_name };
+        console.log(`try to find user with query: ${JSON.stringify(query)}`)
+        const user = await User.findOne(query);
+        console.log(`Fount user ${ JSON.stringify(user)}`);
+        return isNaN(user);
+    }
+
+    async GetAllUserProfilesAsync(){
+        const users = await User.find({});
+        return users;
     }
 }
 

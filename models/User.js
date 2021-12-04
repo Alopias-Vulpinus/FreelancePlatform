@@ -6,7 +6,7 @@ const schema = new Schema({
   email: {type: String},
   name:{type:String, required: true},
   family_name:{type: String},
-  role:Role
+  role:{type: Role}
 })
 
 module.exports = model('User', schema)

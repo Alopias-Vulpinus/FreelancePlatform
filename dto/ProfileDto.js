@@ -1,4 +1,4 @@
-class ProfileDto{
+module.exports = class ProfileDto{
     socialId;
     email;
     name;
