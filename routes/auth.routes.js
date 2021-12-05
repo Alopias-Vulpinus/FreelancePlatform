@@ -1,49 +1,37 @@
 const {Router} = require('express')
-const bcrypt = require('bcryptjs')
-const config = require('config')
-const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const router = Router()
 const UserRepository = require('../repository/UserRepository')
+const DtoMapper = require('../mappers/DtoMapper')
+const DatabaseMapper = require('../mappers/DatabaseMapper')
 
+const CUSTOMER_ROLE = 'Customer';
+const FREELANCER_ROLE = 'Freelancer';
 
-router.post('/create/customer/google',async (req,res)=>{
-    try{
-        console.log('Method Revieved');
-        const userProfile = req.body.profileObj;
-        const roleName = req.body.role;
-        console.log(req.body);
-        const userData = await UserRepository.GetByIdAsync(userProfile.googleId);
+router.post('/login/customer/google',async (req,res)=>{
+        const userDto = DtoMapper.MapGoogleUser(req.body);
+        const userData = await UserRepository.GetCustomerByIdAsync(userDto.socialId, CUSTOMER_ROLE);
+        console.log(`fount user ${userData}`)
         if(userData){
-          console.log(`User with id ${userProfile.googleId} have been created yet`);
-          res.send(200,JSON.stringify(userData));
+          console.log(`User with id ${userDto.socialId} have been created yet`);
+          res.send(200, JSON.stringify( DatabaseMapper.MapCustomer(userData)));
           return;
         }
-
-        var result =  await UserRepository.CreateCustomerAsync(userProfile.googleId,
-            userProfile.givenName,
-            userProfile.givenName,
-            userProfile.imageUrl,
-            'Customer');  
-        res.send(200,JSON.stringify(result));
-    }
-    catch(e){
-        console.log(`Error accured while creating user:${e}`);
-        res.send(400, JSON.stringify(e));
-    }
+        
+        var result =  await UserRepository.CreateCustomerAsync(userDto,CUSTOMER_ROLE);  
+        res.send(200,JSON.stringify(DatabaseMapper.MapCustomer(result)));
 });
 
-router.post('/create/freelancer/google', async (req,res)=>{
+router.post('/login/freelancer/google', async (req,res)=>{
   try{
-    console.log('Method Revieved');
-    const userProfile = req.body.profileObj;
-    const roleName = req.body.role;
-    var result =  await UserRepository.CreateFreelancerAsync(userProfile.googleId,
-        userProfile.givenName,
-        userProfile.givenName,
-        userProfile.imageUrl,
-        "Freelancer");  
-    res.send(200,JSON.stringify(result));
+    const userDto = DtoMapper.MapGoogleUser(req.body);
+    const userData = await UserRepository.GetFreelancerByIdAsync(userDto.socialId, FREELANCER_ROLE);
+    if(userData){
+      res.send(200,JSON.stringify(DatabaseMapper.MapFreelancer(userData)));
+      return;
+    }
+    var result =  await UserRepository.CreateFreelancerAsync(userDto,FREELANCER_ROLE);  
+    res.send(200,JSON.stringify((DatabaseMapper.MapFreelancer(result))));
   }
   catch(e){
     console.log(`Error accured while creating user:${e}`);
@@ -51,11 +39,11 @@ router.post('/create/freelancer/google', async (req,res)=>{
   }
 });
 
-router.post('/create/facebook',async (req,res)=>{
+router.post('/login/facebook',async (req,res)=>{
 
 });
 
-router.post('/create/vk', async (req,res)=>{
+router.post('/login/vk', async (req,res)=>{
     const userData = req.body.session.user;
     try{
     var result = await UserRepository.CreateUserAsync(userData.id,

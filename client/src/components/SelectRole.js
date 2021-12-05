@@ -1,7 +1,7 @@
 import React from "react"
 import Select from "react-select"
 import { useDispatch } from "react-redux"
-import {changeSignInRole} from './../redux/actions/UserAction'
+import {changeSignInRole} from './../redux/actions'
 
 export const SelectRole = (props) => {
     const options = [

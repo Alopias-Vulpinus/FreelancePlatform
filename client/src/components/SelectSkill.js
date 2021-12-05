@@ -2,6 +2,7 @@ import React from "react"
 import Select from "react-select"
 import chroma from 'chroma-js'
 
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -66,7 +67,7 @@ const colorStyles = {
   };
   
 
-export const SelectSkill = (props) => {
+export const SelectSkill = ({skills, setSkills}) => {
     const options = [
         { value: 'Python', label: 'Python', color: getRandomColor() },
         { value: 'SQL', label: 'SQL', color: getRandomColor() },
@@ -75,14 +76,22 @@ export const SelectSkill = (props) => {
         { value: 'Mobile', label: 'Mobile', color: getRandomColor() },
         { value: 'Android', label: 'Android', color: getRandomColor() },
         { value: 'Java', label: 'Java', color: getRandomColor() }];
-    const choosenOptions = options.filter(opt => props.skills.indexOf(opt.value) > -1);
-    return <Select 
+    const chosenOptions = options.filter(opt => skills.indexOf(opt.value) > -1);
+
+    const ChangeHandler = (options) => {
+        let new_skills = options.map(options => options.value)
+        setSkills(new_skills)
+    }
+
+    return <Select
                 closeMenuOnSelect={false}
                 isMulti
                 styles={colorStyles}
                 options={options} 
-                defaultValue={choosenOptions}
+                defaultValue={chosenOptions}
                 placeholder='Select Your Skills'
                 isSearchable={true}
+                onChange={(options) => ChangeHandler(options)}
+
             />
 }

@@ -2,34 +2,8 @@ import React from "react"
 import { Profile } from "./Profile"
 
 export const ProfileList = (props) => {
-    const profiles = props.profiles || [{
-        firstName: 'Дмитрий',
-        lastName: 'Белоцкий'
-    }, {
-        firstName: 'Кирилл',
-        lastName: 'Акулич'
-    }, {
-        firstName: 'Юлька',
-        lastName: 'Китикет'
-    },{
-        firstName: 'Дмитрий',
-        lastName: 'Белоцкий'
-    }, {
-        firstName: 'Кирилл',
-        lastName: 'Акулич'
-    }, {
-        firstName: 'Юлька',
-        lastName: 'Китикет'
-    },{
-        firstName: 'Дмитрий',
-        lastName: 'Белоцкий'
-    }, {
-        firstName: 'Кирилл',
-        lastName: 'Акулич'
-    }, {
-        firstName: 'Юлька',
-        lastName: 'Китикет'
-    }]
+
+    const profiles = props.profiles
 
     return (
     <>

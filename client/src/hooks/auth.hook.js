@@ -1,37 +1,25 @@
-import {useState, useCallback, useEffect} from 'react'
-
-const storageName = 'userData'
+import {useDispatch, useSelector} from "react-redux";
+import {getUserFromServerAction, updateAuth, updateUser} from "../redux/actions";
+import {useHttp} from "./http.hook";
+import {mapResponseToUser} from "../api/mapper";
 
 export const useAuth = () => {
-  const [token, setToken] = useState(null)
-  const [ready, setReady] = useState(false)
-  const [userId, setUserId] = useState(null)
+    const {request} = useHttp()
+    const dispatch = useDispatch()
+    let user = useSelector(state => state.user.currentUser)
 
-  const login = useCallback((jwtToken, id) => {
-    setToken(jwtToken)
-    setUserId(id)
-
-    localStorage.setItem(storageName, JSON.stringify({
-      userId: id, token: jwtToken
-    }))
-  }, [])
-
-
-  const logout = useCallback(() => {
-    setToken(null)
-    setUserId(null)
-    localStorage.removeItem(storageName)
-  }, [])
-
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem(storageName))
-
-    if (data && data.token) {
-      login(data.token, data.userId)
+    console.log('useAuth')
+    if(!user.id){
+        const user_id = localStorage.getItem('user_id')
+        if(user_id) {
+            //const userResponse = await request('profile/', 'GET', {id: user_id})
+            // console.log('useAuth userResponse',userResponse)
+            user = mapResponseToUser({});
+            console.log('user', user)
+            dispatch(updateUser(user))
+            dispatch(updateAuth(true))
+            // dispatch(getUserFromServerAction(request, user_id))
+        }
     }
-    setReady(true)
-  }, [login])
-
-
-  return { login, logout, token, userId, ready }
+    return user
 }

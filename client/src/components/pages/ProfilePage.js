@@ -1,25 +1,25 @@
 import React, {useState} from 'react'
-import './../static/css/profile.css'
+import '../../static/css/profile.css'
 import { Container, Image, Row, Col,InputGroup,FormControl } from 'react-bootstrap'
-import { SelectRole } from '../components/SelectRole'
-import { SelectSkill } from '../components/SelectSkill'
+import { SelectSkill } from '../SelectSkill'
 import { Button } from 'react-bootstrap';
+import {useSelector} from "react-redux";
+import {WithAuthRedirect} from "../hoc/withAuthRedirect";
+import defaultAvatar from './../../static/img/default-avatar.jpg'
 
-const profile = {
-    username : 'dimasiandro@gmail.com',
-    firstName : 'Дмитрий',
-    lastName: 'Белоцкий',
-    status : 'I <3 code',
-    skills : ['Python', 'Java', 'SQL'],
-    role : 'Performer',
-    contactMe : 'https://vk.com/dimasiandro'
-}
-export const ProfilePage = () => {
-    const [firstName, setFirstName] = useState(profile.firstName)
-    const [lastName, setLastName] = useState(profile.lastName)
-    const [status, setStatus] = useState(profile.status)
-    const [contactMe, setContactMe] = useState(profile.contactMe)
-    
+const ProfilePage = () => {
+    const user = useSelector(state => state.user.currentUser)
+
+    const [firstName, setFirstName] = useState(user.firstName)
+    const [lastName, setLastName] = useState(user.lastName)
+    const [status, setStatus] = useState(user.status)
+    const [contactMe, setContactMe] = useState(user.contactMe)
+    const [skills, setSkills] = useState(user.skills)
+
+    const submitHandler = (e) => {
+        console.log(user.id, firstName, lastName, status, contactMe, skills)
+    }
+
     return (
         <>
             <div className='profile_block'>
@@ -27,7 +27,8 @@ export const ProfilePage = () => {
                     <Image 
                         className='profile_img'
                         roundedCircle
-                        src='https://lh3.googleusercontent.com/a-/AOh14GiF8JoxiZvihaFcJEt47SXUptzJEjC-DkmByy1w=s96-c' 
+                        // src='https://lh3.googleusercontent.com/a-/AOh14GiF8JoxiZvihaFcJEt47SXUptzJEjC-DkmByy1w=s96-c'
+                        src={user.imageUrl || defaultAvatar}
                         alt='avatar'/>
                 </div>
                 <Container>
@@ -39,7 +40,7 @@ export const ProfilePage = () => {
                                     aria-label="Username"
                                     aria-describedby="username"
                                     readOnly
-                                    value={profile.username}
+                                    value={user.username}
                                 />
                             </InputGroup>
                         <Col>
@@ -94,16 +95,13 @@ export const ProfilePage = () => {
                         </InputGroup>
                     </Row>
                     <Row className='mb-3'>
-                        <SelectRole role={profile.role}/>
-                    </Row>
-                    <Row className='mb-3'>
-                        <SelectSkill skills={profile.skills}/>
+                        <SelectSkill skills={skills} setSkills={setSkills}/>
                     </Row>
                     <Row className='mb-3'>
                         <Col xs={12} md={8}>
                         </Col>
                          <Col xs={6} md={4}>
-                            <Button variant="primary" className='profile_submit-btn' > Change Profile </Button>
+                            <Button variant="primary" className='profile_submit-btn' onClick={(e) => {submitHandler(e)}}> Change Profile </Button>
                         </Col>
                      </Row>
                 </Container>
@@ -111,3 +109,5 @@ export const ProfilePage = () => {
         </>
     )
 }
+
+export const ProfilePageWithAuthRedirect = WithAuthRedirect(ProfilePage)

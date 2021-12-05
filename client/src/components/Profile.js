@@ -1,14 +1,10 @@
 import React from "react"
-import { useSelector } from "react-redux"
 import { Container, Row, Col } from "react-bootstrap"
 import defaultAvatar from './../static/img/default-avatar.jpg'
-import { Rating } from "./Rating"
 import { RatingView } from "./RatingView"
 import { Skills } from "./Skills"
 
-export const Profile = (props) => {
-    const profile = props.profile
-    const state = useSelector(state => state.user)
+export const Profile = ({profile}) => {
     return (
     <>
         <Container className='profile-small_container black-bg text-light'>
@@ -26,7 +22,7 @@ export const Profile = (props) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col> <Skills/> </Col>
+                        <Col> <Skills skills={profile.skills}/> </Col>
                      </Row>
                 </Col>
             </Row>
