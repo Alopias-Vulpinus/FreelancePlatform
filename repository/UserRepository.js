@@ -8,7 +8,7 @@ class UserRepository{
         const userRole = await this.GetRoleAsync(role); 
         console.log(`Creating user with role ${role}`);
         const userToCreate = new User({social_id: user.socialId,
-            family_name: user.lastName, 
+            family_name: user.secondName, 
             email:user.email,
             name: user.firstName,
             avatar_url: user.imageUrl,
@@ -43,11 +43,6 @@ class UserRepository{
         const query = {name: roleName};
         const role = await Role.findOne(query);
         return role;
-    }
-
-    GetUserByRoleAsync(socialId, role){
-        const query = {social_id: socialId, "role.name": role};
-        return User.findOne(query);
     }
 
     GetCustomerByIdAsync(socialId,role){

@@ -4,14 +4,27 @@ const DatabaseMapper = require('../mappers/DatabaseMapper')
 const {Router} = require('express');
 const router = Router()
 
-router.post('/',(req,res)=>{
+router.post('/',async (req,res)=>{
     try{
     const profileDto = DtoMapper.MapProfile(req.body);
-    ProfileRepository.ChangeProfileAsync(profileDto);
+    await ProfileRepository.ChangeProfileAsync(profileDto);
     res.send(200);
     }
     catch(e){
         res.send(500);
+    }
+});
+
+router.get('/', async (req,res)=>{
+    try{
+        const idToFind = DtoMapper.MapFindId(req.body);
+        const foundUser = await ProfileRepository.GetUserByIdRole(idToFind);
+        console.log(`Found user ${foundUser}`);
+        const mappedUSer = DatabaseMapper.MapRoleProfile(foundUser);
+        res.send(200, JSON.stringify(mappedUSer));
+    }catch(e){
+        console.log(e);
+        res.send(500, JSON.stringify(e));
     }
 });
 
@@ -26,7 +39,7 @@ router.get('/exists',async (req,res)=>{
     }
 });
 
-router.get('/', async (req,res)=>{
+router.get('/all', async (req,res)=>{
     try{
         const users  = await ProfileRepository.GetAllUserProfilesAsync();
         res.send(200, JSON.stringify(users));
@@ -55,4 +68,6 @@ router.post('/rate', async (req,res)=>{
         res.send(500, JSON.stringify(e));
     }
 })
+
+
 module.exports = router

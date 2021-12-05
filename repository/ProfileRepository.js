@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const Repository = require('./Repository');
-const Rating = require('../models/Rating');  
+const Rating = require('../models/Rating');
+const Customer = require('../models/Customer')
+const Freelancer = require('../models/Freelancer');  
 
 class ProfileRepository extends Repository{
     async ChangeProfileAsync(profileDto){
@@ -67,6 +69,21 @@ class ProfileRepository extends Repository{
         const updateQuery = {$set: {"rates.$.rating": ratingModel.rating }};
         const user = await  User.findOneAndUpdate(findQuery, updateQuery,  {new: true});
         return user;   
+    }
+
+    async GetUserByIdRole(id){
+        const findQuery = {_id: id.id};
+        console.log(`FindQuery: ${JSON.stringify(findQuery)}`);
+        const freelancer = await Freelancer.findOne(findQuery);
+        console.log(freelancer);
+        if(freelancer == null){
+            console.log(`Trying to find customer.....`);
+            const customer =  await Customer.findById(id.id);
+            console.log(`Found customer ${customer}`);
+            return customer;
+        }
+        
+        return freelancer;
     }
 }
 
