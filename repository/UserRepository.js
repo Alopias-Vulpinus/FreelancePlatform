@@ -7,12 +7,15 @@ class UserRepository{
     async CreateUserAsync(user,role){
         const userRole = await this.GetRoleAsync(role); 
         console.log(`Creating user with role ${role}`);
+        console.log(`Trying to save user with nodel: ${user}`);
         const userToCreate = new User({social_id: user.socialId,
-            family_name: user.lastName, 
+            family_name: user.sencondName, 
             email:user.email,
             name: user.firstName,
-            avatar_url: user.imageUrl,
-            role: userRole});
+            image_url : user.imageUrl,
+            role: userRole,
+            contact_me: user.contact_me
+        });
         var createdUser = await userToCreate.save();
         return createdUser;
     }
@@ -43,11 +46,6 @@ class UserRepository{
         const query = {name: roleName};
         const role = await Role.findOne(query);
         return role;
-    }
-
-    GetUserByRoleAsync(socialId, role){
-        const query = {social_id: socialId, "role.name": role};
-        return User.findOne(query);
     }
 
     GetCustomerByIdAsync(socialId,role){

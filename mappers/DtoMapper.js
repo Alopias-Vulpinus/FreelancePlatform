@@ -127,5 +127,9 @@ module.exports = class DtoMapper{
         CRUDCandidate['candidate_id'] = this.MapObjectID(body['candidate_id']);
         return CRUDCandidate;
     }
+
+    static MapFindId(body){
+        return {id: this.MapObjectID(body['id'])};
+    }
 }
 

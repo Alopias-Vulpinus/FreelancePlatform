@@ -1,11 +1,9 @@
 const {Router} = require('express')
-const bcrypt = require('bcryptjs')
-const config = require('config')
-const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const router = Router()
 const UserRepository = require('../repository/UserRepository')
 const DtoMapper = require('../mappers/DtoMapper')
+const DatabaseMapper = require('../mappers/DatabaseMapper')
 
 const CUSTOMER_ROLE = 'Customer';
 const FREELANCER_ROLE = 'Freelancer';
@@ -16,12 +14,12 @@ router.post('/login/customer/google',async (req,res)=>{
         console.log(`fount user ${userData}`)
         if(userData){
           console.log(`User with id ${userDto.socialId} have been created yet`);
-          res.send(200, JSON.stringify(userData));
+          res.send(200, JSON.stringify( DatabaseMapper.MapCustomer(userData)));
           return;
         }
         
         var result =  await UserRepository.CreateCustomerAsync(userDto,CUSTOMER_ROLE);  
-        res.send(200,JSON.stringify(result));
+        res.send(200,JSON.stringify(DatabaseMapper.MapCustomer(result)));
 });
 
 router.post('/login/freelancer/google', async (req,res)=>{
@@ -29,11 +27,11 @@ router.post('/login/freelancer/google', async (req,res)=>{
     const userDto = DtoMapper.MapGoogleUser(req.body);
     const userData = await UserRepository.GetFreelancerByIdAsync(userDto.socialId, FREELANCER_ROLE);
     if(userData){
-      res.send(200,JSON.stringify(userData));
+      res.send(200,JSON.stringify(DatabaseMapper.MapFreelancer(userData)));
       return;
     }
     var result =  await UserRepository.CreateFreelancerAsync(userDto,FREELANCER_ROLE);  
-    res.send(200,JSON.stringify(result));
+    res.send(200,JSON.stringify((DatabaseMapper.MapFreelancer(result))));
   }
   catch(e){
     console.log(`Error accured while creating user:${e}`);
