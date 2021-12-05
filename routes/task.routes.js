@@ -20,7 +20,7 @@ router.get('/:taskId',async (req,res)=>{
 router.post('/new', async (req,res)=>{
     try{
         const task = DtoMapper.MapTask(req.body);
-        const createdTask = TaskRepository.CreateTaskAsync(task);
+        const createdTask = await TaskRepository.CreateTaskAsync(task);
         res.send(200, JSON.stringify(createdTask));
     }catch(e){
         res.send(400, JSON.stringify(e));
@@ -57,6 +57,28 @@ router.post('/assign', async (req,res)=>{
     }catch(e){
         req.send(200, {result: false});
     }
+});
+
+router.post('/candidate', async (req,res)=>{
+    try{
+    const addPerformerModel = DtoMapper.MapCRUDCandidate(req.body);
+    const updatedTask = await TaskRepository.AddCandidateAsync(addPerformerModel);
+    res.send(200, JSON.stringify(updatedTask));
+    }catch(e){
+        console.log(e)
+        res.send(500, e);
+    }
+});
+
+router.post('/remove/candidate', async (req,res) =>{
+    try{
+        const removePerformerModel = DtoMapper.MapCRUDCandidate(req.body);
+        console.log(`Remove candidate query: ${removePerformerModel}`);
+        const updatedTask = await TaskRepository.RemoveCandidateAsync(removePerformerModel);
+        res.send(200, JSON.stringify(updatedTask));
+        }catch(e){
+            res.send(500, e);
+        }
 });
 
 module.exports = router

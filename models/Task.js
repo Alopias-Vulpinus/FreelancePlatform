@@ -14,7 +14,7 @@ const schema = new Schema({
     description:{type:String},
     progess:{type:Number},
     creation_date:{type:Date, default: Date.now},
-    potential_performers_ids: {type: [String]},
+    candidates: {type: [String]},
     is_assigned: {type: Boolean}
   });
   

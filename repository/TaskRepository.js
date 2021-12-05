@@ -53,6 +53,22 @@ class TaskRepository extends Repository{
         const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
         return updatedTask;
     }
+
+    async AddCandidateAsync(addCandidateModel){
+        const findQuery = {_id: addCandidateModel.task_id};
+        const updateQuery = {$addToSet: {candidates: addCandidateModel.candidate_id}};
+        console.log(`FindQuery: ${JSON.stringify(findQuery)}`);
+        console.log(`UpdateQuery: ${JSON.stringify(updateQuery)}`);
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery, {new: true});
+        return updatedTask;
+    }
+
+    async RemoveCandidateAsync(removeCandidateModel){
+        const findQuery = {_id: removeCandidateModel.task_id};
+        const updateQuery = {$pull: {candidates: removeCandidateModel.candidate_id}};
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
+        return updatedTask;
+    }
 }
 
 const repository = new TaskRepository();

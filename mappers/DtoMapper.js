@@ -120,5 +120,12 @@ module.exports = class DtoMapper{
         updateStatus['status'] =this.MapStatus(body['status']);
         return updateStatus; 
     }
+
+    static MapCRUDCandidate(body){
+        const CRUDCandidate = {};
+        CRUDCandidate['task_id'] = this.MapObjectID(body['task_id']);
+        CRUDCandidate['candidate_id'] = this.MapObjectID(body['candidate_id']);
+        return CRUDCandidate;
+    }
 }
 
