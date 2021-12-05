@@ -32,10 +32,20 @@ router.delete('/:taskId', async (req,res)=>{
 });
 
 router.post('/status', async (req,res)=>{
-
+    try{
+        console.log(`Perfoming update status endpoint ${JSON.stringify(req.body)}`)
+        const updateTask = DtoMapper.MapUpdatedStatus(req.body);
+        console.log(`Mapped model: ${JSON.stringify(updateTask)}`);
+        const newTask = await TaskRepository.UpdateStatsuAsync(updateTask);
+        res.send(200, JSON.stringify(newTask));
+    }
+    catch(e){
+        console.log(`Error while performing update statsu: ${JSON.stringify(e)}`);
+        res.send(500, JSON.stringify(e));
+    }
 });
 
-router.post('/add/performer', async(res,req)=>{
+router.post('/performer', async(res,req)=>{
 
 });
 

@@ -17,14 +17,12 @@ module.exports = class DtoMapper{
 
     static MapTask(body){
         const task = new TaskDto();
-        task.status = body['status'];
+        task.status = this.MapStatus(body['status']);
         task.title = body['title'];
-        task.freelancer_id = body['freelancer_id'];
-        task.customer_id = body['customer_id'];
-        task.payment = body['payment'];
-        task.due_date = body['due_date'];
-        task.acceptance_criteria = body['acceptance_criteria'];
-        task.progress = body['progress'];
+        task.freelancer_id = this.MapObjectID(body['performer_id']);
+        task.customer_id = this.MapObjectID(body['customer_id']);
+        task.price = body['price'];
+        task.description = body['description'];
         return task;
     }
 
@@ -80,8 +78,8 @@ module.exports = class DtoMapper{
 
     static MapAddFreelancer(body){
         const addFreelancerModel = {};
-        addFreelancerModel['task_id'] = new ObjectID(body['task_id']);
-        addFreelancerModel['freelancer_id'] = new ObjectID(body['freelancer_id']);
+        addFreelancerModel['task_id'] = this.MapObjectID(body['task_id']);
+        addFreelancerModel['freelancer_id'] = this.MapObjectID(body['freelancer_id']);
         return addFreelancerModel;
     }
 
@@ -92,17 +90,35 @@ module.exports = class DtoMapper{
 
     static MapAssignTask(body){
         const assignTaskModel = {};
-        assignTaskModel['taskId'] = new ObjectID(body['taskId']);
-        assignTaskModel['userId'] = new ObjectID(body['userId']);
+        assignTaskModel['taskId'] = this.MapObjectID(body['taskId']);
+        assignTaskModel['userId'] = this.MapObjectID(body['userId']);
         return assignTaskModel;
     }
 
     static MapRatingAsync(body){
         const ratingModel = {};
-        ratingModel['userFrom'] = new ObjectID(body['userFrom']);
-        ratingModel['userTo'] = new ObjectID(body['userTo']);
+        ratingModel['userFrom'] = this.MapObjectID(body['userFrom']);
+        ratingModel['userTo'] = this.MapObjectID(body['userTo']);
         ratingModel['rating'] = body['rating'];
         return ratingModel;
+    }
+
+    static MapStatus(body){
+        const status = {}
+        status['_id'] = body['id'];
+        status['name'] = body['name'];
+        return status;
+    }
+
+    static MapObjectID(id){
+        return new ObjectID(id);
+    }
+
+    static MapUpdatedStatus(body){
+        const updateStatus = {}
+        updateStatus['task_id'] = this.MapObjectID(body['task_id']);
+        updateStatus['status'] =this.MapStatus(body['status']);
+        return updateStatus; 
     }
 }
 

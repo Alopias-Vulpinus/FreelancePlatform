@@ -46,6 +46,13 @@ class TaskRepository extends Repository{
         const updateResult = await Task.updateOne(findTaskQuery, updateQuery);
         return updateResult;
     }
+
+    async UpdateStatsuAsync(updateTaskModel){
+        const findQuery = {_id: updateTaskModel.task_id};
+        const updateQuery = {$set:{status: updateTaskModel.status}};
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
+        return updatedTask;
+    }
 }
 
 const repository = new TaskRepository();
