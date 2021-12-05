@@ -11,11 +11,21 @@ export const useSocials = () => {
     const history = useHistory()
 
     const responseGoogle = async (response) => {
-        const userResponse = await request(`auth/login/${signInRole}/google`, 'POST', response)
-        console.log('userResponse', userResponse)
-        const user = mapResponseToUser(userResponse)
-        console.log('user', user)
-        localStorage.setItem('user_id', user.id)
+         let user = {}
+         try{
+             //const userResponse = await request(`auth/login/${signInRole}/google`, 'POST', response)
+             const userResponse = {}
+             console.log('userResponse', userResponse)
+             user = mapResponseToUser(userResponse)
+             console.log('user', user)
+             localStorage.setItem('user_id', user.id)
+         }
+         catch (e) {
+             console.log('catching exception ' , e)
+             user = mapResponseToUser({})
+             console.log('user', user)
+             localStorage.setItem('user_id', user.id)
+         }
         dispatch(updateUser(user))
         dispatch(updateAuth(true))
         history.push("/")

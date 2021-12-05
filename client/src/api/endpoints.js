@@ -1,6 +1,6 @@
 export const CUSTOMER_LOGIN_GOOGLE = '/auth/create/customer/google'
+// body : {}
+// return : {}
+
 export const PERFORMER_LOGIN_GOOGLE = '/auth/create/freelancer/google'
-export const CUSTOMER_LOGIN_FACEBOOK = '/auth/create/customer/facebook'
-export const PERFORMER_LOGIN_FACEBOOK = '/auth/create/freelancer/facebook'
-export const CUSTOMER_LOGIN_VK = '/auth/create/customer/vk'
-export const PERFORMER_LOGIN_VK = '/auth/create/freelancer/vk'
+

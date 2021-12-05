@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { ProfileSearch } from '../ProfileSearch'
 import { Container } from 'react-bootstrap'
 import { ProfileListWithPagination } from '../ProfileListWithPagination'
@@ -12,13 +12,26 @@ import {updatePerformers} from "../../redux/actions";
 
 
 
-const PerformersPage = async () => {
+const PerformersPage = (props) => {
     const {request} = useHttp()
     const dispatch = useDispatch()
     const performers = useSelector(selectPerformers())
-    const performersResponse = {}//await request('', 'GET')
-    let performersResult = mapResponseToUserList(performersResponse)
-    dispatch(updatePerformers(performersResult))
+
+    useEffect( () => {
+        getPerformersFromServer()
+    }, [])
+
+    const getPerformersFromServer = async() => {
+        try{
+            //const performersResponse = await request(GET_PERFORMERS_ENDPOINT, 'GET')
+            const performersResponse = {}
+            let performersResult =  await mapResponseToUserList(performersResponse)
+            dispatch(updatePerformers(performersResult))
+        }
+        catch(e){
+            console.log('server error occurred: ', e)
+        }
+    }
     return (
         <>
             <Container className='text-light'>

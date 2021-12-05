@@ -1,8 +1,8 @@
 import React from 'react'
 import {BrowserRouter as Router} from "react-router-dom";
 import {NavigationMenu} from "./components/NavigationMenu";
-import {useAuth} from "./hooks/auth.hook";
 import {Routes} from "./routes";
+import {useAuth} from "./hooks/auth.hook";
 
 export const ReduxApp = () => {
     useAuth()

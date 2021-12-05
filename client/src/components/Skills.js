@@ -65,9 +65,9 @@ const colorStyles = {
     }),
   };
 
-export const Skills = (props) => {
+export const Skills = ({skills}) => {
 
-    const skills = props.skills || [
+    const options =  [
         { value: 'Python', label: 'Python', color: getRandomColor() },
         { value: 'SQL', label: 'SQL', color: getRandomColor() },
         { value: 'Javascript', label: 'Javascript', color: getRandomColor() },
@@ -76,13 +76,15 @@ export const Skills = (props) => {
         { value: 'Android', label: 'Android', color: getRandomColor() },
         { value: 'Java', label: 'Java', color: getRandomColor() }];
 
+    const chosenOptions = options.filter(opt => skills.indexOf(opt.value) > -1);
+
     return (
             <Select 
                 closeMenuOnSelect={false}
                 isMulti
                 styles={colorStyles}
-                options={skills} 
-                defaultValue={skills}
+                options={options}
+                defaultValue={chosenOptions}
                 placeholder='Select Your Skills'
                 isSearchable={true}
                 isDisabled

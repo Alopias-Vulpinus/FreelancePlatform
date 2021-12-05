@@ -3,6 +3,7 @@ import {
     REMOVE_USER, UPDATE_PERFORMERS, UPDATE_CUSTOMERS,
     UPDATE_NEW_TASKS, UPDATE_CURRENT_WORKING_TASK, UPDATE_WORKING_TASKS, UPDATE_AUTH
 } from "./types"
+import {mapResponseToUser} from "../api/mapper";
 
 // users 
 
@@ -18,4 +19,15 @@ export const updateAuth = (payload) => {return { type: UPDATE_AUTH, payload }}
 
 export const updateNewTasks = (payload) => { return {type: UPDATE_NEW_TASKS, payload}} 
 export const updateCurrentWorkingTask = (payload) => { return {type: UPDATE_CURRENT_WORKING_TASK, payload}} 
-export const updateWorkingTasks = (payload) => { return {type: UPDATE_WORKING_TASKS, payload}} 
+export const updateWorkingTasks = (payload) => { return {type: UPDATE_WORKING_TASKS, payload}}
+
+
+export const getUserFromServerAction = (request, user_id) => async (dispatch) => {
+    console.log('getUserFromServerAction')
+    const userResponse = await request('profile/', 'GET', {id: user_id})
+    //console.log('useAuth userResponse',userResponse)
+    const user = mapResponseToUser(userResponse);
+    console.log('user', user)
+    dispatch(updateUser(user))
+    dispatch(updateAuth(true))
+}

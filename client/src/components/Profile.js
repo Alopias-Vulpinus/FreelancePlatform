@@ -22,7 +22,7 @@ export const Profile = ({profile}) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col> <Skills/> </Col>
+                        <Col> <Skills skills={profile.skills}/> </Col>
                      </Row>
                 </Col>
             </Row>

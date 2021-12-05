@@ -4,10 +4,11 @@ import image from './../static/img/freelance-logo.ico'
 import {useDispatch, useSelector} from "react-redux";
 import {removeUser, updateAuth} from "../redux/actions";
 import {useHistory} from "react-router-dom";
-import {selectUser} from "../redux/reducers/userReducer";
+import {selectAuth, selectUser} from "../redux/reducers/userReducer";
 
 export const NavigationMenu = () => {
     const user = useSelector(selectUser())
+    const isAuthenticated = useSelector(selectAuth())
     const dispatch = useDispatch()
     const history = useHistory()
     const logout = () => {
@@ -39,13 +40,18 @@ export const NavigationMenu = () => {
                     </Nav>
                     <Nav>
                         <Nav.Link href="/about-us"> About Developers </Nav.Link>
-                        <NavDropdown title={user.firstName + ' ' + user.lastName} id="basic-nav-dropdown">
-                            <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="/working-tasks">Working Tasks</NavDropdown.Item>
-                            <NavDropdown.Item href="/create-task">Create Task</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#" onClick={() => {logout()}}>Logout</NavDropdown.Item>
-                        </NavDropdown>
+                        {isAuthenticated ?
+                            <NavDropdown title={user.firstName + ' ' + user.lastName} id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                                <NavDropdown.Item href="/working-tasks">Working Tasks</NavDropdown.Item>
+                                <NavDropdown.Item href="/create-task">Create Task</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item href="#" onClick={() => {logout()}}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                            :
+                            <Nav.Link href="/login"> Login </Nav.Link>
+                        }
+
                     </Nav>
                 </Navbar.Collapse>
             </>
