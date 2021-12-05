@@ -2,6 +2,7 @@ const ProfileDto = require('../dto/ProfileDto')
 const TaskDto = require('../dto/TaskDto')
 const UserDto = require('../dto/UserDto')
 const CheckDto = require('../dto/CheckUserDto')
+const ObjectID = require('mongodb').ObjectID;
 module.exports = class DtoMapper{
     static MapProfile(body){
         const profile = new ProfileDto();
@@ -10,19 +11,18 @@ module.exports = class DtoMapper{
         profile.skills = body['skills'];
         profile.role = body['role'];
         profile.status = body['status'];
+        profile.contact_me = body['contact_me']
         return profile;
     }
 
     static MapTask(body){
         const task = new TaskDto();
-        task.status = body['status'];
+        task.status = this.MapStatus(body['status']);
         task.title = body['title'];
-        task.freelancer_id = body['freelancer_id'];
-        task.customer_id = body['customer_id'];
-        task.payment = body['payment'];
-        task.due_date = body['due_date'];
-        task.acceptance_criteria = body['acceptance_criteria'];
-        task.progress = body['progress'];
+        task.freelancer_id = this.MapObjectID(body['performer_id']);
+        task.customer_id = this.MapObjectID(body['customer_id']);
+        task.price = body['price'];
+        task.description = body['description'];
         return task;
     }
 
@@ -53,9 +53,9 @@ module.exports = class DtoMapper{
 
     static MapRating(body){
         const rate ={};
-        rate['freelancer_id'] = body['freelancer_id'];
-        rate['customer_id'] = body['customer_id'];
-        rate['rate'] = body['rate'];
+        rate['userFrom'] = body['userFrom'];
+        rate['userTo'] = body['userTo'];
+        rate['rating'] = body['rating'];
         return rate;
     }
 
@@ -65,7 +65,6 @@ module.exports = class DtoMapper{
         freelancer['user_data'] = body['user_data'];
         freelancer['assigned_tasks'] = body['assigned_tasks'];
         freelancer['skills'] = body['skills'];
-        freelancer['contacts'] = body['contacts'];
         freelancer['rates'] = body['rates'];
         return freelancer;
     }
@@ -75,6 +74,58 @@ module.exports = class DtoMapper{
         customer['user_data'] = body['user_data'];
         customer['tasks'] = body['tasks'];
         return customer;
+    }
+
+    static MapAddFreelancer(body){
+        const addFreelancerModel = {};
+        addFreelancerModel['task_id'] = this.MapObjectID(body['task_id']);
+        addFreelancerModel['freelancer_id'] = this.MapObjectID(body['freelancer_id']);
+        return addFreelancerModel;
+    }
+
+    static MapNewTask(body){
+        const newTaskModel = {};
+
+    }
+
+    static MapAssignTask(body){
+        const assignTaskModel = {};
+        assignTaskModel['taskId'] = this.MapObjectID(body['taskId']);
+        assignTaskModel['userId'] = this.MapObjectID(body['userId']);
+        return assignTaskModel;
+    }
+
+    static MapRatingAsync(body){
+        const ratingModel = {};
+        ratingModel['userFrom'] = this.MapObjectID(body['userFrom']);
+        ratingModel['userTo'] = this.MapObjectID(body['userTo']);
+        ratingModel['rating'] = body['rating'];
+        return ratingModel;
+    }
+
+    static MapStatus(body){
+        const status = {}
+        status['_id'] = body['id'];
+        status['name'] = body['name'];
+        return status;
+    }
+
+    static MapObjectID(id){
+        return new ObjectID(id);
+    }
+
+    static MapUpdatedStatus(body){
+        const updateStatus = {}
+        updateStatus['task_id'] = this.MapObjectID(body['task_id']);
+        updateStatus['status'] =this.MapStatus(body['status']);
+        return updateStatus; 
+    }
+
+    static MapCRUDCandidate(body){
+        const CRUDCandidate = {};
+        CRUDCandidate['task_id'] = this.MapObjectID(body['task_id']);
+        CRUDCandidate['candidate_id'] = this.MapObjectID(body['candidate_id']);
+        return CRUDCandidate;
     }
 }
 

@@ -4,7 +4,11 @@ const path = require('path')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 
+
 const app = express();
+
+const swaggerUi = require('swagger-ui-express'),
+swaggerDocument = require('./swagger.json');
 
 app.use(bodyParser.json());
 
@@ -17,6 +21,7 @@ app.use('/status', require('./routes/status.routes'));
 app.use('/role', require('./routes/role.routes'));
 app.use('/profile', require('./routes/profile.routes'));
 app.use('/', express.static(path.join(__dirname, 'client', 'build')))
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))

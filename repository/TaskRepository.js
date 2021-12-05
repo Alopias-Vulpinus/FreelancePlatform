@@ -39,10 +39,40 @@ class TaskRepository extends Repository{
             const pushQuery = {$push:{potential_performers: ''}}
         }
     }
+
+    async AssignTaskTo(assignTaskModel){
+        const findTaskQuery = {_id: assignTaskModel.taskId};
+        const updateQuery = {$set: {is_assigned: true, freelancer_id: assignTaskModel.freelancer_id, potential_performers: []}}
+        const updateResult = await Task.updateOne(findTaskQuery, updateQuery);
+        return updateResult;
+    }
+
+    async UpdateStatsuAsync(updateTaskModel){
+        const findQuery = {_id: updateTaskModel.task_id};
+        const updateQuery = {$set:{status: updateTaskModel.status}};
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
+        return updatedTask;
+    }
+
+    async AddCandidateAsync(addCandidateModel){
+        const findQuery = {_id: addCandidateModel.task_id};
+        const updateQuery = {$addToSet: {candidates: addCandidateModel.candidate_id}};
+        console.log(`FindQuery: ${JSON.stringify(findQuery)}`);
+        console.log(`UpdateQuery: ${JSON.stringify(updateQuery)}`);
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery, {new: true});
+        return updatedTask;
+    }
+
+    async RemoveCandidateAsync(removeCandidateModel){
+        const findQuery = {_id: removeCandidateModel.task_id};
+        const updateQuery = {$pull: {candidates: removeCandidateModel.candidate_id}};
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
+        return updatedTask;
+    }
 }
 
 const repository = new TaskRepository();
-
+ 
 Object.freeze(repository);
 
 module.exports = repository;
