@@ -8,7 +8,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/task',require('./routes/task.routes'));
 app.use('/auth' , require('./routes/auth.routes'));
 app.use('/skill', require('./routes/skill.routes'));
 app.use('/freelancer', require('./routes/freelancer.routes'));

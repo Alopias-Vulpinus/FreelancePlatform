@@ -1,6 +1,6 @@
 import React from 'react'
-import './../static/css/signin.css'
-import { SocialSignIn } from '../components/SocialSignIn'
+import '../../static/css/signin.css'
+import { SocialSignIn } from '../SocialSignIn'
 
 export const SignInPage = () => {
     return (

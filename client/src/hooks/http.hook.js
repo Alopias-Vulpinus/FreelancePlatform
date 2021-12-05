@@ -21,7 +21,7 @@ export const useHttp = () => {
         
       }
       setLoading(false)
-      return undefined//data
+      return data
     } catch (e) {
       setLoading(false)
     }

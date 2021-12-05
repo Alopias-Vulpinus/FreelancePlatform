@@ -1,20 +1,33 @@
 import { useHttp } from "./http.hook"
 import {useSelector, useDispatch} from 'react-redux'
-import { updateUser } from "../redux/actions"
+import {updateAuth, updateUser} from "../redux/actions"
+import {useHistory} from "react-router-dom";
 
+const user_example = {
+    id: '1',
+        username: 'dimasiandro@yandex.by',
+        role: 'CUSTOMER',
+        firstName : 'Dmitriy',
+        lastName: 'Belotskiy',
+        status: 'I love code',
+        contactMe: 'https://vk.com/dimasiandro',
+        rating : 5,
+        skills : ['Python', 'Java' ]
+}
 
 export const useSocials = () => {
     const {request} = useHttp()
     const signInRole = useSelector(state => state.user.signInRole)
     const dispatch = useDispatch()
-
+    const history = useHistory()
     const responseGoogle = async (response) => {
-        console.log('Google creds: ')
         console.log(response)
-        response.role = signInRole
-        const user = await request(`auth/create/${signInRole}/google`, 'POST', response)
-        console.log('user: ' + user)
+        const user = await request(`auth/login/${signInRole}/google`, 'POST', response)
+        console.log(user)
+        localStorage.setItem('user_id', user.social_id)
         dispatch(updateUser(user))
+        dispatch(updateAuth(true))
+        history.push("/")
       }
     
     const responseFacebook = (response) => {
@@ -25,18 +38,6 @@ export const useSocials = () => {
     const responseVkontakte = async (response) => {
         console.log('VK creds')
         console.log(response)
-        const body = JSON.stringify(response)
-        const headers ={}
-        const method = 'POST'
-        headers['Content-Type'] = 'application/json'
-        console.log(`sendingBody ${body}`)
-        await fetch('/auth/create/vk', {
-            method: 'POST', 
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(response) // body data type must match "Content-Type" header
-          });
     }
 
     return {responseGoogle, responseFacebook, responseVkontakte}

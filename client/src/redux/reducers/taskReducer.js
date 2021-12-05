@@ -1,85 +1,103 @@
 import { UPDATE_NEW_TASKS, UPDATE_CURRENT_WORKING_TASK, UPDATE_WORKING_TASKS} from "../types"
 
-const initialState = {
-    currentWorkingTask : {},
-    newTasks : [
-        {
-            title : 'Task title',
-            description : 'Task description Task description Task description Task description Task description Task description Task description Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description Task description Task description Task description Task description Task description Task description Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description Task description Task description Task description Task description Task description Task description Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description Task description Task description Task description Task description Task description Task description Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description Task description Task description Task description Task description Task description Task description Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        }
-    ],
-    workingTasks: [
-        {
-            title : 'Task title',
-            description : 'Task description Task description Task description Task description Task description Task description Task description Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        },
-        {
-            title : 'Task title',
-            description : 'Task description',
-            price: '50$',
-            author: 'Dmitriy'
-        }
-    ]
-}
+// const initialState = {
+//     currentWorkingTask : {},
+//     newTasks : [
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         }
+//     ],
+//     workingTasks: [
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         },
+//         {
+//             id: '',
+//             title : 'Task title',
+//             description : 'Task description',
+//             price: '50$',
+//             author: 'Dmitriy'
+//         }
+//     ]
+//}
 
+
+const initialState = {
+    currentWorkingTask: {},
+    newTasks: [],
+    workingTasks: []
+}
 export function taskReducer( state = initialState, action){
     switch(action.type){
         case UPDATE_NEW_TASKS:
