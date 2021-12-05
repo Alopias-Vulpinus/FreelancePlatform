@@ -49,7 +49,7 @@ class ProfileRepository extends Repository{
         });
         const pushQuery = {$push: {rates: ratingToAdd}};
         console.log(`Pushing rating ${JSON.stringify(pushQuery)}`);
-        const user = User.findOneAndUpdate(findQuery, pushQuery,{ returnNewDocument: true });
+        const user = User.findOneAndUpdate(findQuery, pushQuery,{new: true});
         return user;
     }
 
@@ -64,8 +64,8 @@ class ProfileRepository extends Repository{
     async UpdateRatingAsync(ratingModel){
         const findQuery = {_id: ratingModel.userTo, rates: { $elemMatch:{user_from: ratingModel.userFrom}}};
         console.log(`Find query(Updating) ${ JSON.stringify(findQuery)}`);
-        const updateQuery = {$set: {"rates.$.rating": {rating:ratingModel.rating }}};
-        const user = await  User.findOneAndUpdate(findQuery, updateQuery, { returnNewDocument: true });
+        const updateQuery = {$set: {"rates.$.rating": ratingModel.rating }};
+        const user = await  User.findOneAndUpdate(findQuery, updateQuery,  {new: true});
         return user;   
     }
 }
