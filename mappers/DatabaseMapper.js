@@ -23,15 +23,15 @@ module.exports = class DatabaseMapper{
     }
 
     static MapFreelancer(FreelancerModel){
-        const freelancerModel = {...FreelancerModel};
+        const freelancerModel = {...this.MapDBObject(FreelancerModel)};
         freelancerModel.user_data = this.MapUserProfile(freelancerModel.user_data);
         return freelancerModel;
     }
 
     static MapCustomer(CustomerModel){
-        const customerModel = {...CustomerModel};
+        const customerModel = {...this.MapDBObject(CustomerModel)};
         customerModel.user_data = this.MapUserProfile(customerModel.user_data);
-        return userData;
+        return customerModel;
     }
 
     static MapRoleProfile(UserModel){

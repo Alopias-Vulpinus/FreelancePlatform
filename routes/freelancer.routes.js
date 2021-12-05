@@ -22,7 +22,7 @@ router.post('/', async (req,res)=>{
 router.get('/all', async (req,res)=>{
     try{
         const freelancers = await FreelancerRepository.GetAllAccountsAsync();
-        res.send(200, JSON.stringify(freelancers));
+        res.send(200, JSON.stringify({users: freelancers}));
     }catch(e){
         res.send(500, JSON.stringify(e));
     }

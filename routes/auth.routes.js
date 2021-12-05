@@ -3,7 +3,7 @@ const User = require('../models/User')
 const router = Router()
 const UserRepository = require('../repository/UserRepository')
 const DtoMapper = require('../mappers/DtoMapper')
-const DatabaseMapper = require('../mappers/DtoMapper')
+const DatabaseMapper = require('../mappers/DatabaseMapper')
 
 const CUSTOMER_ROLE = 'Customer';
 const FREELANCER_ROLE = 'Freelancer';
@@ -14,7 +14,7 @@ router.post('/login/customer/google',async (req,res)=>{
         console.log(`fount user ${userData}`)
         if(userData){
           console.log(`User with id ${userDto.socialId} have been created yet`);
-          res.send(200, JSON.stringify(userData));
+          res.send(200, JSON.stringify( DatabaseMapper.MapCustomer(userData)));
           return;
         }
         
