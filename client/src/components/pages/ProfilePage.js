@@ -5,6 +5,7 @@ import { SelectSkill } from '../SelectSkill'
 import { Button } from 'react-bootstrap';
 import {useSelector} from "react-redux";
 import {WithAuthRedirect} from "../hoc/withAuthRedirect";
+import defaultAvatar from './../../static/img/default-avatar.jpg'
 
 const ProfilePage = () => {
     const user = useSelector(state => state.user.currentUser)
@@ -18,6 +19,7 @@ const ProfilePage = () => {
     const submitHandler = (e) => {
         console.log(user.id, firstName, lastName, status, contactMe, skills)
     }
+
     return (
         <>
             <div className='profile_block'>
@@ -25,7 +27,8 @@ const ProfilePage = () => {
                     <Image 
                         className='profile_img'
                         roundedCircle
-                        src='https://lh3.googleusercontent.com/a-/AOh14GiF8JoxiZvihaFcJEt47SXUptzJEjC-DkmByy1w=s96-c' 
+                        // src='https://lh3.googleusercontent.com/a-/AOh14GiF8JoxiZvihaFcJEt47SXUptzJEjC-DkmByy1w=s96-c'
+                        src={user.imageUrl || defaultAvatar}
                         alt='avatar'/>
                 </div>
                 <Container>

@@ -1,11 +1,13 @@
 import React from 'react'
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 import image from './../static/img/freelance-logo.ico'
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {removeUser, updateAuth} from "../redux/actions";
 import {useHistory} from "react-router-dom";
+import {selectUser} from "../redux/reducers/userReducer";
 
 export const NavigationMenu = () => {
+    const user = useSelector(selectUser())
     const dispatch = useDispatch()
     const history = useHistory()
     const logout = () => {
@@ -37,7 +39,7 @@ export const NavigationMenu = () => {
                     </Nav>
                     <Nav>
                         <Nav.Link href="/about-us"> About Developers </Nav.Link>
-                        <NavDropdown title="Дмитрий Белоцкий" id="basic-nav-dropdown">
+                        <NavDropdown title={user.firstName + ' ' + user.lastName} id="basic-nav-dropdown">
                             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                             <NavDropdown.Item href="/working-tasks">Working Tasks</NavDropdown.Item>
                             <NavDropdown.Item href="/create-task">Create Task</NavDropdown.Item>

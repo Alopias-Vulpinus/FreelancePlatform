@@ -7,7 +7,9 @@ const initialState = {
     currentUser : {},
     isAuth : false,
     userIdToShow : '',
-    users : []
+    customers : [],
+    performers : [],
+    signInRole: 'customer'
 }
 export function userReducer( state = initialState, action){
     switch(action.type){
@@ -29,5 +31,6 @@ export function userReducer( state = initialState, action){
 }
 
 export const selectAuth = () => (state) => state.user.isAuth
-export const selectCustomers = () => (state) => state.user.users
-export const selectPerformers = () => (state) => state.user.users
+export const selectUser = () => (state) => state.user.currentUser
+export const selectCustomers = () => (state) => state.user.customers
+export const selectPerformers = () => (state) => state.user.performers

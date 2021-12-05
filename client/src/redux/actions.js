@@ -11,8 +11,9 @@ export const updateUser = (payload) => { return { type: UPDATE_USER, payload }}
 export const removeUser = () => {return {type: REMOVE_USER }}
 export const updatePerformers = (payload) => { return {type: UPDATE_PERFORMERS, payload }}
 export const updateCustomers = (payload) => { return {type: UPDATE_CUSTOMERS, payload }}
-
 export const updateAuth = (payload) => {return { type: UPDATE_AUTH, payload }}
+
+
 // tasks
 
 export const updateNewTasks = (payload) => { return {type: UPDATE_NEW_TASKS, payload}} 
