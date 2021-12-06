@@ -66,7 +66,7 @@ const colorStyles = {
   };
 
 export const Skills = ({skills}) => {
-
+    console.log('render skills: ', skills)
     const options =  [
         { value: 'Python', label: 'Python', color: getRandomColor() },
         { value: 'SQL', label: 'SQL', color: getRandomColor() },
@@ -76,7 +76,8 @@ export const Skills = ({skills}) => {
         { value: 'Android', label: 'Android', color: getRandomColor() },
         { value: 'Java', label: 'Java', color: getRandomColor() }];
 
-    const chosenOptions = options.filter(opt => skills.indexOf(opt.value) > -1);
+    const SkillsOrDefault = skills || []
+    const chosenOptions = options.filter(opt => SkillsOrDefault.indexOf(opt.value) > -1);
 
     return (
             <Select 
@@ -85,7 +86,7 @@ export const Skills = ({skills}) => {
                 styles={colorStyles}
                 options={options}
                 defaultValue={chosenOptions}
-                placeholder='Select Your Skills'
+                placeholder='Skills'
                 isSearchable={true}
                 isDisabled
             />

@@ -9,6 +9,7 @@ import {selectPerformers} from "../../redux/reducers/userReducer";
 import {useHttp} from "../../hooks/http.hook";
 import {mapResponseToUserList} from "../../api/mapper";
 import {updatePerformers} from "../../redux/actions";
+import {NavLink} from "react-router-dom";
 
 
 
@@ -37,6 +38,7 @@ const PerformersPage = (props) => {
             <Container className='text-light'>
                 <ProfileSearch/>
                 <ProfileListWithPagination profiles={performers}/>
+
             </Container>
         </>
     )

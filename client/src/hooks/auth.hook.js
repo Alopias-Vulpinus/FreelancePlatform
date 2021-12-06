@@ -8,10 +8,11 @@ export const useAuth = () => {
     const dispatch = useDispatch()
     let user = useSelector(state => state.user.currentUser)
 
-    console.log('useAuth')
     if(!user.id){
+
         const user_id = localStorage.getItem('user_id')
         if(user_id) {
+            console.log('getting user with useAuth')
             //const userResponse = await request('profile/', 'GET', {id: user_id})
             // console.log('useAuth userResponse',userResponse)
             user = mapResponseToUser({});

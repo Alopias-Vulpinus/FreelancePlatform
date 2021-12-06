@@ -3,23 +3,35 @@ import '../../static/css/profile.css'
 import { Container, Image, Row, Col,InputGroup,FormControl } from 'react-bootstrap'
 import { SelectSkill } from '../SelectSkill'
 import { Button } from 'react-bootstrap';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {WithAuthRedirect} from "../hoc/withAuthRedirect";
 import defaultAvatar from './../../static/img/default-avatar.jpg'
+import {useHttp} from "../../hooks/http.hook";
+import {mapResponseToUser, mapResponseToUser2} from "../../api/mapper";
+import {updateUser} from "../../redux/actions";
 
 const ProfilePage = () => {
     const user = useSelector(state => state.user.currentUser)
-
+    const dispatch = useDispatch()
+    const {request} = useHttp()
     const [firstName, setFirstName] = useState(user.firstName)
     const [lastName, setLastName] = useState(user.lastName)
     const [status, setStatus] = useState(user.status)
     const [contactMe, setContactMe] = useState(user.contactMe)
     const [skills, setSkills] = useState(user.skills)
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         console.log(user.id, firstName, lastName, status, contactMe, skills)
+        const userToUpdate = {id : user.id, firstName, lastName, status, contactMe, skills}
+        //const userResponse = await request('', 'POST', userToUpdate)
+        const userResult = mapResponseToUser2({})
+        dispatch(updateUser(userResult))
+        setFirstName(userResult.firstName)
+        setLastName(userResult.lastName)
+        setStatus(userResult.status)
+        setContactMe(userResult.contactMe)
+        setSkills(userResult.skills)
     }
-
     return (
         <>
             <div className='profile_block'>

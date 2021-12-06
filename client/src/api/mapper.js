@@ -6,8 +6,8 @@ const user_example = {
     lastName: 'Belotskiy',
     status: 'I love code',
     contactMe: 'https://vk.com/dimasiandro',
-    rating : 5,
-    skills : ['Python', 'Java' ]
+    rating : 4,
+    skills : ['Python', 'Java' ],
 }
 
 export const mapResponseToUser = (response) => {
@@ -35,4 +35,45 @@ export const mapResponseToUserList = (response) => {
     }
     const users = response.users.map(u => mapResponseToUser(u))
     return users
+}
+
+
+const user_example2 = {
+    id: '1',
+    username: 'dimasiandro@yandex.by',
+    role: 'performer',
+    firstName : 'Kirill',
+    lastName: 'Akulich',
+    status: 'I love code',
+    contactMe: 'https://vk.com/dimasiandro',
+    rating : 5,
+    skills : ['Python', 'Java' ]
+}
+
+export const mapResponseToUser2 = (response) => {
+    return user_example2
+}
+
+const task_example = {
+    id : '1',
+    title : 'some title',
+    description : 'some description',
+    price : '50$',
+    author : 'USER_ID BY NOW',
+    status : 'new'
+}
+
+export const mapResponseToTask = (response) => {
+    if(!response._id){
+        return task_example
+    }
+    // mapping logic
+}
+
+export const mapResponseToTaskList = (response) => {
+    if(!response.tasks){
+        response.tasks = [{}, {}, {}, {}, {}, {}]
+    }
+    const tasks = response.tasks.map(t => mapResponseToTask(t))
+    return tasks
 }
