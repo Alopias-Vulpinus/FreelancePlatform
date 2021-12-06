@@ -1,16 +1,35 @@
 const ProfileRepository = require('../repository/ProfileRepository')
+const CustomerRepository = require('../repository/CustomerRepository')
+const FreelancerRepository = require('../')
 const DtoMapper = require('../mappers/DtoMapper')
 const DatabaseMapper = require('../mappers/DatabaseMapper')
-const {Router} = require('express');
+const {Router} = require('express')
 const router = Router()
+
+const CUSTOMER_ROLE = "customer";
+const FREELANCERROLE = "freelancer";
 
 router.post('/',async (req,res)=>{
     try{
+        const profileDto = DtoMapper.MapUserData(req.body);
+        console.log(`Profile DTO: ${ JSON.stringify(profileDto)}`);
+        var updatedModel;
+        if(profileDto.user_data.role == CUSTOMER_ROLE){
+            const updatedCustomer = await CustomerRepository.UpdateCustomerAsync(profileDto);
+            console.log(`Updated customer: ${JSON.stringify(updatedCustomer)}`);
+            updatedModel = DatabaseMapper.MapCustomer(updatedCustomer);
+        }
+        else{
+            const updatedFreelancer = await FreelancerRepository.UpdateFreelancerAsync()
+        }
+        res.send(200,updatedModel);
+        /*
     const profileDto = DtoMapper.MapProfile(req.body);
     await ProfileRepository.ChangeProfileAsync(profileDto);
-    res.send(200);
+    */
     }
     catch(e){
+        console.log(e);
         res.send(500);
     }
 });

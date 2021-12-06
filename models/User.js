@@ -8,7 +8,7 @@ const schema = new Schema({
   image_url:{type: String},
   name:{type:String, required: true},
   family_name:{type: String},
-  role:{type: Role},
+  role:{ type: Types.ObjectId, ref:"Role" },
   status:{type: String},
   contact_me: {type: String},
   rates:{type: [Rating]}

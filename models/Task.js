@@ -10,9 +10,7 @@ const schema = new Schema({
     freelancer_id:{type:String},
     customer_id:{type:String,required:true},
     price:{type:Number,required:true},
-    due_date:{type:Date},
     description:{type:String},
-    progess:{type:Number},
     creation_date:{type:Date, default: Date.now},
     candidates: {type: [String]},
     is_assigned: {type: Boolean}

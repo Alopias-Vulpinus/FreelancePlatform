@@ -5,14 +5,7 @@ const CheckDto = require('../dto/CheckUserDto')
 const ObjectID = require('mongodb').ObjectID;
 module.exports = class DtoMapper{
     static MapProfile(body){
-        const profile = new ProfileDto();
-        profile.email = body['email'];
-        profile.name = body['name'];
-        profile.skills = body['skills'];
-        profile.role = body['role'];
-        profile.status = body['status'];
-        profile.contact_me = body['contact_me']
-        return profile;
+
     }
 
     static MapTask(body){
@@ -130,6 +123,21 @@ module.exports = class DtoMapper{
 
     static MapFindId(body){
         return {id: this.MapObjectID(body['id'])};
+    }
+
+    static MapUserData(body){
+        const profileDto = {}
+        profileDto["_id"] = this.MapObjectID(body.id);
+        const userData ={};
+        userData['name'] = body['firstName'];
+        userData['role'] = body['role'];
+        userData['family_name'] = body['lastName'];
+        userData['image_url'] = body['imageUrl'];
+        userData['status'] = body['status'];
+        userData['contact_me'] = body['contactMe'];
+        profileDto['skills'] = body['skills'];
+        profileDto["user_data"] = userData;
+        return profileDto;
     }
 }
 
