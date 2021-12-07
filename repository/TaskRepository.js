@@ -115,8 +115,11 @@ class TaskRepository extends Repository{
         return satatusToSave.save();
     }
 
-    async GetAllTasksAsync(){
-        const tasks = await Task.find({})
+    async GetAllTasksAsync(state){
+        console.log(state)
+        const status = await this.GetStatusByNameAsync(state.status);
+        console.log(status);
+        const tasks = await Task.find({status: status._id})
             .populate('customer')
             .populate('performer')
             .populate('candidates')
@@ -155,6 +158,28 @@ class TaskRepository extends Repository{
             .populate('candidates')
             .populate('status');
         return task;
+    }
+
+    async GetFreelancerTasksAsync(id, status){
+        const _status = await this.GetStatusByNameAsync(status);
+        const findQuery = {performer: id, status: _status._id};
+        const tasks = await Task.find(findQuery)
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status');
+        return tasks;
+    }
+
+    async GetCustomerTasksAsync(id, status){
+        const _status = await this.GetStatusByNameAsync(status);
+        const findQuery = {customer: id, status: _status._id};
+        const tasks = await Task.find(findQuery)
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status');
+        return tasks;
     }
 }
 
