@@ -1,3 +1,5 @@
+/*profile page*/
+
 .profile_block {
     width: 600px;
     margin-top: 20vh;
@@ -25,4 +27,40 @@
 
 .profile_submit-btn {
     width: 10em;
+}
+
+/*profile component*/
+.profile-small_image-short {
+    max-width: 8em;
+    max-height: 8em;
+    border-radius: 50%;
+    border-color: greenyellow;
+    border-width: 0.2em;
+    border-style: solid;
+}
+
+.profile-small_container {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5em 1em 0.5em 1em;
+    margin-bottom: 0.2em;
+}
+
+.pagination {
+    max-width: 300px;
+    margin-top: 0.5em;
+}
+
+.candidates-container {
+    width: 900px;
+}
+
+.choose-performer-btn {
+    margin-top: 4em;
+    padding: 0.5em;
+}
+
+.title {
+    text-align: center;
 }

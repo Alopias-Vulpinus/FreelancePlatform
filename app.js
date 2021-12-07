@@ -34,6 +34,9 @@ app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
 
 const PORT = config.get('port') || 5000
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+})
 
 async function start() {
   try {
@@ -42,7 +45,7 @@ async function start() {
       useUnifiedTopology: true,
       useCreateIndex: true
     })
-    app.listen(process.env.PORT || 5050, () => console.log(`App has been started on port ${PORT}...`))
+    app.listen(process.env.PORT || 5050, () => console.log(`App has been started on port ${5050}...`))
   } catch (e) {
     console.log('Server Error', e.message)
     process.exit(1)

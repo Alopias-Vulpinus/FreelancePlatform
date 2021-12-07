@@ -1,6 +1,6 @@
 import React from "react"
+import chroma from "chroma-js";
 import Select from "react-select"
-import chroma from 'chroma-js'
 
 
 function getRandomColor() {
@@ -12,7 +12,6 @@ function getRandomColor() {
     return color;
 }
 
-  
 const colorStyles = {
     control: (styles) => ({ ...styles, backgroundColor: 'rgba(0, 0, 0, 0.4)'}),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -65,10 +64,10 @@ const colorStyles = {
       },
     }),
   };
-  
 
-export const SelectSkill = ({skills, setSkills}) => {
-    const options = [
+export const Skills = ({skills}) => {
+    console.log('render skills: ', skills)
+    const options =  [
         { value: 'Python', label: 'Python', color: getRandomColor() },
         { value: 'SQL', label: 'SQL', color: getRandomColor() },
         { value: 'Javascript', label: 'Javascript', color: getRandomColor() },
@@ -76,22 +75,20 @@ export const SelectSkill = ({skills, setSkills}) => {
         { value: 'Mobile', label: 'Mobile', color: getRandomColor() },
         { value: 'Android', label: 'Android', color: getRandomColor() },
         { value: 'Java', label: 'Java', color: getRandomColor() }];
-    const chosenOptions = options.filter(opt => skills.indexOf(opt.value) > -1);
 
-    const ChangeHandler = (options) => {
-        let new_skills = options.map(options => options.value)
-        setSkills(new_skills)
-    }
+    const SkillsOrDefault = skills || []
+    const chosenOptions = options.filter(opt => SkillsOrDefault.indexOf(opt.value) > -1);
 
-    return <Select
+    return (
+            <Select 
                 closeMenuOnSelect={false}
                 isMulti
                 styles={colorStyles}
-                options={options} 
+                options={options}
                 defaultValue={chosenOptions}
-                placeholder='Select Your Skills'
+                placeholder='Skills'
                 isSearchable={true}
-                onChange={(options) => ChangeHandler(options)}
-
+                isDisabled
             />
+    )
 }

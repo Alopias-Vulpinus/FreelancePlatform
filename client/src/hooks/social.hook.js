@@ -1,20 +1,35 @@
+import { useHttp } from "./http.hook"
+import {useSelector, useDispatch} from 'react-redux'
+import {updateAuth, updateUser} from "../redux/actions"
+import {useHistory} from "react-router-dom";
+import {mapResponseToUser} from "../api/mapper";
+
 export const useSocials = () => {
+    const {request} = useHttp()
+    const signInRole = useSelector(state => state.user.signInRole)
+    const dispatch = useDispatch()
+    const history = useHistory()
+
     const responseGoogle = async (response) => {
-        console.log('Google creds')
-        console.log(response)
-        const body = JSON.stringify(response)
-        const headers ={}
-        const method = 'POST'
-        headers['Content-Type'] = 'application/json'
-        console.log(`sendingBody ${body}`)
-        await fetch('/auth/create/customer/google', {
-            method: 'POST', 
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(response) // body data type must match "Content-Type" header
-          });
-    }
+         let user = {}
+         try{
+             //const userResponse = await request(`auth/login/${signInRole}/google`, 'POST', response)
+             const userResponse = {}
+             console.log('userResponse', userResponse)
+             user = mapResponseToUser(userResponse)
+             console.log('user', user)
+             localStorage.setItem('user_id', user.id)
+         }
+         catch (e) {
+             console.log('catching exception ' , e)
+             user = mapResponseToUser({})
+             console.log('user', user)
+             localStorage.setItem('user_id', user.id)
+         }
+        dispatch(updateUser(user))
+        dispatch(updateAuth(true))
+        history.push("/")
+      }
     
     const responseFacebook = (response) => {
         console.log('Facebook creds')
@@ -24,18 +39,6 @@ export const useSocials = () => {
     const responseVkontakte = async (response) => {
         console.log('VK creds')
         console.log(response)
-        const body = JSON.stringify(response)
-        const headers ={}
-        const method = 'POST'
-        headers['Content-Type'] = 'application/json'
-        console.log(`sendingBody ${body}`)
-        await fetch('/auth/create/vk', {
-            method: 'POST', 
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(response) // body data type must match "Content-Type" header
-          });
     }
 
     return {responseGoogle, responseFacebook, responseVkontakte}

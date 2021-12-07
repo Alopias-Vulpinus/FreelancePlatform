@@ -1,18 +1,19 @@
 import React from 'react'
-import {Switch, Route, Redirect} from 'react-router-dom'
-import { AboutUsPage } from './pages/AboutUsPage'
-import { ChatListPage } from './pages/ChatListPage'
-import { ChatPage } from './pages/ChatPage'
-import { CustomersPage } from './pages/CustomersPage'
-import { HomePage } from './pages/HomePage'
-import { OpenTasksPage } from './pages/OpenTasksPage'
-import { PerformersPage } from './pages/PerformersPage'
-import { ProfilePage } from './pages/ProfilePage'
-import { SignInPage } from './pages/SignInPage'
-import { TaskDashboardPage } from './pages/TaskDashboardPage'
-import { WorkingTasksPage } from './pages/WorkingTasksPage'
+import {Switch, Route} from 'react-router-dom'
+import { AboutUsPage } from './components/pages/AboutUsPage'
+import { CreateTaskPageWithAuthRedirect as CreateTaskPage } from './components/pages/CreateTaskPage'
+import { CustomersPageWithAuthRedirect as CustomersPage } from './components/pages/CustomersPage'
+import { HomePage } from './components/pages/HomePage'
+import { OpenTasksPageWithAuthRedirect as OpenTasksPage } from './components/pages/OpenTasksPage'
+import { PerformersPageWithAuthRedirect as PerformersPage } from './components/pages/PerformersPage'
+import { ProfilePageWithAuthRedirect as ProfilePage } from './components/pages/ProfilePage'
+import { SignInPage } from './components/pages/SignInPage'
+import { TaskDashboardPageWithAuthRedirect as TaskDashboardPage } from './components/pages/TaskDashboardPage'
+import { WorkingTasksPageWithAuthRedirect as WorkingTasksPage } from './components/pages/WorkingTasksPage'
+import {TaskDetailPage} from "./components/pages/TaskDetailPage";
+import {ProfileViewPage} from "./components/pages/ProfileViewPage";
 
-export const useRoutes = isAuthenticated => {
+export const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact>
@@ -33,9 +34,6 @@ export const useRoutes = isAuthenticated => {
       <Route path="/about-us" exact>
         <AboutUsPage />
       </Route>
-      <Route path="/chats" exact>
-        <ChatListPage />
-      </Route>
       <Route path="/open-tasks" exact>
         <OpenTasksPage />
       </Route>
@@ -45,12 +43,15 @@ export const useRoutes = isAuthenticated => {
       <Route path="/working-tasks" exact>
         <WorkingTasksPage />
       </Route>
-
-      <Route path="/chatqwe" >
-        <ChatPage />
+      <Route path="/create-task" exact>
+        <CreateTaskPage />
       </Route>
-
-      <Redirect to="/" />
+      <Route path="/profile/:id" >
+          <ProfileViewPage/>
+      </Route>
+        <Route path="/task/:id" exact >
+            <TaskDetailPage/>
+        </Route>
     </Switch>
   )
 }

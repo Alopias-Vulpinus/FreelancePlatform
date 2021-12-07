@@ -48,7 +48,7 @@ class TaskRepository extends Repository{
         }
         else{
             const findQuery = {_id: addPerformerModel._id};
-//            const pushQuery = {$push:{potential_performers: }}
+            const pushQuery = {$push:{potential_performers: ''}}
         }
     }
 

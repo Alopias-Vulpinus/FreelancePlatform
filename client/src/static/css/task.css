@@ -1,0 +1,30 @@
+.task-container {
+    max-width: 800px;
+    color: white;
+    padding: 1em;
+    margin: 1em auto 0.8em;
+}
+
+.task-list-container {
+    width: 600px;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em 1em 0.2em 1em;
+}
+
+.task_author {
+    color : rgb(180, 180, 180);
+}
+
+.task_price {
+    color: yellow;
+}
+
+.create-task-form_container{
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    margin-top: 2em;
+}

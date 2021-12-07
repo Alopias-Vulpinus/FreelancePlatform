@@ -1,29 +1,37 @@
 import React, {useState} from 'react'
-import './../static/css/profile.css'
+import '../../static/css/profile.css'
 import { Container, Image, Row, Col,InputGroup,FormControl } from 'react-bootstrap'
-import { SelectRole } from '../components/SelectRole'
-import { SelectSkill } from '../components/SelectSkill'
+import { SelectSkill } from '../SelectSkill'
 import { Button } from 'react-bootstrap';
+import {useDispatch, useSelector} from "react-redux";
+import {WithAuthRedirect} from "../hoc/withAuthRedirect";
+import defaultAvatar from './../../static/img/default-avatar.jpg'
+import {useHttp} from "../../hooks/http.hook";
+import {mapResponseToUser, mapResponseToUser2} from "../../api/mapper";
+import {updateUser} from "../../redux/actions";
 
-const profile = {
-    username : 'dimasiandro@gmail.com',
-    firstName : 'Дмитрий',
-    lastName: 'Белоцкий',
-    status : 'I <3 code',
-    skills : ['Python', 'Java', 'SQL'],
-    role : 'Performer'
-}
-export const ProfilePage = () => {
-    const [firstName, setFirstName] = useState(profile.firstName)
-    const [lastName, setLastName] = useState(profile.lastName)
-    const [status, setStatus] = useState(profile.status)
+const ProfilePage = () => {
+    const user = useSelector(state => state.user.currentUser)
+    const dispatch = useDispatch()
+    const {request} = useHttp()
+    const [firstName, setFirstName] = useState(user.firstName)
+    const [lastName, setLastName] = useState(user.lastName)
+    const [status, setStatus] = useState(user.status)
+    const [contactMe, setContactMe] = useState(user.contactMe)
+    const [skills, setSkills] = useState(user.skills)
 
-    const handleLastNameChange = (event) =>{
-        setLastName(event.target.value);
-    } 
-    const handlestatusChange = (event) =>{
-        setFirstName(event.target.value);
-    } 
+    const submitHandler = async (e) => {
+        console.log(user.id, firstName, lastName, status, contactMe, skills)
+        const userToUpdate = {id : user.id, firstName, lastName, status, contactMe, skills}
+        //const userResponse = await request('', 'POST', userToUpdate)
+        const userResult = mapResponseToUser2({})
+        dispatch(updateUser(userResult))
+        setFirstName(userResult.firstName)
+        setLastName(userResult.lastName)
+        setStatus(userResult.status)
+        setContactMe(userResult.contactMe)
+        setSkills(userResult.skills)
+    }
     return (
         <>
             <div className='profile_block'>
@@ -31,7 +39,8 @@ export const ProfilePage = () => {
                     <Image 
                         className='profile_img'
                         roundedCircle
-                        src='https://lh3.googleusercontent.com/a-/AOh14GiF8JoxiZvihaFcJEt47SXUptzJEjC-DkmByy1w=s96-c' 
+                        // src='https://lh3.googleusercontent.com/a-/AOh14GiF8JoxiZvihaFcJEt47SXUptzJEjC-DkmByy1w=s96-c'
+                        src={user.imageUrl || defaultAvatar}
                         alt='avatar'/>
                 </div>
                 <Container>
@@ -43,7 +52,7 @@ export const ProfilePage = () => {
                                     aria-label="Username"
                                     aria-describedby="username"
                                     readOnly
-                                    value={profile.username}
+                                    value={user.username}
                                 />
                             </InputGroup>
                         <Col>
@@ -84,17 +93,27 @@ export const ProfilePage = () => {
                                 }}/>
                         </InputGroup>
                     </Row>
-                    <Row className='mb-3'>
-                    <SelectRole role={profile.role}/>
+                    <Row>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="ContactMe"> Contact me</InputGroup.Text>
+                            <FormControl
+                                placeholder="ContactMe"
+                                aria-label="ContactMe"
+                                aria-describedby="ContactMe"
+                                value={contactMe}
+                                onChange={(event) => {
+                                    setContactMe(event.target.value);
+                                }}/>
+                        </InputGroup>
                     </Row>
                     <Row className='mb-3'>
-                    <SelectSkill skills={profile.skills}/>
+                        <SelectSkill skills={skills} setSkills={setSkills}/>
                     </Row>
                     <Row className='mb-3'>
                         <Col xs={12} md={8}>
                         </Col>
                          <Col xs={6} md={4}>
-                            <Button variant="primary" className='profile_submit-btn' > Change Profile </Button>
+                            <Button variant="primary" className='profile_submit-btn' onClick={(e) => {submitHandler(e)}}> Change Profile </Button>
                         </Col>
                      </Row>
                 </Container>
@@ -102,3 +121,5 @@ export const ProfilePage = () => {
         </>
     )
 }
+
+export const ProfilePageWithAuthRedirect = WithAuthRedirect(ProfilePage)
