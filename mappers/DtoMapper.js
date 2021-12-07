@@ -12,8 +12,7 @@ module.exports = class DtoMapper{
         const task = new TaskDto();
         task.status = body['status'];
         task.title = body['title'];
-        task.performer = this.MapObjectID(body['performer_id']);
-        task.customer = this.MapObjectID(body['customer_id']);
+        task.customer = this.MapObjectID(body['customer']);
         task.price = body['price'];
         task.description = body['description'];
         return task;
@@ -147,7 +146,7 @@ module.exports = class DtoMapper{
         task.id = body['id'];
         task.status = body['status'];
         task.title = body['title'];
-        task.price = body['price'];
+        task.price = parseFloat(body['price']);
         task.description = body['description'];
         return task;
     }
