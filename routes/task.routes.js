@@ -4,9 +4,9 @@ const router = Router()
 const DtoMapper = require('../mappers/DtoMapper')
 const TaskRepository = require('../repository/TaskRepository')
 
-router.get('/',async (req,res)=>{
+router.get('/:id',async (req,res)=>{
     try{
-        const taskId = DtoMapper.MapFindId(req.body);
+        const taskId = DtoMapper.MapFindId(req.params);
         const tasks =  await TaskRepository.GetTaskById(taskId);
         res.send(200, JSON.stringify(tasks));
     }
