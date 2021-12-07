@@ -117,7 +117,17 @@ class TaskRepository extends Repository{
     }
 
     async EditTaskAsync(task){
-        const query = {_id: task}
+        const findQuery = {_id: task.id};
+        task.status = await this.GetStatusByNameAsync(task.status);
+        const updateQuery = {$set:{...task}};
+        console.log(`try to find task by id ${task.id}`);
+        const updatedTask = await Task.findByIdAndUpdate(task.id, updateQuery,{new: true})
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status');
+        return updatedTask;
+
     }
 
     async DeleteTaskAsync(task_id){

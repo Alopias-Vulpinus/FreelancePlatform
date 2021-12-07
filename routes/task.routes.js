@@ -62,9 +62,9 @@ router.post('/assign', async (req,res)=>{
     const assignTaskModel = DtoMapper.MapAssignTask(req.body);
     try{
          await TaskRepository.AssignTaskTo(assignTaskModel);
-        req.send(200, {result: true});
+        res.send(200, {result: true});
     }catch(e){
-        req.send(200, {result: false});
+        res.send(200, {result: false});
     }
 });
 
@@ -92,12 +92,13 @@ router.post('/remove/candidate', async (req,res) =>{
 
 router.post('/', async (req,res)=>{
     try{
-        const task = DtoMapper.MapTask(req.body);
-        const createdTask = await TaskRepository.CreateTaskAsync(task);
+        const task = DtoMapper.MapUpdateTaskDto(req.body);
+        const createdTask = await TaskRepository.EditTaskAsync(task);
         console.log(`Created task ${createdTask}`);
         res.send(200, JSON.stringify(DatabaseMapper.MapTask(createdTask)));
     }catch(e){
-        res.send(500,e);
+        console.log(e);
+        res.send(500, JSON.stringify(e));
     }
 });
 
@@ -112,6 +113,8 @@ router.delete('/', async (req,res)=>{
         res.send(200, {result: false});
     }
 });
+
+
 
 module.exports = router
 

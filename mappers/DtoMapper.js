@@ -140,5 +140,16 @@ module.exports = class DtoMapper{
         profileDto["user_data"] = userData;
         return profileDto;
     }
+
+    static MapUpdateTaskDto(body){
+        const task = {};
+        console.log(`Try to map with body ${JSON.stringify(body)}`);
+        task.id = body['id'];
+        task.status = body['status'];
+        task.title = body['title'];
+        task.price = body['price'];
+        task.description = body['description'];
+        return task;
+    }
 }
 

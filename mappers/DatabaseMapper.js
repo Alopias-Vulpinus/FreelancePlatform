@@ -12,10 +12,11 @@ module.exports = class DatabaseMapper{
 
     static MapUserProfile(UserModel){
         //console.log(`Before profile ${UserModel}`);
-        const mappedUser = {...UserModel};
+        console.log(`Role OBJ ${UserModel.role}`);
+        const mappedUser = {...UserModel, role: this.MapRole(UserModel.role)};
         //console.log(`After profile ${JSON.stringify(mappedUser)}`);
         mappedUser.rating = this.MapUserRating(UserModel);
-        mappedUser.role = this.MapRole(UserModel.role);
+        console.log(`Mapped user ${JSON.stringify(mappedUser)}`);
         delete mappedUser.rates;
         return mappedUser;
     }

@@ -47,8 +47,6 @@ class FreelancerRepository extends Repository{
     }
 }
 
-
-
 const repository = new FreelancerRepository();
 
 Object.freeze(repository);
