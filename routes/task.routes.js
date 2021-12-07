@@ -21,8 +21,10 @@ router.post('/new', async (req,res)=>{
     try{
         const task = DtoMapper.MapTask(req.body);
         const createdTask = await TaskRepository.CreateTaskAsync(task);
+        console.log(`Created task ${createdTask}`);
         res.send(200, JSON.stringify(createdTask));
     }catch(e){
+        console.log(e);
         res.send(400, JSON.stringify(e));
     }
 });

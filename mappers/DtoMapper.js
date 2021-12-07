@@ -10,7 +10,7 @@ module.exports = class DtoMapper{
 
     static MapTask(body){
         const task = new TaskDto();
-        task.status = this.MapStatus(body['status']);
+        task.status = body['status'];
         task.title = body['title'];
         task.freelancer_id = this.MapObjectID(body['performer_id']);
         task.customer_id = this.MapObjectID(body['customer_id']);
@@ -131,6 +131,7 @@ module.exports = class DtoMapper{
         const userData ={};
         userData['name'] = body['firstName'];
         userData['role'] = body['role'];
+        userData['email'] = body['email'];
         userData['family_name'] = body['lastName'];
         userData['image_url'] = body['imageUrl'];
         userData['status'] = body['status'];

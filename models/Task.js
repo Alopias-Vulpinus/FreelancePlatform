@@ -5,14 +5,14 @@ const Customer = require('./Customer').schema
 
 
 const schema = new Schema({
-    status:{type:Status,required:true},
+    status:{type:Types.ObjectId ,required:true, ref: 'Status'},
     title:{type:String, required: true},
-    freelancer_id:{type:String},
-    customer_id:{type:String,required:true},
+    freelancer_id:{type:Types.ObjectId, ref: 'Freelancer'},
+    customer_id:{type: Types.ObjectId, ref: 'Customer'},
     price:{type:Number,required:true},
     description:{type:String},
     creation_date:{type:Date, default: Date.now},
-    candidates: {type: [String]},
+    candidates: [{type: Types.ObjectId, ref: 'Freelancer'}],
     is_assigned: {type: Boolean}
   });
   

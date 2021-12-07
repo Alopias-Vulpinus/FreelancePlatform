@@ -1,11 +1,14 @@
 const Task = require('../models/Task');
 const Repository = require('./Repository')
 const Status = require('../models/Status')
-
+const CustomerRepository = require('./CustomerRepository')
 class TaskRepository extends Repository{
     async CreateTaskAsync(task){
+        task.status = await this.GetStatusByNameAsync(task.status);
         const taskToCreate = new Task({...task});
-        const savedTask = await taskToCreate.save();
+        console.log(`Task to create: ${taskToCreate}`);
+        const savedTask = await (await taskToCreate.save()).populate('customer_id').execPopulate();
+        await CustomerRepository.AddTaskAsync(savedTask.customer_id._id, savedTask._id);
         return savedTask;
     }
 
@@ -68,6 +71,12 @@ class TaskRepository extends Repository{
         const updateQuery = {$pull: {candidates: removeCandidateModel.candidate_id}};
         const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
         return updatedTask;
+    }
+
+    async GetStatusByNameAsync(name){
+        const query = {name: name};
+        const status = await  Status.findOne(query);
+        return status;
     }
 }
 

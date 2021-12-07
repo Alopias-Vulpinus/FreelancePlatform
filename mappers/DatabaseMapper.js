@@ -44,4 +44,13 @@ module.exports = class DatabaseMapper{
     static MapDBObject(obj){
         return JSON.parse(JSON.stringify(obj));
     }
+
+
+    static MapAllCustomers(CustomerArray){
+        return CustomerArray.map(x=> this.MapCustomer(x));
+    }
+
+    static MapAllFreelancers(FreelancerArray){
+        return FreelancerArray.map(x=>this.MapFreelancer(x));
+    }
 }
