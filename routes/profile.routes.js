@@ -13,8 +13,8 @@ router.post('/',async (req,res)=>{
     try{
         const profileDto = DtoMapper.MapUserData(req.body);
         console.log(`Profile DTO: ${ JSON.stringify(profileDto)}`);
-        var updatedModel;
-        if(profileDto.user_data.role == CUSTOMER_ROLE){
+        const foundUser = await ProfileRepository.GetUserByIdRole({id: profileDto._id});
+        if(foundUser.user_data.role.name == CUSTOMER_ROLE){
             const updatedCustomer = await CustomerRepository.UpdateCustomerAsync(profileDto);
             console.log(`Updated customer: ${JSON.stringify(updatedCustomer)}`);
             updatedModel = DatabaseMapper.MapCustomer(updatedCustomer);
