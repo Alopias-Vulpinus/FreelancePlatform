@@ -64,11 +64,15 @@ module.exports = class DatabaseMapper{
     static MapAllFreelancers(FreelancerArray){
         return FreelancerArray.map(x=>this.MapFreelancer(x));
     }
+    static MapStatus(status){
+        return status.name;
+    }
 
     static MapTask(Task){
         Task.customer = this.MapCustomer(Task.customer);
         Task.performer = this.MapFreelancer(Task.performer);
         Task.candidates = this.MapAllFreelancers(Task.candidates);
+        Task.status = this.MapStatus(Task.status);
         return Task;
     }
 
