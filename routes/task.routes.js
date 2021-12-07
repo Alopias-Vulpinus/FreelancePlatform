@@ -75,7 +75,7 @@ router.post('/candidate', async (req,res)=>{
     try{
     const addPerformerModel = DtoMapper.MapCRUDCandidate(req.body);
     const updatedTask = await TaskRepository.AddCandidateAsync(addPerformerModel);
-    res.send(200, JSON.stringify(updatedTask));
+    res.send(200, !(updatedTask == null));
     }catch(e){
         console.log(e)
         res.send(500, e);
