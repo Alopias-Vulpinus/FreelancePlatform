@@ -27,7 +27,7 @@ class FreelancerRepository extends Repository{
             "user_data.contact_me": user_data.contact_me,
             "user_data.email": user_data.email
          } , skills: skills};
-        const updatedResult = await Freelancer.findOneAndUpdate(query, updateQuery, {new:true});
+        const updatedResult = await Freelancer.findOneAndUpdate(query, updateQuery, {new:true}).populate('tasks');
         console.log(`Customer update result ${updatedResult}`);
         return updatedResult;
     }
@@ -50,7 +50,7 @@ class FreelancerRepository extends Repository{
         const query = {_id: freelancerId};
         const updateQuery = {$addToSet:{tasks: taskId}}
         console.log("QUERY UPDATE:", updateQuery);
-        const updateResult = await Freelancer.findOneAndUpdate(query, updateQuery,{new:true});
+        const updateResult = await Freelancer.findOneAndUpdate(query, updateQuery,{new:true}).populate('tasks');
         console.log(updateResult);
     }
 }
