@@ -45,6 +45,14 @@ class FreelancerRepository extends Repository{
         const customerRole= await Role.findOne({name: customer});
         return customerRole;
     }
+
+    async AddTaskAsync(freelancerId, taskId){
+        const query = {_id: freelancerId};
+        const updateQuery = {$addToSet:{tasks: taskId}}
+        console.log("QUERY UPDATE:", updateQuery);
+        const updateResult = await Freelancer.findOneAndUpdate(query, updateQuery,{new:true});
+        console.log(updateResult);
+    }
 }
 
 const repository = new FreelancerRepository();
