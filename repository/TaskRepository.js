@@ -103,8 +103,16 @@ class TaskRepository extends Repository{
 
     async GetStatusByNameAsync(name){
         const query = {name: name};
-        const status = await  Status.findOne(query);
+        var status = await  Status.findOne(query);
+        if(status == null){
+            status = await this.SaveStatusAsync(name);
+        }
         return status;
+    }
+
+    SaveStatusAsync(name){
+        const satatusToSave = new Status({name: name});
+        return satatusToSave.save();
     }
 
     async GetAllTasksAsync(){
