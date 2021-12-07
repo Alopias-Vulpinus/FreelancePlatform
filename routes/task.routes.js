@@ -65,11 +65,11 @@ router.post('/performer', async(res,req)=>{
 router.post('/assign', async (req,res)=>{
     const assignTaskModel = DtoMapper.MapAssignTask(req.body);
     try{
-         await TaskRepository.AssignTaskTo(assignTaskModel);
-        res.send(200,  true);
+        const assignedTask =  await TaskRepository.AssignTaskTo(assignTaskModel);
+        res.send(200,  DatabaseMapper.MapTask(assignedTask));
     }catch(e){
         console.log(e);
-        res.send(200, false);
+        res.send(200, e);
     }
 });
 

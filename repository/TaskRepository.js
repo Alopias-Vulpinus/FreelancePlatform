@@ -60,7 +60,7 @@ class TaskRepository extends Repository{
         const updateQuery = {$set: {status: status,is_assigned: true, performer: assignTaskModel.freelancer_id, candidates: []}};
         console.log("FIND QUERY", findTaskQuery);
         console.log("UPDATE QUERY:", updateQuery);
-        const updateResult = await Task.updateOne(findTaskQuery, updateQuery)
+        const updateResult = await Task.findOneAndUpdate(findTaskQuery, updateQuery)
             .populate('customer')
             .populate('performer')
             .populate('candidates')
