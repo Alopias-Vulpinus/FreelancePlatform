@@ -109,8 +109,8 @@ module.exports = class DtoMapper{
 
     static MapUpdatedStatus(body){
         const updateStatus = {}
-        updateStatus['task_id'] = this.MapObjectID(body['task_id']);
-        updateStatus['status'] =this.MapStatus(body['status']);
+        updateStatus['task_id'] = this.MapObjectID(body['taskId']);
+        updateStatus['status'] = body['status'];
         return updateStatus; 
     }
 

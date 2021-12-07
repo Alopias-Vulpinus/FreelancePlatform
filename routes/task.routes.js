@@ -6,10 +6,12 @@ const TaskRepository = require('../repository/TaskRepository')
 
 router.get('/',async (req,res)=>{
     try{
-        const tasks =  await TaskRepository.GetTasksAsync();
+        const taskId = DtoMapper.MapFindId(req.body);
+        const tasks =  await TaskRepository.GetTaskById(taskId);
         res.send(200, JSON.stringify(tasks));
     }
     catch(e){
+        console.log(e);
         res.send(400, JSON.stringify(e));
     }
     
