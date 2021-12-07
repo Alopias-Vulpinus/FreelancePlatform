@@ -76,11 +76,11 @@ class ProfileRepository extends Repository{
     async GetUserByIdRole(id){
         const findQuery = {_id: id.id};
         console.log(`FindQuery: ${JSON.stringify(findQuery)}`);
-        const freelancer = await Freelancer.findOne(findQuery);
+        const freelancer = await Freelancer.findOne(findQuery).populate('user_data.role');
         console.log(freelancer);
         if(freelancer == null){
             console.log(`Trying to find customer.....`);
-            const customer =  await Customer.findById(id.id);
+            const customer =  await Customer.findById(id.id).populate('user_data.role');
             console.log(`Found customer ${customer}`);
             return customer;
         }

@@ -15,9 +15,18 @@ class FreelancerRepository extends Repository{
     }
 
     async UpdateFreelancerAsync(freelancerModel){
-        const query = {_id: customerModel._id};
-        const skills = await this.GetSkillsByNameAsync(customerModel.skills);
-        const updateQuery = {$set:{user_data: customerModel.user_data, skills: skills}};
+        const query = {_id: freelancerModel._id};
+        const skills =freelancerModel.skills;
+        const user_data = freelancerModel.user_data;
+       // const updateQuery = {$set:{ const user_data = customerModel.user_data
+        const updateQuery = {$set: { 
+            "user_data.name": user_data.name,
+            "user_data.family_name": user_data.family_name,
+            "user_data.image_url": user_data.image_url,
+            "user_data.status": user_data.status,
+            "user_data.contact_me": user_data.contact_me,
+            "user_data.email": user_data.email
+         } , skills: skills};
         const updatedResult = await Freelancer.findOneAndUpdate(query, updateQuery, {new:true});
         console.log(`Customer update result ${updatedResult}`);
         return updatedResult;
@@ -37,8 +46,6 @@ class FreelancerRepository extends Repository{
         return customerRole;
     }
 }
-
-
 
 const repository = new FreelancerRepository();
 

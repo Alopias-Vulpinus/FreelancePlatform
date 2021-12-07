@@ -1,13 +1,13 @@
 const ProfileRepository = require('../repository/ProfileRepository')
 const CustomerRepository = require('../repository/CustomerRepository')
-const FreelancerRepository = require('../')
+const FreelancerRepository = require('../repository/FreelancerRepository')
 const DtoMapper = require('../mappers/DtoMapper')
 const DatabaseMapper = require('../mappers/DatabaseMapper')
 const {Router} = require('express')
 const router = Router()
 
 const CUSTOMER_ROLE = "customer";
-const FREELANCERROLE = "freelancer";
+const FREELANCER_ROLE = "freelancer";
 
 router.post('/',async (req,res)=>{
     try{
@@ -20,7 +20,8 @@ router.post('/',async (req,res)=>{
             updatedModel = DatabaseMapper.MapCustomer(updatedCustomer);
         }
         else{
-            const updatedFreelancer = await FreelancerRepository.UpdateFreelancerAsync()
+            const updatedFreelancer = await FreelancerRepository.UpdateFreelancerAsync(profileDto)
+            updatedModel = DatabaseMapper.MapFreelancer(updatedFreelancer);
         }
         res.send(200,updatedModel);
         /*

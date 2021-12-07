@@ -29,7 +29,7 @@ class UserRepository{
         console.log(`UserCreated ${JSON.stringify(createdUser)}`);
         console.log(createdUser);
         const freelancerToCreate = new Freelancer({user_data: createdUser});
-        const savedfreelancer = await (await freelancerToCreate.save(this.HandleResponce)).populate('user_data.role');
+        const savedfreelancer = await (await freelancerToCreate.save(this.HandleResponce)).populate('user_data.role').execPopulate();
         return savedfreelancer;
     }
 
@@ -37,7 +37,7 @@ class UserRepository{
         const createdUser = await this.CreateUserAsync(user,role);
         console.log(`Creating customer with user ${JSON.stringify(createdUser)}`);
         var customerToCreate = new Customer({user_data: createdUser});
-        const savedCustomer =  await (await customerToCreate.save(this.HandleResponce)).populate('user_data').populate('user_data.role');
+        const savedCustomer =  await (await customerToCreate.save(this.HandleResponce)).populate('user_data.role').execPopulate();
         return savedCustomer;
     }
 
@@ -49,12 +49,12 @@ class UserRepository{
 
     async GetCustomerByIdAsync(socialId,role){
         const query = {"user_data.social_id": socialId};
-        return Customer.findOne(query);
+        return Customer.findOne(query).populate('tasks');
     }
 
     GetFreelancerByIdAsync(socialId,role){
         const query = {"user_data.social_id": socialId};
-        return Freelancer.findOne(query);
+        return Freelancer.findOne(query).populate('tasks');
     }
 }
 
