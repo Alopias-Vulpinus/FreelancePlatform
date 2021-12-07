@@ -18,6 +18,10 @@ app.use(
   swaggerUi.setup(swaggerDocument)
 );
 
+/*app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'scr', 'index.html'))
+})*/
+
 app.use('/auth' , require('./routes/auth.routes'));
 app.use('/skill', require('./routes/skill.routes'));
 app.use('/freelancer', require('./routes/freelancer.routes'));
@@ -28,10 +32,6 @@ app.use('/role', require('./routes/role.routes'));
 app.use('/profile', require('./routes/profile.routes'));
 app.use('/', express.static(path.join(__dirname, 'client', 'build')))
 
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-})
 
 const PORT = config.get('port') || 5000
 
