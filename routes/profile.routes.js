@@ -23,7 +23,7 @@ router.post('/',async (req,res)=>{
             const updatedFreelancer = await FreelancerRepository.UpdateFreelancerAsync(profileDto)
             updatedModel = DatabaseMapper.MapFreelancer(updatedFreelancer);
         }
-        res.send(200,updatedModel);
+        res.send(200,JSON.stringify(updatedModel));
         /*
     const profileDto = DtoMapper.MapProfile(req.body);
     await ProfileRepository.ChangeProfileAsync(profileDto);
@@ -31,7 +31,7 @@ router.post('/',async (req,res)=>{
     }
     catch(e){
         console.log(e);
-        res.send(500);
+        res.send(500,JSON.stringify(e));
     }
 });
 

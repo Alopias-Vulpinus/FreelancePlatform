@@ -49,12 +49,12 @@ class UserRepository{
 
     async GetCustomerByIdAsync(socialId,role){
         const query = {"user_data.social_id": socialId};
-        return Customer.findOne(query).populate('tasks');
+        return Customer.findOne(query).populate('tasks').populate("user_data.role");
     }
 
     GetFreelancerByIdAsync(socialId,role){
         const query = {"user_data.social_id": socialId};
-        return Freelancer.findOne(query).populate('tasks');
+        return Freelancer.findOne(query).populate('tasks').populate("user_data.role");
     }
 }
 
