@@ -20,7 +20,7 @@ class CustomerRepository extends Repository{
          } };
         console.log(`USER DATA: ${JSON.stringify(user_data)}`);
         console.log(`Find Query :${JSON.stringify(query)}, Update Query: ${JSON.stringify(updateQuery)}`);
-        const updatedResult = await Customer.findOneAndUpdate(query, updateQuery,  {new: true});
+        const updatedResult = await Customer.findOneAndUpdate(query, updateQuery,  {new: true}).populate('tasks');
         console.log(`Customer update result ${updatedResult}`);
         return updatedResult;
     }
@@ -41,7 +41,7 @@ class CustomerRepository extends Repository{
         const findQuery = {_id: customerId};
         const deleteQuery = {$pull: {tasks: taskId}};
         console.log(`Delete task query ${JSON.stringify(deleteQuery)}`);
-        await Customer.updateOne(findQuery, deleteQuery);
+        await Customer.updateOne(findQuery, deleteQuery).populate('tasks');
     }
 }
 

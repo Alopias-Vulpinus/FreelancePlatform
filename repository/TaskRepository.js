@@ -56,7 +56,8 @@ class TaskRepository extends Repository{
     async AssignTaskTo(assignTaskModel){
         const findTaskQuery = {_id: assignTaskModel.taskId};
         FreelancerRepository.AddTaskAsync(assignTaskModel.freelancer_id, assignTaskModel.taskId);
-        const updateQuery = {$set: {is_assigned: true, freelancer: assignTaskModel.freelancer_id, candidates: []}};
+        const status = await this.GetStatusByNameAsync("WORKING");
+        const updateQuery = {$set: {status: status,is_assigned: true, performer: assignTaskModel.freelancer_id, candidates: []}};
         console.log("FIND QUERY", findTaskQuery);
         console.log("UPDATE QUERY:", updateQuery);
         const updateResult = await Task.updateOne(findTaskQuery, updateQuery)

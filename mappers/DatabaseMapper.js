@@ -73,6 +73,7 @@ module.exports = class DatabaseMapper{
     static MapTask(Task){
         Task = this.MapDBObject(Task);
         Task.customer = this.MapCustomer(Task.customer);
+        console.log(Task.performer);
         Task.performer = this.MapFreelancer(Task.performer);
         const freelancers = this.MapAllFreelancers(Task.candidates);
         Task.candidates = freelancers;
