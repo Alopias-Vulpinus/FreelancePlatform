@@ -50,7 +50,7 @@ router.post('/status', async (req,res)=>{
         const updateTask = DtoMapper.MapUpdatedStatus(req.body);
         console.log(`Mapped model: ${JSON.stringify(updateTask)}`);
         const newTask = await TaskRepository.UpdateStatsuAsync(updateTask);
-        res.send(200, JSON.stringify(newTask));
+        res.send(200, DatabaseMapper.MapTask(newTask));
     }
     catch(e){
         console.log(`Error while performing update statsu: ${JSON.stringify(e)}`);
@@ -145,6 +145,7 @@ router.get('/customer/all', async (req,res)=>{
         res.send(500, JSON.stringify(e));
     }
 });
+
 
 
 module.exports = router
