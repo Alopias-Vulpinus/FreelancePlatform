@@ -3,6 +3,8 @@ const Repository = require('./Repository');
 const Rating = require('../models/Rating');
 const Customer = require('../models/Customer')
 const Freelancer = require('../models/Freelancer');  
+const Skill = require('../models/Skill');
+const Role = require('../models/Role');
 
 class ProfileRepository extends Repository{
     async ChangeProfileAsync(profileDto){
@@ -82,7 +84,7 @@ class ProfileRepository extends Repository{
             console.log(`Found customer ${customer}`);
             return customer;
         }
-        
+
         return freelancer;
     }
 }

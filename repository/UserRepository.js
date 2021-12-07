@@ -5,19 +5,18 @@ const Role = require('../models/Role');
 
 class UserRepository{
     async CreateUserAsync(user,role){
-        const userRole = await this.GetRoleAsync(role); 
-        console.log(`Creating user with role ${role}`);
-        console.log(`Trying to save user with nodel: ${user}`);
+        const userRole = await this.GetRoleAsync(role);
+        console.log(`Quered user role ${userRole}`);
         const userToCreate = new User({social_id: user.socialId,
             family_name: user.sencondName, 
             email:user.email,
             name: user.firstName,
             image_url : user.imageUrl,
-            role: userRole,
+            role: userRole._id,
             contact_me: user.contact_me
         });
-        var createdUser = await userToCreate.save();
-        return createdUser;
+
+        return userToCreate;
     }
     
     GetByIdAsync(socialId){
@@ -27,10 +26,10 @@ class UserRepository{
 
     async CreateFreelancerAsync(user,role){
         const createdUser = await  this.CreateUserAsync(user,role);
-        console.log("UserCreated");
+        console.log(`UserCreated ${JSON.stringify(createdUser)}`);
         console.log(createdUser);
         const freelancerToCreate = new Freelancer({user_data: createdUser});
-        const savedfreelancer = await freelancerToCreate.save(this.HandleResponce);
+        const savedfreelancer = await (await freelancerToCreate.save(this.HandleResponce)).populate('user_data.role');
         return savedfreelancer;
     }
 
@@ -38,7 +37,7 @@ class UserRepository{
         const createdUser = await this.CreateUserAsync(user,role);
         console.log(`Creating customer with user ${JSON.stringify(createdUser)}`);
         var customerToCreate = new Customer({user_data: createdUser});
-        const savedCustomer =  await customerToCreate.save(this.HandleResponce);
+        const savedCustomer =  await (await customerToCreate.save(this.HandleResponce)).populate('user_data').populate('user_data.role');
         return savedCustomer;
     }
 
@@ -48,7 +47,7 @@ class UserRepository{
         return role;
     }
 
-    GetCustomerByIdAsync(socialId,role){
+    async GetCustomerByIdAsync(socialId,role){
         const query = {"user_data.social_id": socialId};
         return Customer.findOne(query);
     }

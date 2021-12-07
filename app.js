@@ -12,6 +12,12 @@ swaggerDocument = require('./swagger.json');
 
 app.use(bodyParser.json());
 
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
+
 app.use('/auth' , require('./routes/auth.routes'));
 app.use('/skill', require('./routes/skill.routes'));
 app.use('/freelancer', require('./routes/freelancer.routes'));

@@ -1,11 +1,14 @@
 const Task = require('../models/Task');
 const Repository = require('./Repository')
 const Status = require('../models/Status')
-
+const CustomerRepository = require('./CustomerRepository')
 class TaskRepository extends Repository{
     async CreateTaskAsync(task){
+        task.status = await this.GetStatusByNameAsync(task.status);
         const taskToCreate = new Task({...task});
-        const savedTask = await taskToCreate.save();
+        console.log(`Task to create: ${taskToCreate}`);
+        const savedTask = await (await taskToCreate.save()).populate('customer').populate('status').populate('performer').execPopulate();
+        await CustomerRepository.AddTaskAsync(savedTask.customer._id, savedTask._id);
         return savedTask;
     }
 
@@ -17,14 +20,23 @@ class TaskRepository extends Repository{
     }
     
     GetTasksAsync(){
-        return Task.find({}).ToArray();
+        return Task.find({})           
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status').ToArray();
     }
 
     async ChangeStatusForTaskAsync(changeStatusModel){
         const findQuery = {_id: changeStatusModel._id};
         const updateQuery = {$set: {status: changeStatusModel.status}};
-        const updateResult = await Task.updateOne(findQuery,updateQuery);
+        const updateResult = await Task.updateOne(findQuery,updateQuery)
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status');
         console.log(`Update Result ${updateResult}`);
+        return updateResult;
     }
 
     async AddPotentialPerformerAsync(addPerformerModel){
@@ -43,14 +55,25 @@ class TaskRepository extends Repository{
     async AssignTaskTo(assignTaskModel){
         const findTaskQuery = {_id: assignTaskModel.taskId};
         const updateQuery = {$set: {is_assigned: true, freelancer_id: assignTaskModel.freelancer_id, potential_performers: []}}
-        const updateResult = await Task.updateOne(findTaskQuery, updateQuery);
+        const updateResult = await Task.updateOne(findTaskQuery, updateQuery)
+            .populate('customer')
+            .populate('performer')
+            .populate('candidates')
+            .populate('status');
         return updateResult;
     }
 
     async UpdateStatsuAsync(updateTaskModel){
         const findQuery = {_id: updateTaskModel.task_id};
-        const updateQuery = {$set:{status: updateTaskModel.status}};
-        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
+        const status = await  this.GetStatusByNameAsync(updateTaskModel.status);
+        const updateQuery = {$set:{status: status._id}};
+        console.log(`Update status query: ${JSON.stringify(findQuery)}`)
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true})
+            .populate('customer')
+            .populate('performer')
+            .populate('candidates')
+            .populate('status');
+            console.log(`Update status query: ${JSON.stringify(updatedTask)}`)
         return updatedTask;
     }
 
@@ -59,15 +82,61 @@ class TaskRepository extends Repository{
         const updateQuery = {$addToSet: {candidates: addCandidateModel.candidate_id}};
         console.log(`FindQuery: ${JSON.stringify(findQuery)}`);
         console.log(`UpdateQuery: ${JSON.stringify(updateQuery)}`);
-        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery, {new: true});
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery, {new: true})
+            .populate('customer')
+            .populate('performer')
+            .populate('candidates')
+            .populate('status');
         return updatedTask;
     }
 
     async RemoveCandidateAsync(removeCandidateModel){
         const findQuery = {_id: removeCandidateModel.task_id};
         const updateQuery = {$pull: {candidates: removeCandidateModel.candidate_id}};
-        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true});
+        const updatedTask = await Task.findOneAndUpdate(findQuery, updateQuery,{new: true})
+            .populate('customer')
+            .populate('performer')
+            .populate('candidates')
+            .populate('status');
         return updatedTask;
+    }
+
+    async GetStatusByNameAsync(name){
+        const query = {name: name};
+        const status = await  Status.findOne(query);
+        return status;
+    }
+
+    async GetAllTasksAsync(){
+        const tasks = await Task.find({})
+            .populate('customer')
+            .populate('performer')
+            .populate('candidates')
+            .populate('status');
+        return tasks;
+    }
+
+    async EditTaskAsync(task){
+        const query = {_id: task}
+    }
+
+    async DeleteTaskAsync(task_id){
+        const findQuery = {_id: task_id};
+        const deletedTask = await Task.findOneAndDelete(findQuery)
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status'); 
+        CustomerRepository.DeleteTaskAsync(deletedTask.customer,deletedTask._id);
+    }
+
+    async GetTaskById(taskId){
+        const task = await Task.findById(taskId.id)
+            .populate('customer')
+            .populate('performer')
+            .populate('candidates')
+            .populate('status');
+        return task;
     }
 }
 

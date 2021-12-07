@@ -15,11 +15,26 @@ class FreelancerRepository extends Repository{
     }
 
     async UpdateFreelancerAsync(freelancerModel){
-        const query = {_id: freelancerModel._id};
-        const updateQuery = {$set:{...freelancerModel}}
-        const updatedResult = await Freelancer.updateOne(query, updateQuery, {...freelancerModel});
-        console.log(`Updated model ${JSON.stringify(updatedResult)}`);
-        return freelancerModel;
+        const query = {_id: customerModel._id};
+        const skills = await this.GetSkillsByNameAsync(customerModel.skills);
+        const updateQuery = {$set:{user_data: customerModel.user_data, skills: skills}};
+        const updatedResult = await Freelancer.findOneAndUpdate(query, updateQuery, {new:true});
+        console.log(`Customer update result ${updatedResult}`);
+        return updatedResult;
+    }
+
+    async GetSkillsByNameAsync(skillNames){
+        const findQuery = {name:{
+            $in: skillNames
+        }};
+        const skillObjs = await Skill.find(findQuery);
+        return skillObjs; 
+    }
+
+    async GetCustomerRoleAsync(){
+        const customer = 'customer';
+        const customerRole= await Role.findOne({name: customer});
+        return customerRole;
     }
 }
 
