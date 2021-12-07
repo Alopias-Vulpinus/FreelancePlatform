@@ -159,6 +159,28 @@ class TaskRepository extends Repository{
             .populate('status');
         return task;
     }
+
+    async GetFreelancerTasksAsync(id, status){
+        const _status = await this.GetStatusByNameAsync(status);
+        const findQuery = {performer: id, status: _status._id};
+        const tasks = await Task.find(findQuery)
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status');
+        return tasks;
+    }
+
+    async GetCustomerTasksAsync(id, status){
+        const _status = await this.GetStatusByNameAsync(status);
+        const findQuery = {customer: id, status: _status._id};
+        const tasks = await Task.find(findQuery)
+        .populate('customer')
+        .populate('performer')
+        .populate('candidates')
+        .populate('status');
+        return tasks;
+    }
 }
 
 const repository = new TaskRepository();

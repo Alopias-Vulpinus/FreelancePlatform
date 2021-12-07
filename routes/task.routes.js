@@ -116,6 +116,31 @@ router.delete('/', async (req,res)=>{
     }
 });
 
+router.get('/freelancer/all', async (req,res)=>{
+    try{
+        console.log(req.query);
+        const status = req.query['status'];
+        const id = DtoMapper.MapObjectID(req.query['id']);
+        const mappedTasks = await TaskRepository.GetFreelancerTasksAsync(id,status);
+        res.send(200, JSON.stringify(DatabaseMapper.MapAllTaks(mappedTasks)));
+    }catch(e){
+        console.log(e);
+        res.send(500, JSON.stringify(e));
+    }
+});
+
+router.get('/customer/all', async (req,res)=>{
+    try{
+        console.log(req.query);
+        const status = req.query['status'];
+        const id = DtoMapper.MapObjectID(req.query['id']);
+        const mappedTasks = await TaskRepository.GetCustomerTasksAsync(id,status);
+        res.send(200, JSON.stringify(DatabaseMapper.MapAllTaks(mappedTasks)));
+    }catch(e){
+        console.log(e);
+        res.send(500, JSON.stringify(e));
+    }
+});
 
 
 module.exports = router
