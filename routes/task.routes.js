@@ -22,7 +22,8 @@ router.get('/:id',async (req,res)=>{
         const taskId = DtoMapper.MapFindId(req.params);
         console.log(taskId);
         const tasks =  await TaskRepository.GetTaskById(taskId);
-        res.send(200, JSON.stringify(DatabaseMapper.MapTask(tasks)));
+        console.log(tasks);
+        res.send(200, DatabaseMapper.MapTask(tasks));
     }
     catch(e){
         console.log(e);
@@ -65,9 +66,9 @@ router.post('/assign', async (req,res)=>{
     const assignTaskModel = DtoMapper.MapAssignTask(req.body);
     try{
          await TaskRepository.AssignTaskTo(assignTaskModel);
-        res.send(200, {result: true});
+        res.send(200,  true);
     }catch(e){
-        res.send(200, {result: false});
+        res.send(200, false);
     }
 });
 

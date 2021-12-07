@@ -31,7 +31,9 @@ module.exports = class DatabaseMapper{
             return undefined;
         }
         const freelancerModel = {...this.MapDBObject(FreelancerModel)};
+        console.log("Model after DECOMPOSITION", freelancerModel);
         freelancerModel.user_data = this.MapUserProfile(freelancerModel.user_data);
+        console.log("MAPPED FREELANCER", freelancerModel);
         return freelancerModel;
     }
 
@@ -71,7 +73,10 @@ module.exports = class DatabaseMapper{
     static MapTask(Task){
         Task.customer = this.MapCustomer(Task.customer);
         Task.performer = this.MapFreelancer(Task.performer);
-        Task.candidates = this.MapAllFreelancers(Task.candidates);
+        console.log(Task.candidates);
+        const freelancers =  JSON.stringify(this.MapAllFreelancers(Task.candidates));
+        Task.candidates = freelancers;
+        console.log("TASK CANDIDATES",freelancers);
         Task.status = this.MapStatus(Task.status);
         return Task;
     }
