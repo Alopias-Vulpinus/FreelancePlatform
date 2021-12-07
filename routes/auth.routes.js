@@ -6,7 +6,7 @@ const DtoMapper = require('../mappers/DtoMapper')
 const DatabaseMapper = require('../mappers/DatabaseMapper')
 
 const CUSTOMER_ROLE = 'customer';
-const FREELANCER_ROLE = 'freelancer';
+const FREELANCER_ROLE = 'performer';
 
 router.post('/login/customer/google',async (req,res)=>{
         const userDto = DtoMapper.MapGoogleUser(req.body);
