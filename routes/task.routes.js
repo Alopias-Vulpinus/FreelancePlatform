@@ -20,8 +20,9 @@ router.get('/all', async (req,res)=>{
 router.get('/:id',async (req,res)=>{
     try{
         const taskId = DtoMapper.MapFindId(req.params);
+        console.log(taskId);
         const tasks =  await TaskRepository.GetTaskById(taskId);
-        res.send(200, JSON.stringify(tasks));
+        res.send(200, JSON.stringify(DatabaseMapper.MapTask(tasks)));
     }
     catch(e){
         console.log(e);
