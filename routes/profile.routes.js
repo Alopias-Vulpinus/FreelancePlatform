@@ -35,9 +35,10 @@ router.post('/',async (req,res)=>{
     }
 });
 
-router.get('/', async (req,res)=>{
+router.get('/:id', async (req,res)=>{
     try{
-        const idToFind = DtoMapper.MapFindId(req.body);
+        const idToFind = DtoMapper.MapFindId({id: req.params['id']});
+        console.log(`ID: ${idToFind}`);
         const foundUser = await ProfileRepository.GetUserByIdRole(idToFind);
         console.log(`Found user ${foundUser}`);
         const mappedUSer = DatabaseMapper.MapRoleProfile(foundUser);
@@ -48,9 +49,9 @@ router.get('/', async (req,res)=>{
     }
 });
 
-router.get('/exists',async (req,res)=>{
+router.get('/exists/:id',async (req,res)=>{
     try{
-    const checkDto = DtoMapper.MapCheckUser(req.body);
+    const checkDto = DtoMapper.MapCheckUser(req.params);
     const isExists = await  ProfileRepository.CheckIfUserExistsAsync(checkDto);
     res.send(200, {result: isExists});
     }
