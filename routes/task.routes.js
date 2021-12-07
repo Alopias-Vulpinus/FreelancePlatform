@@ -4,6 +4,19 @@ const router = Router()
 const DtoMapper = require('../mappers/DtoMapper')
 const TaskRepository = require('../repository/TaskRepository')
 
+
+router.get('/all', async (req,res)=>{
+    try{
+        console.log('Executing Get all tasks method');
+        console.log(req.query);
+        const tasks = await TaskRepository.GetAllTasksAsync(req.query);
+        res.send(200, JSON.stringify(DatabaseMapper.MapAllTaks(tasks)));
+    }catch(e){
+        res.send(500, JSON.stringify(e));
+        console.log(e);
+    }
+});
+
 router.get('/:id',async (req,res)=>{
     try{
         const taskId = DtoMapper.MapFindId(req.params);
@@ -15,17 +28,6 @@ router.get('/:id',async (req,res)=>{
         res.send(400, JSON.stringify(e));
     }
     
-});
-
-router.get('/all', async (req,res)=>{
-    try{
-        console.log('Executing Get all tasks method');
-        const tasks = await TaskRepository.GetAllTasksAsync();
-        res.send(200, JSON.stringify(DatabaseMapper.MapAllTaks(tasks)));
-    }catch(e){
-        res.send(500, JSON.stringify(e));
-        console.log(e);
-    }
 });
 
 router.post('/new', async (req,res)=>{

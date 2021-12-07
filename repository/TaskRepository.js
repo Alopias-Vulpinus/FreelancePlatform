@@ -115,8 +115,11 @@ class TaskRepository extends Repository{
         return satatusToSave.save();
     }
 
-    async GetAllTasksAsync(){
-        const tasks = await Task.find({})
+    async GetAllTasksAsync(state){
+        console.log(state)
+        const status = await this.GetStatusByNameAsync(state.status);
+        console.log(status);
+        const tasks = await Task.find({status: status._id})
             .populate('customer')
             .populate('performer')
             .populate('candidates')
