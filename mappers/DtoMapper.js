@@ -83,7 +83,7 @@ module.exports = class DtoMapper{
     static MapAssignTask(body){
         const assignTaskModel = {};
         assignTaskModel['taskId'] = this.MapObjectID(body['taskId']);
-        assignTaskModel['userId'] = this.MapObjectID(body['userId']);
+        assignTaskModel['freelancer_id'] = this.MapObjectID(body['performerId']);
         return assignTaskModel;
     }
 

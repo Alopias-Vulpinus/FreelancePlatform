@@ -68,6 +68,7 @@ router.post('/assign', async (req,res)=>{
          await TaskRepository.AssignTaskTo(assignTaskModel);
         res.send(200,  true);
     }catch(e){
+        console.log(e);
         res.send(200, false);
     }
 });

@@ -71,13 +71,17 @@ module.exports = class DatabaseMapper{
     }
 
     static MapTask(Task){
+        Task = this.MapDBObject(Task);
         Task.customer = this.MapCustomer(Task.customer);
+        console.log(Task.performer);
         Task.performer = this.MapFreelancer(Task.performer);
-        console.log(Task.candidates);
-        const freelancers =  JSON.stringify(this.MapAllFreelancers(Task.candidates));
+        const freelancers = this.MapAllFreelancers(Task.candidates);
         Task.candidates = freelancers;
         console.log("TASK CANDIDATES",freelancers);
-        Task.status = this.MapStatus(Task.status);
+        const statusName = Task.status.name;
+        delete Task.status;
+        Task.status = statusName;
+        console.log('TASK STATUS',Task.status);
         return Task;
     }
 

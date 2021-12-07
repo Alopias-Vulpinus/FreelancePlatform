@@ -2,6 +2,7 @@ const Task = require('../models/Task');
 const Repository = require('./Repository')
 const Status = require('../models/Status')
 const CustomerRepository = require('./CustomerRepository')
+const FreelancerRepository = require('./FreelancerRepository')
 class TaskRepository extends Repository{
     async CreateTaskAsync(task){
         task.status = await this.GetStatusByNameAsync(task.status);
@@ -54,7 +55,11 @@ class TaskRepository extends Repository{
 
     async AssignTaskTo(assignTaskModel){
         const findTaskQuery = {_id: assignTaskModel.taskId};
-        const updateQuery = {$set: {is_assigned: true, freelancer_id: assignTaskModel.freelancer_id, potential_performers: []}}
+        FreelancerRepository.AddTaskAsync(assignTaskModel.freelancer_id, assignTaskModel.taskId);
+        const status = await this.GetStatusByNameAsync("WORKING");
+        const updateQuery = {$set: {status: status,is_assigned: true, performer: assignTaskModel.freelancer_id, candidates: []}};
+        console.log("FIND QUERY", findTaskQuery);
+        console.log("UPDATE QUERY:", updateQuery);
         const updateResult = await Task.updateOne(findTaskQuery, updateQuery)
             .populate('customer')
             .populate('performer')
