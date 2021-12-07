@@ -107,6 +107,7 @@ router.post('/', async (req,res)=>{
 
 router.delete('/', async (req,res)=>{
     try{
+        console.log(req.body);
         const idToDelete = DtoMapper.MapFindId(req.body);
         await TaskRepository.DeleteTaskAsync(idToDelete);
         res.send(200, {result:true});

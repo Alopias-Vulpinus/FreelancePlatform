@@ -142,12 +142,13 @@ class TaskRepository extends Repository{
     }
 
     async DeleteTaskAsync(task_id){
-        const findQuery = {_id: task_id};
+        const findQuery = {_id: task_id.id};
         const deletedTask = await Task.findOneAndDelete(findQuery)
         .populate('customer')
         .populate('performer')
         .populate('candidates')
         .populate('status'); 
+        console.log(deletedTask);
         CustomerRepository.DeleteTaskAsync(deletedTask.customer,deletedTask._id);
     }
 
