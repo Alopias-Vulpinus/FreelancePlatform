@@ -36,6 +36,13 @@ class CustomerRepository extends Repository{
         const updateQuery = {$addToSet:{tasks: taskId}}
         return Customer.updateOne(query, updateQuery);
     }
+
+    async DeleteTaskAsync(customerId, taskId){
+        const findQuery = {_id: customerId};
+        const deleteQuery = {$pull: {tasks: taskId}};
+        console.log(`Delete task query ${JSON.stringify(deleteQuery)}`);
+        await Customer.updateOne(findQuery, deleteQuery);
+    }
 }
 
 

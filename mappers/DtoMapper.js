@@ -12,8 +12,8 @@ module.exports = class DtoMapper{
         const task = new TaskDto();
         task.status = body['status'];
         task.title = body['title'];
-        task.freelancer_id = this.MapObjectID(body['performer_id']);
-        task.customer_id = this.MapObjectID(body['customer_id']);
+        task.performer = this.MapObjectID(body['performer_id']);
+        task.customer = this.MapObjectID(body['customer_id']);
         task.price = body['price'];
         task.description = body['description'];
         return task;

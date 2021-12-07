@@ -1,17 +1,19 @@
+const Customer = require("../models/Customer");
+
 module.exports = class DatabaseMapper{
 
     static MapUserRating(UserModel){
         const ratingArray = UserModel.rates;
-        console.log(`RatingArray ${ratingArray}`);
+        //console.log(`RatingArray ${ratingArray}`);
         const sum = ratingArray.map(x => x.rating).reduce((a, b) => a + b, 0);
         const avg = (sum / ratingArray.length) || 0;
         return avg; 
     }
 
     static MapUserProfile(UserModel){
-        console.log(`Before profile ${UserModel}`);
+        //console.log(`Before profile ${UserModel}`);
         const mappedUser = {...UserModel};
-        console.log(`After profile ${JSON.stringify(mappedUser)}`);
+        //console.log(`After profile ${JSON.stringify(mappedUser)}`);
         mappedUser.rating = this.MapUserRating(UserModel);
         mappedUser.role = this.MapRole(UserModel.role);
         delete mappedUser.rates;
@@ -23,12 +25,20 @@ module.exports = class DatabaseMapper{
     }
 
     static MapFreelancer(FreelancerModel){
+        //console.log(`Mapping freelancer ${JSON.stringify(FreelancerModel)}`)
+        if(FreelancerModel == null){
+            return undefined;
+        }
         const freelancerModel = {...this.MapDBObject(FreelancerModel)};
         freelancerModel.user_data = this.MapUserProfile(freelancerModel.user_data);
         return freelancerModel;
     }
 
     static MapCustomer(CustomerModel){
+        //console.log(`Mapping customer ${JSON.stringify(CustomerModel)}`)
+        if(CustomerModel == null){
+            return undefined;
+        }
         const customerModel = {...this.MapDBObject(CustomerModel)};
         customerModel.user_data = this.MapUserProfile(customerModel.user_data);
         return customerModel;
@@ -36,7 +46,7 @@ module.exports = class DatabaseMapper{
 
     static MapRoleProfile(UserModel){
         const mappedUSer = {...this.MapDBObject(UserModel)};
-        console.log(`Mapping customer ${JSON.stringify(mappedUSer)}`);
+        //console.log(`Mapping customer ${JSON.stringify(mappedUSer)}`);
         mappedUSer.user_data = this.MapUserProfile(mappedUSer.user_data);
         return mappedUSer;
     }
@@ -52,5 +62,16 @@ module.exports = class DatabaseMapper{
 
     static MapAllFreelancers(FreelancerArray){
         return FreelancerArray.map(x=>this.MapFreelancer(x));
+    }
+
+    static MapTask(Task){
+        Task.customer = this.MapCustomer(Task.customer);
+        Task.performer = this.MapFreelancer(Task.performer);
+        Task.candidates = this.MapAllFreelancers(Task.candidates);
+        return Task;
+    }
+
+    static MapAllTaks(TaskArray){
+        return TaskArray.map(x=> this.MapTask(x));
     }
 }

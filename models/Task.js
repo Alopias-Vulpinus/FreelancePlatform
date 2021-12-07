@@ -7,8 +7,8 @@ const Customer = require('./Customer').schema
 const schema = new Schema({
     status:{type:Types.ObjectId ,required:true, ref: 'Status'},
     title:{type:String, required: true},
-    freelancer_id:{type:Types.ObjectId, ref: 'Freelancer'},
-    customer_id:{type: Types.ObjectId, ref: 'Customer'},
+    performer:{type:Types.ObjectId, ref: 'Freelancer'},
+    customer:{type: Types.ObjectId, ref: 'Customer'},
     price:{type:Number,required:true},
     description:{type:String},
     creation_date:{type:Date, default: Date.now},

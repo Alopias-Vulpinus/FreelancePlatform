@@ -7,8 +7,8 @@ class TaskRepository extends Repository{
         task.status = await this.GetStatusByNameAsync(task.status);
         const taskToCreate = new Task({...task});
         console.log(`Task to create: ${taskToCreate}`);
-        const savedTask = await (await taskToCreate.save()).populate('customer_id').execPopulate();
-        await CustomerRepository.AddTaskAsync(savedTask.customer_id._id, savedTask._id);
+        const savedTask = await (await taskToCreate.save()).populate('customer').populate('performer').execPopulate();
+        await CustomerRepository.AddTaskAsync(savedTask.customer._id, savedTask._id);
         return savedTask;
     }
 
@@ -77,6 +77,21 @@ class TaskRepository extends Repository{
         const query = {name: name};
         const status = await  Status.findOne(query);
         return status;
+    }
+
+    async GetAllTasksAsync(){
+        const tasks = await Task.find({}).populate('customer').populate('performer').populate('candidates');
+        return tasks;
+    }
+
+    async EditTaskAsync(task){
+        const query = {_id: task}
+    }
+
+    async DeleteTaskAsync(task_id){
+        const findQuery = {_id: task_id.id};
+        const deletedTask = await Task.findOneAndDelete(findQuery); 
+        CustomerRepository.DeleteTaskAsync(deletedTask.customer,deletedTask._id);
     }
 }
 
