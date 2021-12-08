@@ -5,15 +5,15 @@ const UserRepository = require('../repository/UserRepository')
 const DtoMapper = require('../mappers/DtoMapper')
 const DatabaseMapper = require('../mappers/DatabaseMapper')
 
-const CUSTOMER_ROLE = 'Customer';
-const FREELANCER_ROLE = 'Freelancer';
+const CUSTOMER_ROLE = 'customer';
+const FREELANCER_ROLE = 'performer';
 
 router.post('/login/customer/google',async (req,res)=>{
         const userDto = DtoMapper.MapGoogleUser(req.body);
         const userData = await UserRepository.GetCustomerByIdAsync(userDto.socialId, CUSTOMER_ROLE);
         console.log(`fount user ${userData}`)
         if(userData){
-          console.log(`User with id ${userDto.socialId} have been created yet`);
+          console.log(`User with id ${userData} have been created yet`);
           res.send(200, JSON.stringify( DatabaseMapper.MapCustomer(userData)));
           return;
         }

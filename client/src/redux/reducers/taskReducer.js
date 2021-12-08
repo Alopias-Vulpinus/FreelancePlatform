@@ -110,3 +110,7 @@ export function taskReducer( state = initialState, action){
             return {...state}
     }
 }
+
+export const selectTask = () => (state) => state.task.currentWorkingTask
+export const selectOpenTasks = () => (state) => state.task.newTasks
+export const selectWorkingTasks = () => (state) => state.task.workingTasks

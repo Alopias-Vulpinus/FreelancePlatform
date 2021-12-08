@@ -5,22 +5,14 @@ const CheckDto = require('../dto/CheckUserDto')
 const ObjectID = require('mongodb').ObjectID;
 module.exports = class DtoMapper{
     static MapProfile(body){
-        const profile = new ProfileDto();
-        profile.email = body['email'];
-        profile.name = body['name'];
-        profile.skills = body['skills'];
-        profile.role = body['role'];
-        profile.status = body['status'];
-        profile.contact_me = body['contact_me']
-        return profile;
+
     }
 
     static MapTask(body){
         const task = new TaskDto();
-        task.status = this.MapStatus(body['status']);
+        task.status = body['status'];
         task.title = body['title'];
-        task.freelancer_id = this.MapObjectID(body['performer_id']);
-        task.customer_id = this.MapObjectID(body['customer_id']);
+        task.customer = this.MapObjectID(body['customer']);
         task.price = body['price'];
         task.description = body['description'];
         return task;
@@ -91,7 +83,7 @@ module.exports = class DtoMapper{
     static MapAssignTask(body){
         const assignTaskModel = {};
         assignTaskModel['taskId'] = this.MapObjectID(body['taskId']);
-        assignTaskModel['userId'] = this.MapObjectID(body['userId']);
+        assignTaskModel['freelancer_id'] = this.MapObjectID(body['performerId']);
         return assignTaskModel;
     }
 
@@ -116,20 +108,47 @@ module.exports = class DtoMapper{
 
     static MapUpdatedStatus(body){
         const updateStatus = {}
-        updateStatus['task_id'] = this.MapObjectID(body['task_id']);
-        updateStatus['status'] =this.MapStatus(body['status']);
+        updateStatus['task_id'] = this.MapObjectID(body['taskId']);
+        updateStatus['status'] = body['status'];
         return updateStatus; 
     }
 
     static MapCRUDCandidate(body){
         const CRUDCandidate = {};
-        CRUDCandidate['task_id'] = this.MapObjectID(body['task_id']);
-        CRUDCandidate['candidate_id'] = this.MapObjectID(body['candidate_id']);
+        CRUDCandidate['task_id'] = this.MapObjectID(body['taskId']);
+        CRUDCandidate['candidate_id'] = this.MapObjectID(body['candidateId']);
         return CRUDCandidate;
     }
 
     static MapFindId(body){
         return {id: this.MapObjectID(body['id'])};
+    }
+
+    static MapUserData(body){
+        const profileDto = {}
+        profileDto["_id"] = this.MapObjectID(body.id);
+        const userData ={};
+        userData['name'] = body['firstName'];
+        userData['role'] = body['role'];
+        userData['email'] = body['email'];
+        userData['family_name'] = body['lastName'];
+        userData['image_url'] = body['imageUrl'];
+        userData['status'] = body['status'];
+        userData['contact_me'] = body['contactMe'];
+        profileDto['skills'] = body['skills'];
+        profileDto["user_data"] = userData;
+        return profileDto;
+    }
+
+    static MapUpdateTaskDto(body){
+        const task = {};
+        console.log(`Try to map with body ${JSON.stringify(body)}`);
+        task.id = body['id'];
+        task.status = body['status'];
+        task.title = body['title'];
+        task.price = parseFloat(body['price']);
+        task.description = body['description'];
+        return task;
     }
 }
 

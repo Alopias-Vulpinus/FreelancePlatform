@@ -18,7 +18,7 @@ export const Profile = ({profile}) => {
                             <div style={{fontSize : '1.2rem', marginBottom: '1em'}}> {profile.firstName + ' ' + profile.lastName} </div>
                         </Col>
                         <Col xs={5}>
-                            <RatingView/>
+                            <RatingView rating={profile.rating}/>
                         </Col>
                     </Row>
                     <Row>

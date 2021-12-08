@@ -1,7 +1,8 @@
 .task-container {
+    max-width: 800px;
     color: white;
     padding: 1em;
-    margin-bottom: 0.8em;
+    margin: 1em auto 0.8em;
 }
 
 .task-list-container {

@@ -3,6 +3,8 @@ const Repository = require('./Repository');
 const Rating = require('../models/Rating');
 const Customer = require('../models/Customer')
 const Freelancer = require('../models/Freelancer');  
+const Skill = require('../models/Skill');
+const Role = require('../models/Role');
 
 class ProfileRepository extends Repository{
     async ChangeProfileAsync(profileDto){
@@ -74,15 +76,15 @@ class ProfileRepository extends Repository{
     async GetUserByIdRole(id){
         const findQuery = {_id: id.id};
         console.log(`FindQuery: ${JSON.stringify(findQuery)}`);
-        const freelancer = await Freelancer.findOne(findQuery);
+        const freelancer = await Freelancer.findOne(findQuery).populate('user_data.role');
         console.log(freelancer);
         if(freelancer == null){
             console.log(`Trying to find customer.....`);
-            const customer =  await Customer.findById(id.id);
+            const customer =  await Customer.findById(id.id).populate('user_data.role');
             console.log(`Found customer ${customer}`);
             return customer;
         }
-        
+
         return freelancer;
     }
 }

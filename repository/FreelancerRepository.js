@@ -16,14 +16,44 @@ class FreelancerRepository extends Repository{
 
     async UpdateFreelancerAsync(freelancerModel){
         const query = {_id: freelancerModel._id};
-        const updateQuery = {$set:{...freelancerModel}}
-        const updatedResult = await Freelancer.updateOne(query, updateQuery, {...freelancerModel});
-        console.log(`Updated model ${JSON.stringify(updatedResult)}`);
-        return freelancerModel;
+        const skills =freelancerModel.skills;
+        const user_data = freelancerModel.user_data;
+       // const updateQuery = {$set:{ const user_data = customerModel.user_data
+        const updateQuery = {$set: { 
+            "user_data.name": user_data.name,
+            "user_data.family_name": user_data.family_name,
+            "user_data.image_url": user_data.image_url,
+            "user_data.status": user_data.status,
+            "user_data.contact_me": user_data.contact_me,
+            "user_data.email": user_data.email
+         } , skills: skills};
+        const updatedResult = await Freelancer.findOneAndUpdate(query, updateQuery, {new:true}).populate('tasks');
+        console.log(`Customer update result ${updatedResult}`);
+        return updatedResult;
+    }
+
+    async GetSkillsByNameAsync(skillNames){
+        const findQuery = {name:{
+            $in: skillNames
+        }};
+        const skillObjs = await Skill.find(findQuery);
+        return skillObjs; 
+    }
+
+    async GetCustomerRoleAsync(){
+        const customer = 'customer';
+        const customerRole= await Role.findOne({name: customer});
+        return customerRole;
+    }
+
+    async AddTaskAsync(freelancerId, taskId){
+        const query = {_id: freelancerId};
+        const updateQuery = {$addToSet:{tasks: taskId}}
+        console.log("QUERY UPDATE:", updateQuery);
+        const updateResult = await Freelancer.findOneAndUpdate(query, updateQuery,{new:true}).populate('tasks');
+        console.log(updateResult);
     }
 }
-
-
 
 const repository = new FreelancerRepository();
 

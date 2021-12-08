@@ -10,6 +10,8 @@ import { ProfilePageWithAuthRedirect as ProfilePage } from './components/pages/P
 import { SignInPage } from './components/pages/SignInPage'
 import { TaskDashboardPageWithAuthRedirect as TaskDashboardPage } from './components/pages/TaskDashboardPage'
 import { WorkingTasksPageWithAuthRedirect as WorkingTasksPage } from './components/pages/WorkingTasksPage'
+import {TaskDetailPage} from "./components/pages/TaskDetailPage";
+import {ProfileViewPage} from "./components/pages/ProfileViewPage";
 
 export const Routes = () => {
   return (
@@ -41,9 +43,15 @@ export const Routes = () => {
       <Route path="/working-tasks" exact>
         <WorkingTasksPage />
       </Route>
-      <Route path="/create-task" >
+      <Route path="/create-task" exact>
         <CreateTaskPage />
       </Route>
+      <Route path="/profile/:id" >
+          <ProfileViewPage/>
+      </Route>
+        <Route path="/task/:id" exact >
+            <TaskDetailPage/>
+        </Route>
     </Switch>
   )
 }

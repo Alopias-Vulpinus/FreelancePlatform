@@ -5,10 +5,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {removeUser, updateAuth} from "../redux/actions";
 import {useHistory} from "react-router-dom";
 import {selectAuth, selectUser} from "../redux/reducers/userReducer";
+import {NavLink} from "react-router-dom";
+import {useRole} from "../hooks/role.hook";
 
 export const NavigationMenu = () => {
     const user = useSelector(selectUser())
     const isAuthenticated = useSelector(selectAuth())
+    const {isCustomer} = useRole()
     const dispatch = useDispatch()
     const history = useHistory()
     const logout = () => {
@@ -34,17 +37,19 @@ export const NavigationMenu = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/open-tasks">Open Tasks</Nav.Link>
-                        <Nav.Link href="/performers">Performers</Nav.Link>
-                        <Nav.Link href="/customers">Customers</Nav.Link>
+                        <NavLink className="nav-link" to="/open-tasks">Open Tasks</NavLink>
+                        <NavLink className="nav-link" to="/performers">Performers</NavLink>
+                        <NavLink className="nav-link" to="/customers">Customers</NavLink>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="/about-us"> About Developers </Nav.Link>
+                        <NavLink className="nav-link" to="/about-us">About Developers</NavLink>
                         {isAuthenticated ?
                             <NavDropdown title={user.firstName + ' ' + user.lastName} id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                                <NavDropdown.Item href="/working-tasks">Working Tasks</NavDropdown.Item>
-                                <NavDropdown.Item href="/create-task">Create Task</NavDropdown.Item>
+                                <NavLink className="dropdown-item" to="/profile">Profile</NavLink>
+                                <NavLink className="dropdown-item" to="/working-tasks">Working Tasks</NavLink>
+                                {
+                                    isCustomer &&  <NavLink className="dropdown-item" to="/create-task">Create Task</NavLink>
+                                }
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#" onClick={() => {logout()}}>Logout</NavDropdown.Item>
                             </NavDropdown>
