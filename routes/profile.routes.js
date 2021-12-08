@@ -37,8 +37,7 @@ router.post('/',async (req,res)=>{
 
 router.get('/:id', async (req,res)=>{
     try{
-        const idToFind = DtoMapper.MapFindId({id: req.params['id']});
-        console.log(`ID: ${idToFind}`);
+        const idToFind = DtoMapper.MapFindId(req.params);
         const foundUser = await ProfileRepository.GetUserByIdRole(idToFind);
         console.log(`Found user ${foundUser}`);
         const mappedUSer = DatabaseMapper.MapRoleProfile(foundUser);

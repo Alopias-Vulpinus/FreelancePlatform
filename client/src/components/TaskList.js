@@ -6,8 +6,8 @@ import {NavLink} from "react-router-dom";
 export const TaskList = ({tasks}) => {
     return (
         <Container className='task-list-container black-bg'>
-            {tasks.map((task, i)  =>
-                <Task task={task} key={i}/>
+            {tasks.map((task)  =>
+                <Task task={task} key={task.id}/>
                )}
         </Container>
     )

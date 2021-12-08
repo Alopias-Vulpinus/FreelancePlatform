@@ -11,10 +11,10 @@ export const useHttp = () => {
       }
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
-      
+      console.log('fetching data: ', url, {method, headers, body})
       const response = await fetch(url, {method, headers, body})
       const data = await response.json()
-
+      console.log('response Data: ', data)
       if (!response.ok) {
         throw new Error(data.message || 'Что-то пошло не так')
         

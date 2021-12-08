@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react'
-import { ProfileSearch } from '../ProfileSearch'
 
 import { Container } from 'react-bootstrap'
 import { ProfileListWithPagination } from '../ProfileListWithPagination'
 import {useDispatch, useSelector} from 'react-redux'
 import {WithAuthRedirect} from "../hoc/withAuthRedirect";
-import {selectCustomers, selectPerformers} from "../../redux/reducers/userReducer";
+import {selectCustomers} from "../../redux/reducers/userReducer";
 import {useHttp} from "../../hooks/http.hook";
 import {mapResponseToUserList} from "../../api/mapper";
-import {updateCustomers, updatePerformers} from "../../redux/actions";
+import {updateCustomers} from "../../redux/actions";
+import {CUSTOMER_ALL} from "../../api/endpoints";
 
 
 const CustomersPage = (props) => {
@@ -22,10 +22,9 @@ const CustomersPage = (props) => {
 
     const getCustomersFromServer = async() => {
         try{
-            //const performersResponse = await request(GET_PERFORMERS_ENDPOINT, 'GET')
-            const customersResponse = {}
-            let customersResult =  await mapResponseToUserList(customersResponse)
-            dispatch(updateCustomers(await customersResult))
+            const customersResponse = await request(CUSTOMER_ALL, 'GET')
+            let customersResult = mapResponseToUserList(customersResponse)
+            dispatch(updateCustomers(customersResult))
         }
         catch(e){
             console.log('server error occurred: ', e)
@@ -35,7 +34,7 @@ const CustomersPage = (props) => {
     return (
         <>
             <Container className='text-light'>
-                <ProfileSearch/>
+                {/*<ProfileSearch/>*/}
                 <ProfileListWithPagination profiles={customers}/>
             </Container>
         </>

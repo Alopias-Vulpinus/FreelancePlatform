@@ -11,8 +11,7 @@ import {useRole} from "../hooks/role.hook";
 export const NavigationMenu = () => {
     const user = useSelector(selectUser())
     const isAuthenticated = useSelector(selectAuth())
-    const {isCustomer, isPerformer} = useRole()
-    console.log('isCustomer, isPerformer', isCustomer, isPerformer)
+    const {isCustomer} = useRole()
     const dispatch = useDispatch()
     const history = useHistory()
     const logout = () => {

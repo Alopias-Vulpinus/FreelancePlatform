@@ -2,15 +2,29 @@ import React, {useState} from "react"
 import {Button, Col, Row} from "react-bootstrap"
 import './../static/css/task.css'
 import NavLink from "react-router-dom/es/NavLink";
+import {useHttp} from "../hooks/http.hook";
+import {ASSIGN_TASK, TASK_CHOOSE_CANDIDATE} from "../api/endpoints";
+import {useSelector} from "react-redux";
+import {selectUser} from "../redux/reducers/userReducer";
 
+const checkIfAccepted = (task, user) => {
+    if(!task.candidates) return false
+    return !!task.candidates.find((candidate) => {return candidate.id === user.id})
+}
 
 export const Task = ({task}) => {
-    const [accepted, setAccepted] = useState(false)
+    const {request} = useHttp()
+    const user = useSelector(selectUser())
+    const [accepted, setAccepted] = useState(checkIfAccepted(task, user))
+
 
     const acceptTask = async () => {
         //accept logic
-        const acceptedResult = true
-        setAccepted(acceptedResult)
+        const result = await request(TASK_CHOOSE_CANDIDATE,'POST', {taskId : task.id , candidateId : user.id})
+        console.log('task assigned', result)
+        if(result){
+            setAccepted(true)
+        }
     }
     return (
         <div className='task-container black-bg'>
@@ -33,7 +47,7 @@ export const Task = ({task}) => {
             </Row>
             <Row>
                 <Col xs={9}>
-                    <small className='task_author'> Written by {task.author}</small>
+                    <small className='task_author'> Written by {task.customer.firstName + ' ' + task.customer.lastName}</small>
                 </Col>
                 <Col>
                     price: <span className='task_price'>  {task.price} </span>

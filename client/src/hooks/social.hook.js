@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {updateAuth, updateUser} from "../redux/actions"
 import {useHistory} from "react-router-dom";
 import {mapResponseToUser} from "../api/mapper";
+import {CUSTOMER_LOGIN_GOOGLE, PERFORMER_LOGIN_GOOGLE} from "../api/endpoints";
 
 export const useSocials = () => {
     const {request} = useHttp()
@@ -11,12 +12,20 @@ export const useSocials = () => {
     const history = useHistory()
 
     const responseGoogle = async (response) => {
-         let user = {}
+        let user = {}
+        let userRealResponse = {}
+        console.log('signInRole : ', signInRole)
+        console.log(signInRole === 'customer')
          try{
-             //const userResponse = await request(`auth/login/${signInRole}/google`, 'POST', response)
-             const userResponse = {}
-             console.log('userResponse', userResponse)
-             user = mapResponseToUser(userResponse)
+             if(signInRole === 'customer'){
+                 userRealResponse = await request(CUSTOMER_LOGIN_GOOGLE, 'POST', response)
+             } else if (signInRole === 'performer'){
+                  userRealResponse = await request(PERFORMER_LOGIN_GOOGLE, 'POST', response)
+             }
+             console.log('userRealResponse : ', userRealResponse)
+             //const userResponse = {}
+             //console.log('userResponse', userResponse)
+             user = mapResponseToUser(userRealResponse)
              console.log('user', user)
              localStorage.setItem('user_id', user.id)
          }

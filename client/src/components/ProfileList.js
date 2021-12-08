@@ -8,9 +8,9 @@ export const ProfileList = ({profiles}) => {
 
             <div className='profile-list_container'>
                 {
-                    profiles.map((profile, i) =>
-                        <NavLink className="nav-link" to={`/profile/${profile.id}`}>
-                            <Profile profile={profile} key={i} />
+                    profiles.map((profile) =>
+                        <NavLink className="nav-link" to={`/profile/${profile.id}` } key={profile.id}>
+                            <Profile profile={profile}  />
                         </NavLink>)
                 }
             </div>

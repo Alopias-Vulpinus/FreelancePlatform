@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import { ProfileSearch } from '../ProfileSearch'
 import { Container } from 'react-bootstrap'
 import { ProfileListWithPagination } from '../ProfileListWithPagination'
 
@@ -9,7 +8,7 @@ import {selectPerformers} from "../../redux/reducers/userReducer";
 import {useHttp} from "../../hooks/http.hook";
 import {mapResponseToUserList} from "../../api/mapper";
 import {updatePerformers} from "../../redux/actions";
-import {NavLink} from "react-router-dom";
+import {PERFORMER_ALL} from "../../api/endpoints";
 
 
 
@@ -18,14 +17,13 @@ const PerformersPage = (props) => {
     const dispatch = useDispatch()
     const performers = useSelector(selectPerformers())
 
-    useEffect( () => {
+    useEffect(  () => {
         getPerformersFromServer()
     }, [])
 
     const getPerformersFromServer = async() => {
         try{
-            //const performersResponse = await request(GET_PERFORMERS_ENDPOINT, 'GET')
-            const performersResponse = {}
+            const performersResponse = await request(PERFORMER_ALL, 'GET')
             let performersResult =  await mapResponseToUserList(performersResponse)
             dispatch(updatePerformers(performersResult))
         }
@@ -36,7 +34,7 @@ const PerformersPage = (props) => {
     return (
         <>
             <Container className='text-light'>
-                <ProfileSearch/>
+                {/*<ProfileSearch/>*/}
                 <ProfileListWithPagination profiles={performers}/>
 
             </Container>

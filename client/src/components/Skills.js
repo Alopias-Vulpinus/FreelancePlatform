@@ -66,7 +66,6 @@ const colorStyles = {
   };
 
 export const Skills = ({skills}) => {
-    console.log('render skills: ', skills)
     const options =  [
         { value: 'Python', label: 'Python', color: getRandomColor() },
         { value: 'SQL', label: 'SQL', color: getRandomColor() },

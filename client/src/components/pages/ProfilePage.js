@@ -7,8 +7,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {WithAuthRedirect} from "../hoc/withAuthRedirect";
 import defaultAvatar from './../../static/img/default-avatar.jpg'
 import {useHttp} from "../../hooks/http.hook";
-import {mapResponseToUser, mapResponseToUser2} from "../../api/mapper";
+import {mapResponseToUser} from "../../api/mapper";
 import {updateUser} from "../../redux/actions";
+import {GET_PROFILE} from "../../api/endpoints";
 
 const ProfilePage = () => {
     const user = useSelector(state => state.user.currentUser)
@@ -23,8 +24,8 @@ const ProfilePage = () => {
     const submitHandler = async (e) => {
         console.log(user.id, firstName, lastName, status, contactMe, skills)
         const userToUpdate = {id : user.id, firstName, lastName, status, contactMe, skills}
-        //const userResponse = await request('', 'POST', userToUpdate)
-        const userResult = mapResponseToUser2({})
+        const userResponse = await request(GET_PROFILE , 'POST', userToUpdate)
+        const userResult = mapResponseToUser(userResponse)
         dispatch(updateUser(userResult))
         setFirstName(userResult.firstName)
         setLastName(userResult.lastName)

@@ -9,6 +9,7 @@ import {mapResponseToUser} from "../../api/mapper";
 import {useDispatch, useSelector} from "react-redux";
 import {selectUserToShow} from "../../redux/reducers/userReducer";
 import {updateUserToShow} from "../../redux/actions";
+import {GET_PROFILE} from "../../api/endpoints";
 
 export const ProfileViewPage = () => {
     const {request} =  useHttp()
@@ -16,9 +17,9 @@ export const ProfileViewPage = () => {
     const dispatch = useDispatch()
     let {id} = useParams()
     useEffect( () => {
+        console.log('caaaaaaaaaal')
         const call = async () => {
-            //const userResponse = await request('', 'GET', {id})
-            const userResponse = {}
+            const userResponse = await request(GET_PROFILE + `/${id}`, 'GET')
             const userResult = mapResponseToUser(userResponse)
             dispatch(updateUserToShow(userResult))
         }
