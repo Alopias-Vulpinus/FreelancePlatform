@@ -4,6 +4,7 @@ const FreelancerRepository = require('../repository/FreelancerRepository')
 const DtoMapper = require('../mappers/DtoMapper')
 const DatabaseMapper = require('../mappers/DatabaseMapper')
 const {Router} = require('express')
+const Customer = require('../models/Customer')
 const router = Router()
 
 const CUSTOMER_ROLE = "customer";
@@ -69,20 +70,20 @@ router.get('/all', async (req,res)=>{
     }
 })
 
-router.post('/rate', async (req,res)=>{
+router.post('/customer/rate', async (req,res)=>{
     try{
-        console.log(JSON.stringify(req.body));
+        console.log('Request body',JSON.stringify(req.body));
         const ratingModel = DtoMapper.MapRating(req.body);
-        console.log(JSON.stringify(ratingModel));
-        const ratingExists = await ProfileRepository.CheckIfRatingExists(ratingModel);
+        console.log('RatingModel',JSON.stringify(ratingModel));
+        const ratingExists = await CustomerRepository.CheckIfRatingExists(ratingModel);
         var userModel = undefined;
         if(ratingExists){
-            userModel =  await ProfileRepository.UpdateRatingAsync(ratingModel);
+            userModel =  await CustomerRepository.UpdateRatingAsync(ratingModel);
         }else{
-            userModel = await ProfileRepository.RateUserAsync(ratingModel);
+            userModel = await CustomerRepository.RateUserAsync(ratingModel);
         }
-        console.log(JSON.stringify(userModel))
-        const result = DatabaseMapper.MapUserRating(userModel);
+        console.log('UserModel',JSON.stringify(userModel))
+        const result = DatabaseMapper.MapUserRating(userModel.user_data);
         res.send(200, {result});
     }catch(e){
         console.log(e);
@@ -90,5 +91,27 @@ router.post('/rate', async (req,res)=>{
     }
 })
 
+
+router.post('/freelancer/rate', async (req,res)=>{
+    try{
+        console.log('Request body',JSON.stringify(req.body));
+        const ratingModel = DtoMapper.MapRating(req.body);
+        console.log('RatingModel',JSON.stringify(ratingModel));
+        const ratingExists = await FreelancerRepository.CheckIfRatingExists(ratingModel);
+        var userModel = undefined;
+        if(ratingExists){
+            userModel =  await FreelancerRepository.UpdateRatingAsync(ratingModel);
+        }else{
+            userModel = await FreelancerRepository.RateUserAsync(ratingModel);
+        }
+
+        console.log('UserModel',JSON.stringify(userModel))
+        const result = DatabaseMapper.MapUserRating(userModel.user_data);
+        res.send(200, {result});
+    }catch(e){
+        console.log(e);
+        res.send(500, JSON.stringify(e));
+    }
+})
 
 module.exports = router

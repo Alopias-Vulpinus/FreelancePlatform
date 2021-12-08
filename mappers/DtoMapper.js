@@ -45,8 +45,8 @@ module.exports = class DtoMapper{
 
     static MapRating(body){
         const rate ={};
-        rate['userFrom'] = body['userFrom'];
-        rate['userTo'] = body['userTo'];
+        rate['userFrom'] = this.MapObjectID(body['userFrom']);
+        rate['userTo'] = this.MapObjectID(body['userTo']);
         rate['rating'] = body['rating'];
         return rate;
     }

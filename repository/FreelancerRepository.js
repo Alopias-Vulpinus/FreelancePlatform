@@ -1,6 +1,6 @@
 const Freelancer  = require('../models/Freelancer');
 const Repository = require('./Repository');
-
+const Rating = require('../models/Rating')
 class FreelancerRepository extends Repository{
     async GetTasksWithStatus(taksStatusModel){
         const query = {'user_data.social_id': taksStatusModel.social_id};
@@ -28,6 +28,7 @@ class FreelancerRepository extends Repository{
             "user_data.email": user_data.email
          } , skills: skills};
         const updatedResult = await Freelancer.findOneAndUpdate(query, updateQuery, {new:true}).populate('tasks');
+
         console.log(`Customer update result ${updatedResult}`);
         return updatedResult;
     }
@@ -52,6 +53,36 @@ class FreelancerRepository extends Repository{
         console.log("QUERY UPDATE:", updateQuery);
         const updateResult = await Freelancer.findOneAndUpdate(query, updateQuery,{new:true}).populate('tasks');
         console.log(updateResult);
+    }
+
+    async RateUserAsync(ratingModel){
+        const findQuery = {"_id": ratingModel.userTo};
+        console.log(`RatingModel ${JSON.stringify(ratingModel)}`);
+        const ratingToAdd = new Rating({
+            user_from: ratingModel.userFrom,
+            user_to: ratingModel.userTo,
+            rating: ratingModel.rating
+        });
+        const pushQuery = {$push: {"user_data.rates": ratingToAdd}};
+        console.log(`Pushing rating ${JSON.stringify(pushQuery)}`);
+        const user = Freelancer.findOneAndUpdate(findQuery, pushQuery,{new: true});
+        return user;
+    }
+
+    async CheckIfRatingExists(ratingModel){
+        const findQuery = {_id: ratingModel.userTo, "user_data.rates":{$elemMatch:{"user_from": ratingModel.userFrom}}};
+        console.log(`Find Query: ${ JSON.stringify(findQuery)}`);
+        const rating = await Freelancer.findOne(findQuery); 
+        console.log(`Checking if rate exists : ${!(rating == null)}`);
+        return !(rating == null);
+    }
+
+    async UpdateRatingAsync(ratingModel){
+        const findQuery = {_id: ratingModel.userTo, "user_data.rates": { $elemMatch:{"user_data.rates.user_from": ratingModel.userFrom}}};
+        console.log(`Find query(Updating) ${ JSON.stringify(findQuery)}`);
+        const updateQuery = {$set: {"user_data.rates.$.rating": ratingModel.rating }};
+        const user = await  Customer.findOneAndUpdate(findQuery, updateQuery,  {new: true});
+        return user;   
     }
 }
 

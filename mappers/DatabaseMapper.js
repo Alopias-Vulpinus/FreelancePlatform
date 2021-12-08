@@ -7,7 +7,7 @@ module.exports = class DatabaseMapper{
         //console.log(`RatingArray ${ratingArray}`);
         const sum = ratingArray.map(x => x.rating).reduce((a, b) => a + b, 0);
         const avg = (sum / ratingArray.length) || 0;
-        return avg; 
+        return parseInt(avg); 
     }
 
     static MapUserProfile(UserModel){
